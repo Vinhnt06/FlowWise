@@ -22,7 +22,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run Finance Engine Test Suite (7-Point Deterministic Verification)
         run: npm run test:finance
