@@ -208,14 +208,14 @@ export function simulateMitigationScenario(
     }
 
     actionPlan.push({
-      title: 'Thu Sớm Công Nợ Khách Sỉ',
-      description: `Áp dụng chiết khấu ${params.accelerateReceivablesDiscountPct}% để thu về ${netCashIn.toLocaleString('vi-VN')} VND ngay trong Tuần 2 (Chi phí chiết khấu: ${discountAmount.toLocaleString('vi-VN')} VND).`,
+      title: 'Accelerate Wholesale Receivables',
+      description: `Offer a ${params.accelerateReceivablesDiscountPct}% early payment discount to collect ${netCashIn.toLocaleString('en-US')} VND in Week 2 (Capital discount cost: ${discountAmount.toLocaleString('en-US')} VND).`,
       impactAmount: netCashIn,
       currency,
     });
   }
 
-  // LEVER 2: Defer Payables (Giãn hạn thanh toán nhà cung cấp 14 ngày)
+  // LEVER 2: Defer Payables (Negotiate 14-day vendor payment extension)
   if (params.deferPayables && params.deferPayablesAmount > 0) {
     const deferAmount = params.deferPayablesAmount;
 
@@ -231,14 +231,14 @@ export function simulateMitigationScenario(
     }
 
     actionPlan.push({
-      title: 'Đàm Phán Giãn Hạn Thanh Toán Nhà Cung Cấp',
-      description: `Thỏa thuận gia hạn thanh toán 14 ngày cho khoản ${deferAmount.toLocaleString('vi-VN')} VND sang Tuần 4 mà không phát sinh phí phạt.`,
+      title: 'Negotiate 14-Day Supplier Deferral',
+      description: `Extend payment terms on ${deferAmount.toLocaleString('en-US')} VND with 1688 OEM vendor into Week 4 with zero penalty interest.`,
       impactAmount: deferAmount,
       currency,
     });
   }
 
-  // LEVER 3: Credit Line Draw (Kích hoạt hạn mức thấu chi / tín dụng ngắn hạn)
+  // LEVER 3: Credit Line Draw (Draw revolving overdraft credit line)
   if (params.creditLineDrawn && params.creditLineAmount > 0) {
     const drawnAmount = params.creditLineAmount;
     // Monthly interest: (annualRate / 12) * drawnAmount
@@ -256,8 +256,8 @@ export function simulateMitigationScenario(
     }
 
     actionPlan.push({
-      title: 'Rút Hạn Mức Tín Dụng Doanh Nghiệp',
-      description: `Giải ngân tạm ứng ${drawnAmount.toLocaleString('vi-VN')} VND tại lãi suất ${params.creditLineAnnualRatePct}%/năm (Lãi suất ước tính: ${monthlyInterest.toLocaleString('vi-VN')} VND/tháng).`,
+      title: 'Draw Emergency Credit Facility',
+      description: `Draw down ${drawnAmount.toLocaleString('en-US')} VND from short-term bank credit facility at ${params.creditLineAnnualRatePct}% APR (Estimated interest: ${monthlyInterest.toLocaleString('en-US')} VND/month).`,
       impactAmount: drawnAmount,
       currency,
     });

@@ -32,10 +32,10 @@ import {
 
 export const SHOP_METADATA = {
   name: 'ShopX Cosmetics Vietnam',
-  tagline: 'Mỹ phẩm chính hãng & Phân phối đa kênh',
-  legalEntity: 'CÔNG TY TNHH THƯƠNG MẠI SHOPX',
+  tagline: 'Multi-Channel E-Commerce & Direct Sourcing',
+  legalEntity: 'SHOPX VIETNAM TRADING CO., LTD.',
   taxId: '0318992114',
-  channels: ['Shopee Mall', 'TikTok Shop', 'B2B Đại Lý Phân Phối'],
+  channels: ['Shopee Mall', 'TikTok Shop', 'B2B Wholesale Distribution'],
   currencies: ['VND', 'CNY', 'USD'] as const,
   simulatedDisclaimer: 'SIMULATED DATA — FOR DEMO PURPOSES',
 };
@@ -46,17 +46,17 @@ export const SHOP_METADATA = {
 export const MOCK_MARKETPLACE_SETTLEMENTS: PlatformPayoutCalculation[] = [
   calculateNetPayout({
     grossSales: 500_000_000,
-    platformFee: 60_000_000,      // 12% sàn
-    refunds: 25_000_000,          // 5% hoàn trả
-    shippingOrCODFee: 15_000_000, // 3% phí vận chuyển
-    reserveOrHold: 50_000_000,    // 10% giữ tiền đối soát 14 ngày
+    platformFee: 60_000_000,      // 12% platform fee
+    refunds: 25_000_000,          // 5% refunds
+    shippingOrCODFee: 15_000_000, // 3% shipping & COD
+    reserveOrHold: 50_000_000,    // 10% 14-day escrow holdback
   }),
   calculateNetPayout({
     grossSales: 380_000_000,
-    platformFee: 49_400_000,      // 13% TikTok Shop
-    refunds: 19_000_000,          // 5% hoàn
-    shippingOrCODFee: 11_400_000, // 3% phí ship
-    reserveOrHold: 38_000_000,    // 10% hold
+    platformFee: 49_400_000,      // 13% TikTok Shop fee
+    refunds: 19_000_000,          // 5% refunds
+    shippingOrCODFee: 11_400_000, // 3% shipping
+    reserveOrHold: 38_000_000,    // 10% escrow reserve
   }),
   calculateNetPayout({
     grossSales: 240_000_000,
@@ -71,19 +71,19 @@ export const MOCK_MARKETPLACE_SETTLEMENTS: PlatformPayoutCalculation[] = [
 // 2. 13-WEEK TIMELINE DEFINITION
 // ==========================================
 export const TIMELINE_WEEKS = [
-  { weekNumber: 1, weekLabel: 'Tuần 1', startDate: '2026-10-05', endDate: '2026-10-11' },
-  { weekNumber: 2, weekLabel: 'Tuần 2', startDate: '2026-10-12', endDate: '2026-10-18' },
-  { weekNumber: 3, weekLabel: 'Tuần 3', startDate: '2026-10-19', endDate: '2026-10-25' },
-  { weekNumber: 4, weekLabel: 'Tuần 4', startDate: '2026-10-26', endDate: '2026-11-01' },
-  { weekNumber: 5, weekLabel: 'Tuần 5', startDate: '2026-11-02', endDate: '2026-11-08' },
-  { weekNumber: 6, weekLabel: 'Tuần 6', startDate: '2026-11-09', endDate: '2026-11-15' },
-  { weekNumber: 7, weekLabel: 'Tuần 7', startDate: '2026-11-16', endDate: '2026-11-22' },
-  { weekNumber: 8, weekLabel: 'Tuần 8', startDate: '2026-11-23', endDate: '2026-11-29' },
-  { weekNumber: 9, weekLabel: 'Tuần 9', startDate: '2026-11-30', endDate: '2026-12-06' },
-  { weekNumber: 10, weekLabel: 'Tuần 10', startDate: '2026-12-07', endDate: '2026-12-13' },
-  { weekNumber: 11, weekLabel: 'Tuần 11', startDate: '2026-12-14', endDate: '2026-12-20' },
-  { weekNumber: 12, weekLabel: 'Tuần 12', startDate: '2026-12-21', endDate: '2026-12-27' },
-  { weekNumber: 13, weekLabel: 'Tuần 13', startDate: '2026-12-28', endDate: '2027-01-03' },
+  { weekNumber: 1, weekLabel: 'Week 1', startDate: '2026-10-05', endDate: '2026-10-11' },
+  { weekNumber: 2, weekLabel: 'Week 2', startDate: '2026-10-12', endDate: '2026-10-18' },
+  { weekNumber: 3, weekLabel: 'Week 3', startDate: '2026-10-19', endDate: '2026-10-25' },
+  { weekNumber: 4, weekLabel: 'Week 4', startDate: '2026-10-26', endDate: '2026-11-01' },
+  { weekNumber: 5, weekLabel: 'Week 5', startDate: '2026-11-02', endDate: '2026-11-08' },
+  { weekNumber: 6, weekLabel: 'Week 6', startDate: '2026-11-09', endDate: '2026-11-15' },
+  { weekNumber: 7, weekLabel: 'Week 7', startDate: '2026-11-16', endDate: '2026-11-22' },
+  { weekNumber: 8, weekLabel: 'Week 8', startDate: '2026-11-23', endDate: '2026-11-29' },
+  { weekNumber: 9, weekLabel: 'Week 9', startDate: '2026-11-30', endDate: '2026-12-06' },
+  { weekNumber: 10, weekLabel: 'Week 10', startDate: '2026-12-07', endDate: '2026-12-13' },
+  { weekNumber: 11, weekLabel: 'Week 11', startDate: '2026-12-14', endDate: '2026-12-20' },
+  { weekNumber: 12, weekLabel: 'Week 12', startDate: '2026-12-21', endDate: '2026-12-27' },
+  { weekNumber: 13, weekLabel: 'Week 13', startDate: '2026-12-28', endDate: '2027-01-03' },
 ];
 
 // ==========================================
@@ -255,19 +255,19 @@ export const USD_SUMMARY: CurrencyForecastSummary = summarizeCurrencyForecast(
 // 6. DEFAULT RESCUE SCENARIO PRESETS (WEEK 2 MITIGATION)
 // ==========================================
 export const DEFAULT_RESCUE_PRESETS = {
-  // Lever 1: Thu sớm nợ sỉ 50M chiết khấu 2%
+  // Lever 1: Accelerate wholesale receivables 50M @ 2% early cash discount
   lever1_accelerateReceivables: {
     enabled: true,
     amount: 50_000_000,
     discountPct: 2.0,
   },
-  // Lever 2: Giãn nợ NCC 1688 14 ngày (40M)
+  // Lever 2: Defer 1688 OEM payables by 14 days (40M)
   lever2_deferPayables: {
     enabled: true,
     amount: 40_000_000,
     days: 14,
   },
-  // Lever 3: Thấu chi ngắn hạn 30M @ 8%
+  // Lever 3: Draw emergency revolving credit line 30M @ 8% APR
   lever3_creditLine: {
     enabled: false,
     amount: 30_000_000,

@@ -2,239 +2,271 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Search, TrendingUp, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ShieldCheck, AlertTriangle, Play, Sparkles, TrendingUp, DollarSign, Wallet, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { VND_BASELINE_FORECAST, CNY_BASELINE_FORECAST, USD_BASELINE_FORECAST, TIMELINE_WEEKS } from '@/data/shopx-dataset';
 
 export default function HeroSection() {
   const [selectedCurrency, setSelectedCurrency] = useState<'ALL' | 'VND' | 'CNY' | 'USD'>('ALL');
+  const [activeWeek, setActiveWeek] = useState<number>(2); // Default to Week 2 (the critical breach week)
+
+  // Current data for the active week
+  const vndWeek = VND_BASELINE_FORECAST[activeWeek - 1];
+  const cnyWeek = CNY_BASELINE_FORECAST[activeWeek - 1];
+  const usdWeek = USD_BASELINE_FORECAST[activeWeek - 1];
 
   return (
-    <section id="hero" className="relative min-h-[92vh] flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden bg-[#0a0a0f]">
-      {/* Ambient background glow — Emerald/Teal strictly, ZERO purple */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[#00d4aa]/12 blur-[140px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-10 left-1/3 -translate-x-1/2 w-[450px] h-[300px] bg-[#00d4aa]/6 blur-[120px] pointer-events-none rounded-full" />
+    <section id="hero" className="relative min-h-[94vh] flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden bg-[#0A0A0F]">
+      {/* Dynamic Ambient Mesh Glows — Zero purple, strictly calibrated Emerald, Coral & Cobalt */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#00D4AA]/10 blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/3 -left-32 w-[500px] h-[400px] bg-[#4D9FFF]/8 blur-[140px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/2 -right-32 w-[500px] h-[400px] bg-[#FF6B35]/8 blur-[140px] pointer-events-none rounded-full" />
 
-      {/* Subtle background tech grid */}
+      {/* Modern Hairline Grid Background with subtle radial fade */}
       <div 
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        className="absolute inset-0 opacity-[0.035] pointer-events-none"
         style={{
           backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-          backgroundSize: '48px 48px'
+          backgroundSize: '40px 40px',
+          maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-        {/* Top Tag Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#111118] border border-[#232336] text-[11px] font-mono uppercase tracking-wider text-[#a1a1ba] mb-6 shadow-inner">
-          <span className="w-2 h-2 rounded-full bg-[#00d4aa] animate-ping" />
-          <span>Fintechathon 2026 • MVP Độc Quyền Cho SMEs TMĐT</span>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+        {/* Top Tag Pill with Live Radar Pulse */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#111118]/90 border border-[#232336] text-[11px] font-mono uppercase tracking-wider text-[#A1A1BA] mb-8 shadow-xl backdrop-blur-md">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00D4AA] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00D4AA]" />
+          </span>
+          <span className="text-white font-medium">Fintechathon 2026</span>
+          <span className="text-[#6E6E87]">•</span>
+          <span className="text-[#00D4AA]">Multi-Currency Liquidity Engine</span>
         </div>
 
-        {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.035em] text-white leading-[1.08] mb-6">
-          Know Your Cash. <br className="hidden sm:inline" />
-          <span className="bg-gradient-to-r from-white via-[#f1f2f6] to-[#00d4aa] bg-clip-text text-transparent">
+        {/* Wide H1 Headline — 2 lines strictly, no awkward 6-line wrapping */}
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6 max-w-5xl mx-auto">
+          Know Your Cash.{' '}
+          <span className="bg-gradient-to-r from-white via-[#F1F2F6] to-[#00D4AA] bg-clip-text text-transparent">
             Every Week. Every Currency.
           </span>
         </h1>
 
-        {/* Subtitle */}
-        <p className="max-w-2xl mx-auto text-base sm:text-lg text-[#8e8ea8] leading-relaxed mb-10 font-normal">
-          Dự báo dòng tiền 13 tuần tách biệt hoàn toàn <span className="text-[#00d4aa] font-medium">VND</span>,{' '}
-          <span className="text-[#ff6b35] font-medium">CNY</span> và{' '}
-          <span className="text-[#4d9fff] font-medium">USD</span>. Phát hiện thâm hụt thanh khoản trước 14 ngày cho nhà bán hàng Shopee, TikTok Shop & Nhà nhập khẩu.
+        {/* Crisp Financial Subhead */}
+        <p className="max-w-2xl mx-auto text-base sm:text-lg text-[#A1A1BA] leading-relaxed mb-10 font-normal">
+          Deterministic 13-week cashflow forecasting with absolute currency isolation for cross-border e-commerce brands.
+          Detect insolvency risks <span className="text-[#00D4AA] font-semibold">14 days before</span> platform settlement delays strike.
         </p>
 
-        {/* Interactive Search & Currency Pill Bar */}
-        <div className="max-w-xl mx-auto mb-14 bg-[#111118]/90 border border-[#232336] rounded-full p-1.5 backdrop-blur-xl shadow-2xl flex flex-col sm:flex-row items-center gap-2">
-          <div className="flex items-center gap-2 px-3.5 py-1.5 w-full sm:w-auto flex-1">
-            <Search className="w-4 h-4 text-[#8e8ea8]" />
-            <span className="text-xs text-[#8e8ea8] font-mono">Dòng tiền ShopX:</span>
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => setSelectedCurrency('ALL')}
-                className={`px-2.5 py-1 rounded-full text-[11px] font-mono font-medium transition-all ${
-                  selectedCurrency === 'ALL'
-                    ? 'bg-[#232336] text-white shadow-sm'
-                    : 'text-[#8e8ea8] hover:text-white'
-                }`}
-              >
-                Tất cả
-              </button>
-              <button
-                onClick={() => setSelectedCurrency('VND')}
-                className={`px-2.5 py-1 rounded-full text-[11px] font-mono font-medium transition-all ${
-                  selectedCurrency === 'VND'
-                    ? 'bg-[#00d4aa]/20 text-[#00d4aa] border border-[#00d4aa]/40'
-                    : 'text-[#8e8ea8] hover:text-[#00d4aa]'
-                }`}
-              >
-                VND
-              </button>
-              <button
-                onClick={() => setSelectedCurrency('CNY')}
-                className={`px-2.5 py-1 rounded-full text-[11px] font-mono font-medium transition-all ${
-                  selectedCurrency === 'CNY'
-                    ? 'bg-[#ff6b35]/20 text-[#ff6b35] border border-[#ff6b35]/40'
-                    : 'text-[#8e8ea8] hover:text-[#ff6b35]'
-                }`}
-              >
-                CNY
-              </button>
-              <button
-                onClick={() => setSelectedCurrency('USD')}
-                className={`px-2.5 py-1 rounded-full text-[11px] font-mono font-medium transition-all ${
-                  selectedCurrency === 'USD'
-                    ? 'bg-[#4d9fff]/20 text-[#4d9fff] border border-[#4d9fff]/40'
-                    : 'text-[#8e8ea8] hover:text-[#4d9fff]'
-                }`}
-              >
-                USD
-              </button>
-            </div>
-          </div>
-
+        {/* High-Contrast Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <Link
             href="/dashboard"
-            className="w-full sm:w-auto px-6 py-2.5 rounded-full text-xs font-semibold text-black bg-[#00d4aa] hover:bg-[#05f3c4] transition-all duration-200 shadow-md shadow-[#00d4aa]/30 flex items-center justify-center gap-1.5 whitespace-nowrap"
+            className="w-full sm:w-auto px-8 py-4 rounded-full text-sm font-semibold text-black bg-[#00D4AA] hover:bg-[#05F3C4] transition-all duration-300 shadow-[0_0_35px_rgba(0,212,170,0.35)] hover:shadow-[0_0_45px_rgba(0,212,170,0.55)] flex items-center justify-center gap-2 group transform hover:-translate-y-0.5"
           >
-            <span>Launch Interactive Demo</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>Launch Interactive Cockpit</span>
+            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </Link>
+
+          <a
+            href="#forecast"
+            className="w-full sm:w-auto px-7 py-4 rounded-full text-sm font-medium text-white bg-[#161622] hover:bg-[#1C1C2B] border border-[#232336] hover:border-[#33334D] transition-all duration-200 flex items-center justify-center gap-2 group backdrop-blur-xl"
+          >
+            <Play className="w-3.5 h-3.5 text-[#00D4AA] fill-[#00D4AA]" />
+            <span>Explore 13-Week Forecast</span>
+          </a>
         </div>
 
-        {/* 3D Floating Perspective Balance Card (From Design Spec 01) */}
-        <div className="relative max-w-2xl mx-auto perspective-1000">
-          <div className="relative rounded-2xl bg-[#111118]/80 border border-[#232336] p-6 backdrop-blur-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] text-left hover:border-[#00d4aa]/40 transition-all duration-300">
-            {/* Card Header Status */}
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#232336]/60">
-              <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#00d4aa]" />
-                <span className="text-xs font-mono text-[#a1a1ba] uppercase tracking-wider">
-                  Trạng Thái Thanh Khoản Tức Thì (ShopX)
-                </span>
+        {/* Dynamic Interactive Cockpit Teaser Card with Real-time Week Scrubber */}
+        <div className="relative max-w-4xl mx-auto text-left">
+          {/* Decorative Laser Border Gradient Glow */}
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00D4AA]/40 via-[#FF6B35]/20 to-[#4D9FFF]/40 rounded-3xl blur-md opacity-40 group-hover:opacity-100 transition duration-1000 -z-10" />
+
+          <div className="rounded-2xl bg-[#111118]/95 border border-[#232336] p-6 sm:p-8 backdrop-blur-2xl shadow-[0_30px_90px_-20px_rgba(0,0,0,0.9)]">
+            {/* Top Bar: Ledger Status & Currency Pills */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#232336]">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-[#00D4AA] animate-pulse" />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-white tracking-tight">ShopX Live Liquidity Stream</span>
+                    <span className="text-[10px] font-mono text-[#00D4AA] bg-[#00D4AA]/10 border border-[#00D4AA]/30 px-2 py-0.5 rounded-full">
+                      REAL-TIME
+                    </span>
+                  </div>
+                  <span className="text-xs font-mono text-[#6E6E87]">
+                    Deterministic Conservation Engine • 3 Isolated Ledgers
+                  </span>
+                </div>
               </div>
-              <span className="text-[11px] font-mono text-[#ffaa00] bg-[#ffaa00]/10 border border-[#ffaa00]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                <AlertTriangle className="w-3 h-3" />
-                Cảnh báo Tuần 2: Thâm hụt 10M
-              </span>
+
+              {/* Currency Selector Pills */}
+              <div className="flex items-center gap-1.5 p-1 bg-[#161622] rounded-xl border border-[#232336]">
+                {(['ALL', 'VND', 'CNY', 'USD'] as const).map((curr) => (
+                  <button
+                    key={curr}
+                    onClick={() => setSelectedCurrency(curr)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+                      selectedCurrency === curr
+                        ? 'bg-[#232336] text-white shadow-md'
+                        : 'text-[#A1A1BA] hover:text-white'
+                    }`}
+                  >
+                    {curr}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Currency Stream 1: VND */}
-            {(selectedCurrency === 'ALL' || selectedCurrency === 'VND') && (
-              <div className="flex items-center justify-between py-3 px-3 rounded-xl hover:bg-white/[0.02] transition-colors border-b border-[#232336]/40">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold font-mono text-[#00d4aa] tracking-tight">
-                      280.000.000 ₫
+            {/* Interactive Week Scrubber Slider */}
+            <div className="py-6 border-b border-[#232336]">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#A1A1BA]">
+                    Timeline Scrubber:
+                  </span>
+                  <span className="text-xs font-mono font-bold text-[#00D4AA]">
+                    {TIMELINE_WEEKS[activeWeek - 1].weekLabel} ({TIMELINE_WEEKS[activeWeek - 1].startDate} to {TIMELINE_WEEKS[activeWeek - 1].endDate})
+                  </span>
+                </div>
+                {activeWeek === 2 ? (
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#FF4757] bg-[#FF4757]/10 border border-[#FF4757]/30 px-2.5 py-0.5 rounded-full animate-pulse">
+                    <AlertTriangle className="w-3 h-3" />
+                    Liquidity Breach (-10M VND)
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[#00D4AA] bg-[#00D4AA]/10 border border-[#00D4AA]/30 px-2.5 py-0.5 rounded-full">
+                    <ShieldCheck className="w-3 h-3" />
+                    Buffer Maintained
+                  </span>
+                )}
+              </div>
+
+              {/* Range Slider for Week Selection */}
+              <div className="relative pt-2">
+                <input
+                  type="range"
+                  min="1"
+                  max="13"
+                  value={activeWeek}
+                  onChange={(e) => setActiveWeek(Number(e.target.value))}
+                  className="w-full h-2 bg-[#1C1C2B] rounded-lg appearance-none cursor-pointer accent-[#00D4AA]"
+                />
+                <div className="flex justify-between text-[10px] font-mono text-[#6E6E87] mt-2">
+                  {TIMELINE_WEEKS.map((w) => (
+                    <button
+                      key={w.weekNumber}
+                      onClick={() => setActiveWeek(w.weekNumber)}
+                      className={`hover:text-white transition-colors ${
+                        activeWeek === w.weekNumber ? 'text-[#00D4AA] font-bold' : ''
+                      } ${w.weekNumber === 2 ? 'text-[#FF4757]' : ''}`}
+                    >
+                      W{w.weekNumber}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Dynamic Metric Display Based on Selected Currency & Week */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
+              {/* VND Card */}
+              {(selectedCurrency === 'ALL' || selectedCurrency === 'VND') && (
+                <div className={`p-4 rounded-xl border transition-all ${
+                  activeWeek === 2 && vndWeek.isBreached
+                    ? 'bg-[#FF4757]/5 border-[#FF4757]/40 shadow-lg shadow-[#FF4757]/5'
+                    : 'bg-[#161622]/70 border-[#232336] hover:border-[#00D4AA]/30'
+                }`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-mono text-[#00D4AA] font-semibold flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#00D4AA]" />
+                      VND Domestic Settlement
                     </span>
-                    <span className="text-[10px] font-mono bg-[#00d4aa]/15 text-[#00d4aa] px-1.5 py-0.5 rounded border border-[#00d4aa]/30">
-                      VND
+                    <span className="text-[10px] font-mono text-[#6E6E87]">Shopee & TikTok</span>
+                  </div>
+                  <div className="text-xl sm:text-2xl font-bold font-mono text-white mb-1">
+                    {vndWeek.closingBalance.toLocaleString('en-US')} ₫
+                  </div>
+                  <div className="flex items-center justify-between text-xs font-mono text-[#A1A1BA] pt-2 border-t border-[#232336]/60">
+                    <span className="flex items-center gap-1 text-[#00D4AA]">
+                      <ArrowUpRight className="w-3 h-3" />
+                      +{vndWeek.inflow.toLocaleString('en-US')}
+                    </span>
+                    <span className="flex items-center gap-1 text-[#FF4757]">
+                      <ArrowDownRight className="w-3 h-3" />
+                      -{vndWeek.outflow.toLocaleString('en-US')}
                     </span>
                   </div>
-                  <span className="text-xs text-[#8e8ea8]">Tiền mặt hoạt động • Vừa nhận từ Shopee & TikTok</span>
+                  {vndWeek.isBreached && (
+                    <div className="mt-2 text-[10px] font-mono text-[#FF4757] bg-[#FF4757]/10 p-1.5 rounded border border-[#FF4757]/20 flex items-center gap-1">
+                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                      <span>Breaches 160M safety buffer</span>
+                    </div>
+                  )}
                 </div>
-                {/* Visual SVG Sparkline */}
-                <svg className="w-28 h-8 text-[#00d4aa]" viewBox="0 0 100 30" fill="none">
-                  <path
-                    d="M0 20 Q 25 5, 50 18 T 100 8"
-                    stroke="#00d4aa"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M0 20 Q 25 5, 50 18 T 100 8 L 100 30 L 0 30 Z"
-                    fill="url(#teal-grad)"
-                    opacity="0.2"
-                  />
-                  <defs>
-                    <linearGradient id="teal-grad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#00d4aa" />
-                      <stop offset="100%" stopColor="transparent" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-            )}
+              )}
 
-            {/* Currency Stream 2: CNY */}
-            {(selectedCurrency === 'ALL' || selectedCurrency === 'CNY') && (
-              <div className="flex items-center justify-between py-3 px-3 rounded-xl hover:bg-white/[0.02] transition-colors border-b border-[#232336]/40">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold font-mono text-[#ff6b35] tracking-tight">
-                      ¥120.000
+              {/* CNY Card */}
+              {(selectedCurrency === 'ALL' || selectedCurrency === 'CNY') && (
+                <div className="p-4 rounded-xl bg-[#161622]/70 border border-[#232336] hover:border-[#FF6B35]/30 transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-mono text-[#FF6B35] font-semibold flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#FF6B35]" />
+                      CNY Factory Payables
                     </span>
-                    <span className="text-[10px] font-mono bg-[#ff6b35]/15 text-[#ff6b35] px-1.5 py-0.5 rounded border border-[#ff6b35]/30">
-                      CNY
+                    <span className="text-[10px] font-mono text-[#6E6E87]">1688 Direct OEM</span>
+                  </div>
+                  <div className="text-xl sm:text-2xl font-bold font-mono text-white mb-1">
+                    ¥{cnyWeek.closingBalance.toLocaleString('en-US')}
+                  </div>
+                  <div className="flex items-center justify-between text-xs font-mono text-[#A1A1BA] pt-2 border-t border-[#232336]/60">
+                    <span className="flex items-center gap-1 text-[#00D4AA]">
+                      <ArrowUpRight className="w-3 h-3" />
+                      +¥{cnyWeek.inflow.toLocaleString('en-US')}
+                    </span>
+                    <span className="flex items-center gap-1 text-[#FF6B35]">
+                      <ArrowDownRight className="w-3 h-3" />
+                      -¥{cnyWeek.outflow.toLocaleString('en-US')}
                     </span>
                   </div>
-                  <span className="text-xs text-[#8e8ea8]">Công nợ xưởng 1688 • Đáo hạn trong 10 ngày</span>
                 </div>
-                <svg className="w-28 h-8 text-[#ff6b35]" viewBox="0 0 100 30" fill="none">
-                  <path
-                    d="M0 12 Q 30 25, 60 10 T 100 22"
-                    stroke="#ff6b35"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M0 12 Q 30 25, 60 10 T 100 22 L 100 30 L 0 30 Z"
-                    fill="url(#cny-grad)"
-                    opacity="0.2"
-                  />
-                  <defs>
-                    <linearGradient id="cny-grad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#ff6b35" />
-                      <stop offset="100%" stopColor="transparent" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-            )}
+              )}
 
-            {/* Currency Stream 3: USD */}
-            {(selectedCurrency === 'ALL' || selectedCurrency === 'USD') && (
-              <div className="flex items-center justify-between py-3 px-3 rounded-xl hover:bg-white/[0.02] transition-colors">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold font-mono text-[#4d9fff] tracking-tight">
-                      $15.000
+              {/* USD Card */}
+              {(selectedCurrency === 'ALL' || selectedCurrency === 'USD') && (
+                <div className="p-4 rounded-xl bg-[#161622]/70 border border-[#232336] hover:border-[#4D9FFF]/30 transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-mono text-[#4D9FFF] font-semibold flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#4D9FFF]" />
+                      USD Ad Spend & Logistics
                     </span>
-                    <span className="text-[10px] font-mono bg-[#4d9fff]/15 text-[#4d9fff] px-1.5 py-0.5 rounded border border-[#4d9fff]/30">
-                      USD
+                    <span className="text-[10px] font-mono text-[#6E6E87]">Meta & Global Freight</span>
+                  </div>
+                  <div className="text-xl sm:text-2xl font-bold font-mono text-white mb-1">
+                    ${usdWeek.closingBalance.toLocaleString('en-US')}
+                  </div>
+                  <div className="flex items-center justify-between text-xs font-mono text-[#A1A1BA] pt-2 border-t border-[#232336]/60">
+                    <span className="flex items-center gap-1 text-[#00D4AA]">
+                      <ArrowUpRight className="w-3 h-3" />
+                      +${usdWeek.inflow.toLocaleString('en-US')}
+                    </span>
+                    <span className="flex items-center gap-1 text-[#4D9FFF]">
+                      <ArrowDownRight className="w-3 h-3" />
+                      -${usdWeek.outflow.toLocaleString('en-US')}
                     </span>
                   </div>
-                  <span className="text-xs text-[#8e8ea8]">Dự trữ quốc tế • Chi trả cước tàu biển & Meta Ads</span>
                 </div>
-                <svg className="w-28 h-8 text-[#4d9fff]" viewBox="0 0 100 30" fill="none">
-                  <path
-                    d="M0 18 Q 30 8, 65 20 T 100 12"
-                    stroke="#4d9fff"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M0 18 Q 30 8, 65 20 T 100 12 L 100 30 L 0 30 Z"
-                    fill="url(#usd-grad)"
-                    opacity="0.2"
-                  />
-                  <defs>
-                    <linearGradient id="usd-grad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#4d9fff" />
-                      <stop offset="100%" stopColor="transparent" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-            )}
+              )}
+            </div>
 
-            {/* Bottom note */}
-            <div className="pt-3 mt-2 border-t border-[#232336]/40 flex items-center justify-between text-[11px] font-mono text-[#6e6e87]">
-              <span>Tách biệt 100% • Không quy đổi gộp</span>
-              <span className="text-[#00d4aa] flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                Chuẩn toán học Pure Functions
+            {/* Bottom Insight Footer */}
+            <div className="mt-6 pt-4 border-t border-[#232336] flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs font-mono text-[#6E6E87] gap-2">
+              <span className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#00D4AA]" />
+                Zero currency blending: Each currency strictly audited in native denomination.
               </span>
+              <Link href="/dashboard" className="text-[#00D4AA] hover:underline flex items-center gap-1 font-semibold">
+                Open full 13-week scenario cockpit &rarr;
+              </Link>
             </div>
           </div>
         </div>

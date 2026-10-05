@@ -2,200 +2,240 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, AlertTriangle, Calendar, TrendingUp } from 'lucide-react';
-import { VND_BASELINE_FORECAST } from '@/data/shopx-dataset';
-import { formatCurrencyAmount } from '@/lib/finance-engine';
+import { ArrowRight, AlertTriangle, Calendar, TrendingUp, ShieldCheck, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { VND_BASELINE_FORECAST, TIMELINE_WEEKS } from '@/data/shopx-dataset';
 
 export default function ForecastPreviewSection() {
   const [activeWeek, setActiveWeek] = useState<number>(2); // Default to Week 2 breach
 
   const selectedWeekData = VND_BASELINE_FORECAST.find((w) => w.weekNumber === activeWeek) || VND_BASELINE_FORECAST[1];
 
+  // Coordinates for the 13 points on the 1000x320 SVG chart
+  const points = [
+    { x: 80, y: 60, week: 1, val: '280M' },
+    { x: 155, y: 200, week: 2, val: '150M', isBreach: true },
+    { x: 230, y: 150, week: 3, val: '190M' },
+    { x: 305, y: 110, week: 4, val: '235M' },
+    { x: 380, y: 80, week: 5, val: '285M' },
+    { x: 455, y: 65, week: 6, val: '325M' },
+    { x: 530, y: 55, week: 7, val: '365M' },
+    { x: 605, y: 50, week: 8, val: '400M' },
+    { x: 680, y: 40, week: 9, val: '465M' },
+    { x: 755, y: 35, week: 10, val: '505M' },
+    { x: 830, y: 30, week: 11, val: '575M' },
+    { x: 905, y: 25, week: 12, val: '650M' },
+    { x: 980, y: 20, week: 13, val: '710M' },
+  ];
+
   return (
-    <section id="forecast-preview" className="relative py-28 bg-[#0a0a0f] overflow-hidden">
+    <section id="forecast" className="relative py-28 bg-[#0A0A0F] overflow-hidden border-b border-[#232336]">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#00D4AA]/5 blur-[170px] pointer-events-none rounded-full" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00d4aa]/10 border border-[#00d4aa]/30 text-xs font-mono text-[#00d4aa] mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00D4AA]/10 border border-[#00D4AA]/30 text-xs font-mono text-[#00D4AA] mb-4">
             <Calendar className="w-3.5 h-3.5" />
-            <span>Trọng Tâm Điều Hành</span>
+            <span>Operational Nucleus</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">
-            Dự Báo Dòng Tiền 13 Tuần Chuẩn Xác
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4">
+            13-Week Liquidity Trajectory
           </h2>
-          <p className="text-base text-[#8e8ea8]">
-            Thuật toán pure functions bảo toàn số dư lũy kế: Closing(t) = Opening(t+1). Phát hiện lỗ hổng thanh khoản trước khi ảnh hưởng vận hành.
+          <p className="text-base text-[#A1A1BA] max-w-2xl mx-auto">
+            Chained mathematical conservation: <code>Closing(t) === Opening(t+1)</code>. Pinpoint the exact day and dollar of liquidity shortfall before payroll or inventory defaults.
           </p>
         </div>
 
-        {/* Dashboard Frame Preview (Direct from Image 05) */}
+        {/* Interactive Dashboard Forecast Card */}
         <div className="rounded-2xl bg-[#111118] border border-[#232336] p-6 sm:p-8 backdrop-blur-2xl shadow-2xl relative">
-          {/* Top Bar of the Forecast Tool */}
+          {/* Top Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#232336]">
             <div>
-              <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                Dự Báo Dòng Tiền 13 Tuần (VND)
-                <span className="w-2 h-2 rounded-full bg-[#00d4aa]" />
-              </h3>
-              <span className="text-xs text-[#8e8ea8] font-mono">
-                Số dư ban đầu: 280.000.000 ₫ • Ngưỡng an toàn tối thiểu: 160.000.000 ₫
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-xl font-bold text-white tracking-tight">13-Week Cash Position (VND Ledger)</h3>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#00D4AA] animate-pulse" />
+              </div>
+              <span className="text-xs text-[#8E8EA8] font-mono">
+                Initial Balance: 280,000,000 ₫ • Minimum Buffer: 160,000,000 ₫
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono text-[#ffaa00] bg-[#ffaa00]/10 border border-[#ffaa00]/30 px-3 py-1 rounded-full flex items-center gap-1.5">
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-mono text-[#FFAA00] bg-[#FFAA00]/10 border border-[#FFAA00]/30 px-3 py-1.5 rounded-full flex items-center gap-1.5">
                 <AlertTriangle className="w-3.5 h-3.5" />
-                Cảnh báo vi phạm: Tuần 2
+                Deficit Detected: Week 2
               </span>
               <Link
                 href="/dashboard"
-                className="px-4 py-1.5 rounded-full text-xs font-semibold text-black bg-[#00d4aa] hover:bg-[#05f3c4] transition-all flex items-center gap-1"
+                className="px-4 py-1.5 rounded-full text-xs font-semibold text-black bg-[#00D4AA] hover:bg-[#05F3C4] transition-all flex items-center gap-1.5 shadow-md shadow-[#00D4AA]/20"
               >
-                <span>Xem Chi Tiết</span>
+                <span>Full Cockpit</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
 
-          {/* SVG Interactive Area Chart (Replicating Image 05) */}
+          {/* Interactive SVG Area Chart */}
           <div className="relative py-8">
             <div className="h-64 sm:h-80 w-full relative">
               <svg className="w-full h-full" viewBox="0 0 1000 320" fill="none">
                 {/* Horizontal Grid lines */}
-                <line x1="60" y1="60" x2="980" y2="60" stroke="#1f1f2e" strokeWidth="1" />
-                <line x1="60" y1="120" x2="980" y2="120" stroke="#1f1f2e" strokeWidth="1" />
-                <line x1="60" y1="180" x2="980" y2="180" stroke="#1f1f2e" strokeWidth="1" />
-                <line x1="60" y1="240" x2="980" y2="240" stroke="#1f1f2e" strokeWidth="1" />
+                <line x1="60" y1="60" x2="980" y2="60" stroke="#1F1F2E" strokeWidth="1" />
+                <line x1="60" y1="120" x2="980" y2="120" stroke="#1F1F2E" strokeWidth="1" />
+                <line x1="60" y1="180" x2="980" y2="180" stroke="#1F1F2E" strokeWidth="1" />
+                <line x1="60" y1="240" x2="980" y2="240" stroke="#1F1F2E" strokeWidth="1" />
 
                 {/* Y-axis Labels */}
-                <text x="10" y="65" fill="#6e6e87" fontSize="12" fontFamily="monospace">280M</text>
-                <text x="10" y="125" fill="#6e6e87" fontSize="12" fontFamily="monospace">220M</text>
-                <text x="10" y="185" fill="#6e6e87" fontSize="12" fontFamily="monospace">160M</text>
-                <text x="10" y="245" fill="#6e6e87" fontSize="12" fontFamily="monospace">100M</text>
+                <text x="10" y="65" fill="#6E6E87" fontSize="12" fontFamily="monospace">600M</text>
+                <text x="10" y="125" fill="#6E6E87" fontSize="12" fontFamily="monospace">350M</text>
+                <text x="10" y="185" fill="#6E6E87" fontSize="12" fontFamily="monospace">160M</text>
+                <text x="10" y="245" fill="#6E6E87" fontSize="12" fontFamily="monospace">50M</text>
 
-                {/* Dotted Red Minimum Buffer Line (160M VND at y=180) */}
+                {/* Red Dotted Safe Buffer Line (160M VND at y=180) */}
                 <line
                   x1="60"
                   y1="180"
                   x2="980"
                   y2="180"
-                  stroke="#ff4757"
+                  stroke="#FF4757"
                   strokeWidth="2"
                   strokeDasharray="6 4"
                 />
-                <text x="750" y="172" fill="#ff4757" fontSize="12" fontFamily="monospace" fontWeight="600">
-                  Ngưỡng An Toàn Tối Thiểu: 160M VND
+                <text x="730" y="172" fill="#FF4757" fontSize="12" fontFamily="monospace" fontWeight="600">
+                  Minimum Buffer Line: 160M VND
                 </text>
 
-                {/* Cash Curve Gradient Fill */}
+                {/* Area Gradient Defs */}
                 <defs>
-                  <linearGradient id="curve-gradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#00d4aa" stopOpacity="0.3" />
-                    <stop offset="60%" stopColor="#00d4aa" stopOpacity="0.05" />
+                  <linearGradient id="forecast-gradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#00D4AA" stopOpacity="0.3" />
+                    <stop offset="60%" stopColor="#00D4AA" stopOpacity="0.05" />
                     <stop offset="100%" stopColor="transparent" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
-                {/* Dynamic Area Fill */}
+                {/* Shaded Area */}
                 <path
-                  d="M 80 60 
-                     C 120 70, 140 220, 160 220
-                     C 190 220, 220 150, 250 150
-                     C 300 150, 350 110, 420 120
-                     C 500 130, 580 100, 680 90
-                     C 760 80, 850 65, 960 50
-                     L 960 280 L 80 280 Z"
-                  fill="url(#curve-gradient)"
+                  d="M 80 60 L 155 200 L 230 150 L 305 110 L 380 80 L 455 65 L 530 55 L 605 50 L 680 40 L 755 35 L 830 30 L 905 25 L 980 20 L 980 300 L 80 300 Z"
+                  fill="url(#forecast-gradient)"
                 />
 
-                {/* Dynamic Curve Stroke */}
+                {/* Main Cash Line */}
                 <path
-                  d="M 80 60 
-                     C 120 70, 140 220, 160 220
-                     C 190 220, 220 150, 250 150
-                     C 300 150, 350 110, 420 120
-                     C 500 130, 580 100, 680 90
-                     C 760 80, 850 65, 960 50"
-                  stroke="#00d4aa"
+                  d="M 80 60 L 155 200 L 230 150 L 305 110 L 380 80 L 455 65 L 530 55 L 605 50 L 680 40 L 755 35 L 830 30 L 905 25 L 980 20"
+                  stroke="#00D4AA"
                   strokeWidth="3.5"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
 
-                {/* Breach Highlight at Week 2 (x=160, y=220 -> 150M) */}
-                <circle cx="160" cy="220" r="7" fill="#ff4757" className="animate-pulse" />
-                <circle cx="160" cy="220" r="14" stroke="#ff4757" strokeWidth="2" opacity="0.4" />
+                {/* Interactive Points */}
+                {points.map((pt) => {
+                  const isSelected = activeWeek === pt.week;
+                  return (
+                    <g key={pt.week} onClick={() => setActiveWeek(pt.week)} className="cursor-pointer">
+                      {pt.isBreach && (
+                        <circle
+                          cx={pt.x}
+                          cy={pt.y}
+                          r={isSelected ? 14 : 10}
+                          fill="#FF4757"
+                          fillOpacity="0.25"
+                          className="animate-ping"
+                        />
+                      )}
+                      <circle
+                        cx={pt.x}
+                        cy={pt.y}
+                        r={isSelected ? 7 : 5}
+                        fill={pt.isBreach ? '#FF4757' : '#00D4AA'}
+                        stroke="#111118"
+                        strokeWidth="2.5"
+                      />
+                      <text
+                        x={pt.x}
+                        y={pt.y - 12}
+                        textAnchor="middle"
+                        fill={pt.isBreach ? '#FF4757' : isSelected ? '#FFFFFF' : '#8E8EA8'}
+                        fontSize="11"
+                        fontFamily="monospace"
+                        fontWeight={isSelected || pt.isBreach ? '700' : '500'}
+                      >
+                        {pt.val}
+                      </text>
+                      <text
+                        x={pt.x}
+                        y="280"
+                        textAnchor="middle"
+                        fill={isSelected ? '#00D4AA' : '#6E6E87'}
+                        fontSize="11"
+                        fontFamily="monospace"
+                        fontWeight={isSelected ? '700' : '400'}
+                      >
+                        W{pt.week}
+                      </text>
+                    </g>
+                  );
+                })}
               </svg>
-
-              {/* Floating Alert Card Callout over Week 2 (Direct from image 05) */}
-              <div className="absolute top-[38%] left-[18%] sm:left-[22%] bg-[#1c1c2b] border border-[#ff4757] rounded-xl p-3.5 shadow-2xl shadow-[#ff4757]/20 backdrop-blur-xl max-w-xs z-20">
-                <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#ff4757] mb-1">
-                  <AlertTriangle className="w-3.5 h-3.5" />
-                  <span>Cảnh Báo Thiếu Hụt: Tuần 2</span>
-                </div>
-                <div className="text-[11px] font-mono text-[#f1f2f6] space-y-0.5">
-                  <div className="flex justify-between">
-                    <span className="text-[#8e8ea8]">Số dư đóng kỳ:</span>
-                    <span className="font-bold text-[#ff4757]">150.0M VND</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#8e8ea8]">Ngưỡng tối thiểu:</span>
-                    <span>160.0M VND</span>
-                  </div>
-                  <div className="flex justify-between pt-1 border-t border-[#232336] text-[#ff4757] font-semibold">
-                    <span>Thâm hụt rủi ro:</span>
-                    <span>-10.0M VND</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Week Selector Chips (W1 to W13) */}
-            <div className="flex items-center justify-between gap-1 overflow-x-auto pt-4 mt-2 border-t border-[#232336]/60">
-              {VND_BASELINE_FORECAST.map((w) => {
-                const isSelected = activeWeek === w.weekNumber;
-                return (
-                  <button
-                    key={w.weekNumber}
-                    onClick={() => setActiveWeek(w.weekNumber)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all shrink-0 ${
-                      isSelected
-                        ? w.isBreached
-                          ? 'bg-[#ff4757] text-white font-bold shadow-lg shadow-[#ff4757]/30'
-                          : 'bg-[#00d4aa] text-black font-bold shadow-lg shadow-[#00d4aa]/30'
-                        : w.isBreached
-                        ? 'bg-[#ff4757]/15 text-[#ff4757] border border-[#ff4757]/40 hover:bg-[#ff4757]/25'
-                        : 'bg-[#161622] text-[#8e8ea8] hover:text-white border border-[#232336]'
-                    }`}
-                  >
-                    {w.weekLabel}
-                  </button>
-                );
-              })}
             </div>
           </div>
 
-          {/* Active Week Tooltip Details Bar */}
-          <div className="mt-4 p-4 rounded-xl bg-[#161622] border border-[#232336] grid grid-cols-2 sm:grid-cols-5 gap-3 font-mono text-xs">
-            <div>
-              <span className="text-[#8e8ea8] block text-[10px]">Kỳ Báo Cáo</span>
-              <span className="text-white font-semibold">{selectedWeekData.weekLabel}</span>
-            </div>
-            <div>
-              <span className="text-[#8e8ea8] block text-[10px]">Đầu Kỳ</span>
-              <span className="text-white font-semibold">{formatCurrencyAmount(selectedWeekData.openingBalance, 'VND')}</span>
-            </div>
-            <div>
-              <span className="text-[#8e8ea8] block text-[10px]">Dòng Thu Vào</span>
-              <span className="text-[#00d4aa] font-semibold">+{formatCurrencyAmount(selectedWeekData.inflow, 'VND')}</span>
-            </div>
-            <div>
-              <span className="text-[#8e8ea8] block text-[10px]">Dòng Chi Ra</span>
-              <span className="text-[#ff4757] font-semibold">-{formatCurrencyAmount(selectedWeekData.outflow, 'VND')}</span>
-            </div>
-            <div>
-              <span className="text-[#8e8ea8] block text-[10px]">Cuối Kỳ</span>
-              <span className={`font-bold ${selectedWeekData.isBreached ? 'text-[#ff4757]' : 'text-[#00d4aa]'}`}>
-                {formatCurrencyAmount(selectedWeekData.closingBalance, 'VND')}
+          {/* Interactive Selected Week Breakdown Pill Bar */}
+          <div className="pt-6 border-t border-[#232336] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl bg-[#161622] border border-[#232336]">
+              <span className="text-[11px] font-mono text-[#8E8EA8] block mb-1">SELECTED INTERVAL</span>
+              <span className="text-base font-bold text-white font-mono flex items-center gap-2">
+                Week {selectedWeekData.weekNumber}
+                <span className="text-xs text-[#A1A1BA] font-normal">
+                  ({TIMELINE_WEEKS[activeWeek - 1]?.startDate})
+                </span>
               </span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#161622] border border-[#232336]">
+              <span className="text-[11px] font-mono text-[#00D4AA] flex items-center gap-1 mb-1">
+                <ArrowUpRight className="w-3.5 h-3.5" />
+                WEEK INFLOWS
+              </span>
+              <span className="text-base font-bold text-white font-mono">
+                +{selectedWeekData.inflow.toLocaleString('en-US')} ₫
+              </span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#161622] border border-[#232336]">
+              <span className="text-[11px] font-mono text-[#FF4757] flex items-center gap-1 mb-1">
+                <ArrowDownRight className="w-3.5 h-3.5" />
+                WEEK OUTFLOWS
+              </span>
+              <span className="text-base font-bold text-white font-mono">
+                -{selectedWeekData.outflow.toLocaleString('en-US')} ₫
+              </span>
+            </div>
+
+            <div className={`p-4 rounded-xl border transition-all ${
+              selectedWeekData.isBreached
+                ? 'bg-[#FF4757]/10 border-[#FF4757]/40 text-[#FF4757]'
+                : 'bg-[#00D4AA]/10 border-[#00D4AA]/30 text-[#00D4AA]'
+            }`}>
+              <span className="text-[11px] font-mono block mb-1">
+                CLOSING POSITION
+              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-base font-bold font-mono">
+                  {selectedWeekData.closingBalance.toLocaleString('en-US')} ₫
+                </span>
+                {selectedWeekData.isBreached ? (
+                  <span className="text-[10px] font-mono bg-[#FF4757] text-black font-bold px-1.5 py-0.5 rounded">
+                    DEFICIT
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-mono bg-[#00D4AA] text-black font-bold px-1.5 py-0.5 rounded">
+                    SAFE
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>

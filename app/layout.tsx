@@ -13,17 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FlowWise | Trợ Lý Dòng Tiền Đa Tệ & Dự Báo 13 Tuần Cho Nhà Bán TMĐT",
+  title: "FlowWise | Predictive Multi-Currency Cashflow Intelligence & 13-Week Liquidity Engine",
   description:
-    "Nền tảng kiểm soát thanh khoản đa tệ tách biệt (VND, CNY, USD), tự động đối soát doanh thu sàn TMĐT, dự báo 13 tuần và mô phỏng giải cứu dòng tiền cho SMEs Việt Nam.",
+    "Deterministic 13-week liquidity forecasting with absolute currency isolation (VND, CNY, USD) for cross-border e-commerce brands on Shopee, TikTok Shop & 1688.",
   keywords: [
-    "cashflow",
-    "dòng tiền",
-    "shopee",
-    "tiktok shop",
-    "fintech",
-    "dự báo dòng tiền 13 tuần",
-    "đa tệ",
+    "cashflow forecasting",
+    "13-week cash flow",
+    "e-commerce liquidity",
+    "multi-currency cashflow",
+    "fintechathon",
+    "cross-border treasury",
+    "shopee seller cashflow",
+    "tiktok shop escrow",
   ],
 };
 
@@ -34,10 +35,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="vi"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#0a0a0f] text-[#f1f2f6]">
+      <body className="min-h-full flex flex-col bg-[#0A0A0F] text-[#F1F2F6]">
         {children}
       </body>
     </html>
