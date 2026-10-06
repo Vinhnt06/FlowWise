@@ -12,34 +12,34 @@ import Footer from '@/components/landing/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-[#f1f2f6] selection:bg-[#00d4aa] selection:text-black">
-      {/* Top Sticky Navigation */}
+    <div className="min-h-screen bg-bg-base text-text-primary transition-colors duration-200 selection:bg-emerald-500 selection:text-white">
+      {/* Top Sticky Navigation with Integrated Theme Toggle */}
       <Navbar />
 
       {/* Main Narrative Structure (8 Canonical Sections) */}
       <main>
-        {/* Section 1: Hero with Live Balance Card & Sparklines */}
+        {/* Section 1: Hero with Technical Grid & Scrubber Terminal */}
         <HeroSection />
 
-        {/* Section 2: Trust Bar & Market Metrics */}
+        {/* Section 2: Institutional Trust Rail & Platform APIs */}
         <TrustBar />
 
-        {/* Section 3: Problem Statement (Doanh số ≠ Tiền) & Cash Gap */}
+        {/* Section 3: Problem Statement (The Cash Gap Advisory) */}
         <ProblemSection />
 
         {/* Section 4: 5 Core Capabilities Bento Grid */}
         <FeaturesBento />
 
-        {/* Section 5: 13-Week Forecast Interactive Preview */}
+        {/* Section 5: 13-Week Forecast Interactive Precision Terminal */}
         <ForecastPreviewSection />
 
-        {/* Section 6: 3-Currency Isolation (VND, CNY, USD) */}
+        {/* Section 6: 3-Currency Ledger Isolation (VND, CNY, USD) */}
         <CurrenciesSection />
 
-        {/* Section 7: 3-Step Workflow Automation */}
+        {/* Section 7: 3-Stage Deterministic Pipeline */}
         <HowItWorksSection />
 
-        {/* Section 8: Final Call To Action */}
+        {/* Section 8: Final Enterprise Call To Action */}
         <CtaSection />
       </main>
 

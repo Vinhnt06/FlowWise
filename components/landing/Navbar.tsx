@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Layers } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import ThemeToggle from '@/components/common/ThemeToggle';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,78 +20,73 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#0a0a0f]/85 backdrop-blur-2xl border-b border-[#232336]/80 py-3 shadow-2xl shadow-black/80'
+          ? 'bg-bg-surface/90 backdrop-blur-xl border-b border-border-main py-3 shadow-sm'
           : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo with Glowing Jewel */}
+          {/* Institutional Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00d4aa] via-[#00b894] to-[#0a3d31] p-[1px] shadow-lg shadow-[#00d4aa]/25 group-hover:shadow-[#00d4aa]/50 transition-all duration-300">
-                <div className="w-full h-full bg-[#0d0d14] rounded-xl flex items-center justify-center">
-                  <span className="font-mono text-[#00d4aa] font-black text-base tracking-tighter group-hover:scale-110 transition-transform">
-                    FW
-                  </span>
-                </div>
-              </div>
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#00d4aa] ring-4 ring-[#0a0a0f] animate-pulse" />
+            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-primary-text font-mono font-bold text-sm shadow-sm transition-transform duration-200 group-hover:scale-105">
+              FW
             </div>
 
             <div className="flex flex-col text-left">
-              <span className="text-lg font-black tracking-tight text-white flex items-center gap-1.5 leading-tight">
+              <span className="text-base font-bold tracking-tight text-text-primary flex items-center gap-1.5 leading-tight">
                 FlowWise
               </span>
-              <span className="text-[10px] font-mono tracking-widest uppercase text-[#8e8ea8]">
-                Liquidity OS
+              <span className="text-[10px] font-mono tracking-wider uppercase text-text-muted">
+                Treasury Intelligence
               </span>
             </div>
           </Link>
 
           {/* Floating Pill Navigation */}
-          <nav className="hidden md:flex items-center gap-1 bg-[#12121a]/80 border border-[#232336] rounded-full px-5 py-1.5 backdrop-blur-xl shadow-inner shadow-black/40">
+          <nav className="hidden md:flex items-center gap-1 bg-bg-surface border border-border-main rounded-full px-4 py-1.5 shadow-sm">
             <a
               href="#problem"
-              className="text-xs font-mono text-[#8e8ea8] hover:text-white px-3 py-1.5 rounded-full transition-all hover:bg-white/5"
+              className="text-xs font-mono text-text-secondary hover:text-text-primary px-3 py-1.5 rounded-full transition-colors hover:bg-bg-surface-elevated"
             >
               The Cash Gap
             </a>
             <a
-              href="#forecast-preview"
-              className="text-xs font-mono text-[#8e8ea8] hover:text-white px-3 py-1.5 rounded-full transition-all hover:bg-white/5 flex items-center gap-1.5"
+              href="#forecast"
+              className="text-xs font-mono text-text-secondary hover:text-text-primary px-3 py-1.5 rounded-full transition-colors hover:bg-bg-surface-elevated flex items-center gap-1.5"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00d4aa]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               13-Week Engine
             </a>
             <a
               href="#currencies"
-              className="text-xs font-mono text-[#8e8ea8] hover:text-white px-3 py-1.5 rounded-full transition-all hover:bg-white/5"
+              className="text-xs font-mono text-text-secondary hover:text-text-primary px-3 py-1.5 rounded-full transition-colors hover:bg-bg-surface-elevated"
             >
-              Isolated FX
+              Currencies
             </a>
             <a
               href="#features"
-              className="text-xs font-mono text-[#8e8ea8] hover:text-white px-3 py-1.5 rounded-full transition-all hover:bg-white/5"
+              className="text-xs font-mono text-text-secondary hover:text-text-primary px-3 py-1.5 rounded-full transition-colors hover:bg-bg-surface-elevated"
             >
-              Core Bento
+              Architecture
             </a>
             <a
               href="#how-it-works"
-              className="text-xs font-mono text-[#8e8ea8] hover:text-white px-3 py-1.5 rounded-full transition-all hover:bg-white/5"
+              className="text-xs font-mono text-text-secondary hover:text-text-primary px-3 py-1.5 rounded-full transition-colors hover:bg-bg-surface-elevated"
             >
-              Workflow
+              Pipeline
             </a>
           </nav>
 
-          {/* Action Hub */}
+          {/* Right Action Hub: Theme Toggle + Launch Cockpit */}
           <div className="flex items-center gap-3">
+            <ThemeToggle />
+
             <Link
               href="/dashboard"
-              className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-mono font-bold text-black bg-gradient-to-r from-[#00d4aa] to-[#05f3c4] hover:to-white transition-all duration-300 shadow-xl shadow-[#00d4aa]/30 hover:shadow-[#00d4aa]/50 hover:scale-[1.03] active:scale-[0.98]"
+              className="group inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs font-mono font-bold text-primary-text bg-primary hover:bg-primary-hover transition-all duration-200 shadow-sm active:scale-95"
             >
               <span>Launch Cockpit</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
         </div>

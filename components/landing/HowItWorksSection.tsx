@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { UploadCloud, Cpu, Award, ArrowRight, CheckCircle2, ShieldCheck } from 'lucide-react';
-import Link from 'next/link';
+import { Cpu } from 'lucide-react';
 
 export default function HowItWorksSection() {
   const steps = [
@@ -16,7 +15,9 @@ export default function HowItWorksSection() {
         'Deterministic payment release date scheduling',
       ],
       tag: 'INGESTION ENGINE',
-      accent: '#00D4AA',
+      accentColor: 'text-primary',
+      borderColor: 'border-primary/30',
+      bgColor: 'bg-primary/10',
     },
     {
       num: '02',
@@ -28,7 +29,9 @@ export default function HowItWorksSection() {
         'Zero artificial currency conversion errors',
       ],
       tag: 'CONSERVATION PIPELINE',
-      accent: '#FFAA00',
+      accentColor: 'text-amber',
+      borderColor: 'border-amber/30',
+      bgColor: 'bg-amber/10',
     },
     {
       num: '03',
@@ -40,84 +43,67 @@ export default function HowItWorksSection() {
         'Cryptographic audit timestamp verification',
       ],
       tag: 'DECISION & AUDIT',
-      accent: '#00D4AA',
+      accentColor: 'text-vnd',
+      borderColor: 'border-vnd/30',
+      bgColor: 'bg-vnd/10',
     },
   ];
 
   return (
-    <section id="how-it-works" className="relative py-28 bg-[#0A0A0F] overflow-hidden border-b border-[#232336]">
+    <section id="how-it-works" className="relative py-28 bg-bg-base border-b border-border-main transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00D4AA]/10 border border-[#00D4AA]/30 text-xs font-mono text-[#00D4AA] mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-xs font-mono font-medium text-primary mb-4">
             <Cpu className="w-3.5 h-3.5" />
-            <span>Execution Protocol</span>
+            <span>EXECUTION PROTOCOL</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-text-primary mb-4">
             3-Stage Deterministic Pipeline
           </h2>
-          <p className="text-base text-[#A1A1BA]">
+          <p className="text-base text-text-secondary max-w-2xl mx-auto leading-relaxed">
             Transparent, repeatable, and audited for e-commerce controllers, financial analysts, and corporate CFOs.
           </p>
         </div>
 
         {/* 3 Step Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {/* Subtle Glowing Desktop Connector Line */}
-          <div className="hidden md:block absolute top-12 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-[#00D4AA]/30 via-[#FFAA00]/40 to-[#00D4AA]/30 -z-0" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+          {/* Subtle Desktop Connector Line */}
+          <div className="hidden md:block absolute top-12 left-1/4 right-1/4 h-[1px] bg-border-main -z-0" />
 
           {steps.map((step) => (
             <div
               key={step.num}
-              className="rounded-2xl bg-[#111118] border border-[#232336] p-7 backdrop-blur-xl relative z-10 group hover:border-[#00D4AA]/40 transition-all duration-300 flex flex-col justify-between"
+              className="rounded-2xl bg-bg-surface border border-border-main p-7 relative z-10 transition-all duration-200 hover:border-primary/40 shadow-sm flex flex-col justify-between"
             >
               <div>
                 <div 
-                  className="w-12 h-12 rounded-xl bg-black/60 border flex items-center justify-center font-mono font-bold text-lg mb-6 shadow-inner"
-                  style={{ borderColor: `${step.accent}40`, color: step.accent }}
+                  className={`w-11 h-11 rounded-xl border flex items-center justify-center font-mono font-bold text-base mb-6 shadow-xs ${step.bgColor} ${step.borderColor} ${step.accentColor}`}
                 >
                   {step.num}
                 </div>
 
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-bold text-white tracking-tight">
+                  <h3 className="text-lg font-bold text-text-primary tracking-tight">
                     {step.title}
                   </h3>
                 </div>
 
-                <p className="text-xs text-[#8E8EA8] leading-relaxed mb-6">
+                <p className="text-xs text-text-secondary leading-relaxed mb-6">
                   {step.description}
                 </p>
 
-                <div className="p-3.5 rounded-xl bg-[#161622] border border-[#232336] text-[11px] font-mono text-[#A1A1BA] space-y-2">
+                <div className="p-3.5 rounded-xl bg-bg-surface-elevated border border-border-main text-[11px] font-mono text-text-muted space-y-2">
                   {step.bullets.map((b, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: step.accent }} />
-                      <span>{b}</span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${step.accentColor.replace('text-', 'bg-')}`} />
+                      <span className="text-text-secondary">{b}</span>
                     </div>
                   ))}
                 </div>
               </div>
-
-              <div className="mt-8 pt-4 border-t border-[#232336] flex items-center justify-between">
-                <span className="text-[10px] font-mono tracking-wider text-[#6E6E87] uppercase">
-                  {step.tag}
-                </span>
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: step.accent }} />
-              </div>
             </div>
           ))}
-        </div>
-
-        {/* Bottom Cockpit Launch CTA */}
-        <div className="mt-16 text-center">
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-semibold text-black bg-[#00D4AA] hover:bg-[#05F3C4] transition-all shadow-lg shadow-[#00D4AA]/25 group"
-          >
-            <span>Experience The Live Pipeline In Cockpit</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
         </div>
       </div>
     </section>

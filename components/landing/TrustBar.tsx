@@ -6,11 +6,11 @@ import { ShieldCheck, Activity, Cpu, Layers } from 'lucide-react';
 export default function TrustBar() {
   const integrations = [
     { name: 'Shopee Partner API', badge: 'v2.4', color: '#EE4D2D', icon: 'S' },
-    { name: 'TikTok Shop Partner', badge: 'REST', color: '#00F2FE', icon: 'TT' },
-    { name: 'Lazada Open Platform', badge: 'OAuth', color: '#0F146D', icon: 'L' },
-    { name: '1688 Cross-Border Gateway', badge: 'CNY', color: '#FF6B35', icon: '1688' },
-    { name: 'Meta Marketing API', badge: 'USD', color: '#0081FB', icon: 'M' },
-    { name: 'Shopify Logistics', badge: 'Webhook', color: '#95BF47', icon: 'SP' },
+    { name: 'TikTok Shop Partner', badge: 'REST', color: '#0284C7', icon: 'TT' },
+    { name: 'Lazada Open Platform', badge: 'OAuth', color: '#1E1B4B', icon: 'L' },
+    { name: '1688 Cross-Border Gateway', badge: 'CNY', color: '#EA580C', icon: '1688' },
+    { name: 'Meta Marketing API', badge: 'USD', color: '#2563EB', icon: 'M' },
+    { name: 'Shopify Logistics', badge: 'Webhook', color: '#059669', icon: 'SP' },
   ];
 
   const trustMetrics = [
@@ -31,38 +31,35 @@ export default function TrustBar() {
     },
     {
       value: '99.98% Accuracy',
-      label: 'Platform Reconciliation',
+      label: 'Reconciliation Precision',
       icon: ShieldCheck,
     },
   ];
 
   return (
-    <section className="relative py-12 bg-[#0C0C12] border-y border-[#232336] overflow-hidden">
-      {/* Subtle ambient line */}
-      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#00D4AA]/30 to-transparent" />
-
+    <section className="relative py-10 bg-bg-surface border-y border-border-main transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-          {/* E-commerce & Logistics Channels */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-[#6E6E87] mr-1 hidden xl:inline">
-              Integrated APIs:
+          {/* E-commerce & Logistics Channels Rail */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted mr-1 hidden xl:inline">
+              Integrated Channels:
             </span>
             {integrations.map((item) => (
               <div
                 key={item.name}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#161622] border border-[#232336] hover:border-[#33334D] transition-colors group cursor-default"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-surface-elevated border border-border-main hover:border-border-strong transition-colors cursor-default"
               >
                 <div 
-                  className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold text-white shadow-sm"
+                  className="w-4 h-4 rounded flex items-center justify-center text-[9px] font-bold text-white shadow-xs"
                   style={{ backgroundColor: item.color }}
                 >
                   {item.icon}
                 </div>
-                <span className="text-xs font-semibold text-white tracking-tight group-hover:text-[#00D4AA] transition-colors">
+                <span className="text-xs font-semibold text-text-primary tracking-tight">
                   {item.name}
                 </span>
-                <span className="text-[9px] font-mono text-[#6E6E87] bg-black/40 px-1.5 py-0.5 rounded">
+                <span className="text-[9px] font-mono text-text-muted bg-bg-base px-1.5 py-0.5 rounded border border-border-main">
                   {item.badge}
                 </span>
               </div>
@@ -76,16 +73,16 @@ export default function TrustBar() {
               return (
                 <div
                   key={metric.value}
-                  className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#161622] border border-[#232336] hover:border-[#00D4AA]/40 transition-all duration-300 shadow-md group"
+                  className="flex items-center gap-3 px-3.5 py-2 rounded-xl bg-bg-surface-elevated border border-border-main hover:border-primary/40 transition-all duration-200 shadow-xs"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[#00D4AA]/10 border border-[#00D4AA]/20 flex items-center justify-center text-[#00D4AA] group-hover:scale-105 transition-transform">
-                    <Icon className="w-4 h-4" />
+                  <div className="w-7 h-7 rounded-lg bg-primary-surface border border-primary/20 flex items-center justify-center text-primary">
+                    <Icon className="w-3.5 h-3.5" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-mono text-xs font-bold text-white tracking-tight">
+                    <span className="font-mono text-xs font-bold text-text-primary tracking-tight">
                       {metric.value}
                     </span>
-                    <span className="text-[10px] font-mono text-[#8E8EA8]">
+                    <span className="text-[10px] font-mono text-text-muted">
                       {metric.label}
                     </span>
                   </div>

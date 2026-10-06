@@ -7,8 +7,6 @@ import {
   SlidersHorizontal,
   UploadCloud,
   FileCheck,
-  ShieldCheck,
-  Sparkles,
 } from 'lucide-react';
 
 interface DashboardSidebarProps {
@@ -51,21 +49,21 @@ export default function DashboardSidebar({
   ];
 
   return (
-    <aside className="w-full md:w-64 bg-[#0C0C12] border-r border-[#232336] p-4 flex flex-col justify-between shrink-0">
+    <aside className="w-full md:w-64 bg-bg-surface border-r border-border-main p-4 flex flex-col justify-between shrink-0 transition-colors duration-200">
       <div className="space-y-6">
         {/* Brand Mini Header */}
         <div className="flex items-center gap-2.5 px-2 py-1">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#00D4AA] to-[#009B7C] flex items-center justify-center text-black font-mono font-extrabold text-sm shadow-md shadow-[#00D4AA]/20">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-mono font-bold text-sm shadow-xs">
             FW
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-white tracking-tight">FlowWise Cockpit</span>
-            <span className="text-[10px] font-mono text-[#8E8EA8]">Deterministic Engine</span>
+            <span className="text-sm font-bold text-text-primary tracking-tight">FlowWise Cockpit</span>
+            <span className="text-[10px] font-mono text-text-muted">Deterministic Engine</span>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <nav className="space-y-1.5">
+        <nav className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentTab === item.id;
@@ -74,10 +72,10 @@ export default function DashboardSidebar({
               <button
                 key={item.id}
                 onClick={() => onSelectTab(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
                   isActive
-                    ? 'bg-[#00D4AA] text-black font-bold shadow-lg shadow-[#00D4AA]/20'
-                    : 'text-[#8E8EA8] hover:text-white hover:bg-white/5'
+                    ? 'bg-primary text-white font-semibold shadow-xs'
+                    : 'text-text-secondary hover:text-text-primary hover:bg-bg-surface-elevated font-medium'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -88,10 +86,10 @@ export default function DashboardSidebar({
                   <span
                     className={`text-[9px] font-mono px-1.5 py-0.5 rounded-full ${
                       isActive
-                        ? 'bg-black/20 text-black'
+                        ? 'bg-white/20 text-white'
                         : item.highlight
-                        ? 'bg-[#FF4757]/15 text-[#FF4757] border border-[#FF4757]/30'
-                        : 'bg-[#232336] text-[#A1A1BA]'
+                        ? 'bg-crimson/15 text-crimson border border-crimson/25'
+                        : 'bg-bg-surface-elevated text-text-muted border border-border-main'
                     }`}
                   >
                     {item.badge}
@@ -103,22 +101,22 @@ export default function DashboardSidebar({
         </nav>
 
         {/* Quick Launch CFO Approval Card */}
-        <div className="p-3.5 rounded-xl bg-[#161622] border border-[#232336] space-y-2.5">
-          <div className="flex items-center justify-between text-xs font-semibold text-white">
+        <div className="p-3.5 rounded-xl bg-bg-surface-elevated border border-border-main space-y-2.5">
+          <div className="flex items-center justify-between text-xs font-semibold text-text-primary">
             <span className="flex items-center gap-1.5">
-              <FileCheck className="w-3.5 h-3.5 text-[#00D4AA]" />
+              <FileCheck className="w-3.5 h-3.5 text-primary" />
               CFO Sign-Off
             </span>
-            <span className="text-[10px] font-mono text-[#00D4AA] bg-[#00D4AA]/10 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-mono text-primary bg-primary/10 px-1.5 py-0.5 rounded font-medium">
               Ready
             </span>
           </div>
-          <p className="text-[11px] text-[#8E8EA8] leading-relaxed">
+          <p className="text-[11px] text-text-secondary leading-relaxed">
             Review executive liquidity package and generate verified cryptographic sign-off.
           </p>
           <button
             onClick={onOpenReportModal}
-            className="w-full py-2 rounded-lg text-xs font-bold text-black bg-[#00D4AA] hover:bg-[#05F3C4] transition-all flex items-center justify-center gap-1.5 shadow-md shadow-[#00D4AA]/20"
+            className="w-full py-1.5 rounded-lg text-xs font-semibold text-white bg-primary hover:bg-primary-hover transition-colors flex items-center justify-center gap-1.5 shadow-xs"
           >
             <span>Open Audit Dossier</span>
           </button>
@@ -126,17 +124,17 @@ export default function DashboardSidebar({
       </div>
 
       {/* Footer System Status */}
-      <div className="pt-4 border-t border-[#232336] space-y-2 font-mono text-[10px] text-[#6E6E87]">
+      <div className="pt-4 border-t border-border-subtle space-y-2 font-mono text-[10px] text-text-muted">
         <div className="flex items-center justify-between">
           <span>Engine Status:</span>
-          <span className="text-[#00D4AA] flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00D4AA]" />
+          <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             Deterministic Active
           </span>
         </div>
         <div className="flex items-center justify-between">
           <span>Isolation:</span>
-          <span className="text-white">VND / CNY / USD</span>
+          <span className="text-text-primary font-medium">VND / CNY / USD</span>
         </div>
       </div>
     </aside>

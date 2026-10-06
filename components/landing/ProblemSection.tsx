@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AlertCircle, Clock, Percent, ArrowDownRight, TrendingDown, ShieldAlert, Sparkles, Sliders } from 'lucide-react';
+import { AlertCircle, Clock, Percent, ArrowDownRight, TrendingDown, ShieldAlert, Sliders } from 'lucide-react';
 
 export default function ProblemSection() {
   const [demoSales, setDemoSales] = useState<number>(500); // 500 Million VND
@@ -15,108 +15,108 @@ export default function ProblemSection() {
   const cashGap = immediateAvailableCash - immediateFactoryDue; // Cash deficit
 
   return (
-    <section id="problem" className="relative py-28 bg-[#0A0A0F] overflow-hidden border-b border-[#232336]">
-      {/* Subtle crimson ambient glow on left */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[500px] bg-[#FF4757]/8 blur-[170px] pointer-events-none rounded-full" />
-      <div className="absolute top-1/4 right-0 w-[450px] h-[400px] bg-[#FFAA00]/5 blur-[160px] pointer-events-none rounded-full" />
-
+    <section id="problem" className="relative py-24 bg-bg-base overflow-hidden border-b border-border-main transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF4757]/10 border border-[#FF4757]/30 text-xs font-mono text-[#FF4757] mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-crimson-surface border border-crimson/30 text-xs font-mono text-crimson mb-4 font-semibold">
             <AlertCircle className="w-3.5 h-3.5" />
             <span>The E-Commerce Liquidity Paradox</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15] mb-6">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-text-primary leading-[1.15] mb-6">
             Gross Sales on Platform <br />
-            <span className="text-[#FF4757] font-mono">≠ Cash in Bank</span>
+            <span className="text-crimson font-mono">&ne; Cash in Bank</span>
           </h2>
 
-          <p className="text-base sm:text-lg text-[#A1A1BA] leading-relaxed">
-            Why do multi-million dollar e-commerce merchants go bankrupt while breaking revenue records?
-            Platform settlement holds, hidden fees, and cross-border currency mismatch create an invisible liquidity trap.
+          <p className="text-base sm:text-lg text-text-secondary leading-relaxed">
+            Why do multi-million dollar e-commerce merchants suffer insolvency while breaking sales records?
+            Platform settlement holds, hidden commission tranches, and cross-border currency mismatch create an invisible liquidity trap.
           </p>
         </div>
 
         {/* Interactive Cash Gap Comparison Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Crimson Escrow Breakdown Card */}
+          {/* Left Column: Settlement Hold & Deductions Card */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl bg-[#161622]/90 border border-[#FF4757]/40 p-6 sm:p-7 backdrop-blur-xl shadow-2xl shadow-[#FF4757]/5">
-              <div className="flex items-center justify-between pb-4 mb-5 border-b border-[#232336]">
-                <div className="flex items-center gap-2.5 text-white font-semibold text-sm">
-                  <TrendingDown className="w-4 h-4 text-[#FF4757]" />
+            <div className="rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 shadow-sm transition-colors duration-200">
+              <div className="flex items-center justify-between pb-4 mb-5 border-b border-border-main">
+                <div className="flex items-center gap-2.5 text-text-primary font-semibold text-sm">
+                  <TrendingDown className="w-4 h-4 text-crimson" />
                   <span>Settlement Deductions & Escrow Hold</span>
                 </div>
                 <span className="flex h-2 w-2 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4757] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF4757]" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-crimson" />
                 </span>
               </div>
 
               <div className="space-y-3 font-mono text-xs sm:text-sm">
-                <div className="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-[#232336] hover:border-[#FF4757]/30 transition-colors">
-                  <span className="text-[#A1A1BA] flex items-center gap-2">
-                    <Percent className="w-4 h-4 text-[#FF4757]" />
+                <div className="flex items-center justify-between p-3 rounded-xl bg-bg-surface-elevated border border-border-main">
+                  <span className="text-text-secondary flex items-center gap-2">
+                    <Percent className="w-4 h-4 text-crimson" />
                     Commission & Payment Fee
                   </span>
-                  <span className="text-[#FF4757] font-bold">-12% Gross</span>
+                  <span className="text-crimson font-bold">-12% Gross</span>
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-[#232336] hover:border-[#FF4757]/30 transition-colors">
-                  <span className="text-[#A1A1BA] flex items-center gap-2">
-                    <ArrowDownRight className="w-4 h-4 text-[#FF4757]" />
+                <div className="flex items-center justify-between p-3 rounded-xl bg-bg-surface-elevated border border-border-main">
+                  <span className="text-text-secondary flex items-center gap-2">
+                    <ArrowDownRight className="w-4 h-4 text-crimson" />
                     COD Returns & Delivery Reserves
                   </span>
-                  <span className="text-[#FF4757] font-bold">-5% Order GMV</span>
+                  <span className="text-crimson font-bold">-5% Order GMV</span>
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-[#232336] hover:border-[#FFAA00]/30 transition-colors">
-                  <span className="text-[#A1A1BA] flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-[#FFAA00]" />
-                    Escrow Holding Cycle
+                <div className="flex items-center justify-between p-3 rounded-xl bg-bg-surface-elevated border border-border-main">
+                  <span className="text-text-secondary flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-amber" />
+                    Escrow Holding Lockup
                   </span>
-                  <span className="text-[#FFAA00] font-bold">14-Day Lockup</span>
+                  <span className="text-amber font-bold">14-Day Delay</span>
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-[#232336] hover:border-[#4D9FFF]/30 transition-colors">
-                  <span className="text-[#A1A1BA] flex items-center gap-2">
-                    <ShieldAlert className="w-4 h-4 text-[#4D9FFF]" />
+                <div className="flex items-center justify-between p-3 rounded-xl bg-bg-surface-elevated border border-border-main">
+                  <span className="text-text-secondary flex items-center gap-2">
+                    <ShieldAlert className="w-4 h-4 text-usd" />
                     1688 OEM Factory Payables
                   </span>
-                  <span className="text-[#4D9FFF] font-bold">Due in 5 Days</span>
+                  <span className="text-usd font-bold">Due in 5 Days</span>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#232336] text-[11px] font-mono text-[#6E6E87] flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-border-main text-[11px] font-mono text-text-muted flex items-center justify-between">
                 <span>Total Escrow Deduction</span>
-                <span className="text-[#FF4757] font-bold">~27% Gross Value Trapped</span>
+                <span className="text-crimson font-bold">~27% Gross Value Trapped</span>
               </div>
             </div>
 
-            {/* Quote Pill */}
-            <div className="p-4 rounded-xl bg-[#111118] border border-[#232336] text-xs text-[#8E8EA8] leading-relaxed">
-              <span className="text-white font-medium">&quot;You don&apos;t go broke from low margins. You go broke because your money is locked in marketplace escrow when your factory invoices come due.&quot;</span>
-              <div className="mt-2 text-[10px] font-mono text-[#00D4AA]">— Southeast Asian E-Commerce CFO Survey 2026</div>
+            {/* Treasury Survey Callout */}
+            <div className="p-4 rounded-xl bg-bg-surface border border-border-main text-xs text-text-secondary leading-relaxed shadow-xs">
+              <span className="text-text-primary font-medium">
+                &ldquo;You don&apos;t go broke from low margins. You go broke because your money is locked in marketplace escrow when your factory invoices come due.&rdquo;
+              </span>
+              <div className="mt-2 text-[10px] font-mono text-primary font-semibold">
+                &mdash; Southeast Asian E-Commerce CFO Survey 2026
+              </div>
             </div>
           </div>
 
           {/* Right Column: Interactive Escrow Simulator & Cash Gap Visualizer */}
           <div className="lg:col-span-7">
-            <div className="rounded-2xl bg-[#111118] border border-[#232336] p-6 sm:p-8 backdrop-blur-2xl shadow-2xl relative">
+            <div className="rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-8 shadow-sm relative transition-colors duration-200">
               {/* Header with Interactive Slider */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-[#232336]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-border-main">
                 <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                    <Sliders className="w-4 h-4 text-[#00D4AA]" />
+                  <h3 className="text-lg font-bold text-text-primary tracking-tight flex items-center gap-2">
+                    <Sliders className="w-4 h-4 text-primary" />
                     Interactive Cash Gap Simulator
                   </h3>
-                  <span className="text-xs text-[#8E8EA8]">Adjust monthly gross sales to see the net cash timing mismatch</span>
+                  <span className="text-xs text-text-muted">Adjust monthly gross sales to see the net cash timing mismatch</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-mono text-[#A1A1BA]">Simulated GMV:</span>
-                  <div className="text-lg font-mono font-bold text-[#00D4AA]">{demoSales}M ₫</div>
+                  <span className="text-xs font-mono text-text-muted">Simulated GMV:</span>
+                  <div className="text-lg font-mono font-bold text-primary tabular-nums">{demoSales}M ₫</div>
                 </div>
               </div>
 
@@ -129,9 +129,9 @@ export default function ProblemSection() {
                   step="50"
                   value={demoSales}
                   onChange={(e) => setDemoSales(Number(e.target.value))}
-                  className="w-full h-2 bg-[#1C1C2B] rounded-lg appearance-none cursor-pointer accent-[#00D4AA]"
+                  className="w-full h-2 bg-bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-primary border border-border-main"
                 />
-                <div className="flex justify-between text-[10px] font-mono text-[#6E6E87] mt-1.5">
+                <div className="flex justify-between text-[10px] font-mono text-text-muted mt-1.5">
                   <span>200M VND</span>
                   <span>500M VND</span>
                   <span>1,000M VND</span>
@@ -139,31 +139,31 @@ export default function ProblemSection() {
               </div>
 
               {/* Graphic Flow Comparison: Gross vs Immediate vs Payables */}
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-8 font-mono">
                 {/* 1. Gross Reported Sales */}
                 <div>
-                  <div className="flex justify-between text-xs font-mono mb-1.5">
-                    <span className="text-white font-medium">1. Reported Gross Marketplace GMV</span>
-                    <span className="text-white font-bold">{demoSales}M VND (100%)</span>
+                  <div className="flex justify-between text-xs mb-1.5">
+                    <span className="text-text-primary font-medium">1. Reported Gross Marketplace GMV</span>
+                    <span className="text-text-primary font-bold tabular-nums">{demoSales}M VND (100%)</span>
                   </div>
-                  <div className="w-full h-3.5 bg-[#1C1C2B] rounded-full overflow-hidden p-0.5">
-                    <div className="h-full bg-white/70 rounded-full w-full" />
+                  <div className="w-full h-3 bg-bg-surface-elevated rounded-full overflow-hidden border border-border-main">
+                    <div className="h-full bg-slate-400 dark:bg-slate-500 rounded-full w-full" />
                   </div>
                 </div>
 
                 {/* 2. Available Cash after Escrow & Deductions */}
                 <div>
-                  <div className="flex justify-between text-xs font-mono mb-1.5">
-                    <span className="text-[#00D4AA] font-medium">2. Actual Cash In Bank Today (Net Escrow)</span>
-                    <span className="text-[#00D4AA] font-bold">{immediateAvailableCash}M VND ({Math.round((immediateAvailableCash / demoSales) * 100)}%)</span>
+                  <div className="flex justify-between text-xs mb-1.5">
+                    <span className="text-primary font-medium">2. Actual Cash In Bank Today (Net Escrow)</span>
+                    <span className="text-primary font-bold tabular-nums">{immediateAvailableCash}M VND ({Math.round((immediateAvailableCash / demoSales) * 100)}%)</span>
                   </div>
-                  <div className="w-full h-3.5 bg-[#1C1C2B] rounded-full overflow-hidden p-0.5">
+                  <div className="w-full h-3 bg-bg-surface-elevated rounded-full overflow-hidden border border-border-main">
                     <div 
-                      className="h-full bg-[#00D4AA] rounded-full transition-all duration-300"
+                      className="h-full bg-primary rounded-full transition-all duration-300"
                       style={{ width: `${Math.round((immediateAvailableCash / demoSales) * 100)}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-[10px] font-mono text-[#8E8EA8] mt-1">
+                  <div className="flex justify-between text-[10px] text-text-muted mt-1">
                     <span>Platform take-rate: -{platformFee}M</span>
                     <span>Returns reserve: -{returnsReserve}M</span>
                     <span>14-day hold: -{escrowHold}M</span>
@@ -172,13 +172,13 @@ export default function ProblemSection() {
 
                 {/* 3. Factory Payables Demanded */}
                 <div>
-                  <div className="flex justify-between text-xs font-mono mb-1.5">
-                    <span className="text-[#FF4757] font-medium">3. Factory Payables & Inventory Due Now</span>
-                    <span className="text-[#FF4757] font-bold">{immediateFactoryDue}M VND (65%)</span>
+                  <div className="flex justify-between text-xs mb-1.5">
+                    <span className="text-crimson font-medium">3. Factory Payables Due in 5 Days</span>
+                    <span className="text-crimson font-bold tabular-nums">{immediateFactoryDue}M VND (65%)</span>
                   </div>
-                  <div className="w-full h-3.5 bg-[#1C1C2B] rounded-full overflow-hidden p-0.5">
+                  <div className="w-full h-3 bg-bg-surface-elevated rounded-full overflow-hidden border border-border-main">
                     <div 
-                      className="h-full bg-[#FF4757] rounded-full transition-all duration-300"
+                      className="h-full bg-crimson rounded-full transition-all duration-300"
                       style={{ width: '65%' }}
                     />
                   </div>
@@ -186,23 +186,23 @@ export default function ProblemSection() {
               </div>
 
               {/* Dynamic Insolvency Cliff Alert Banner */}
-              <div className="rounded-xl bg-[#FF4757]/10 border border-[#FF4757]/30 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="rounded-xl bg-crimson-surface border border-crimson/30 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#FF4757]/20 border border-[#FF4757]/30 flex items-center justify-center text-[#FF4757] flex-shrink-0">
-                    <AlertCircle className="w-5 h-5" />
+                  <div className="w-8 h-8 rounded-lg bg-crimson/15 flex items-center justify-center text-crimson shrink-0">
+                    <AlertCircle className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="text-xs font-mono font-bold text-white">
-                      Liquidity Gap Identified: {cashGap > 0 ? `+${cashGap}M VND` : `${cashGap}M VND`}
+                    <div className="text-xs font-mono font-bold text-crimson">
+                      Net Liquidity Cliff: {cashGap > 0 ? `+${cashGap}M VND` : `${cashGap}M VND`}
                     </div>
-                    <div className="text-[11px] text-[#A1A1BA]">
-                      Settlement arrives 9 days after factory default deadline without proactive treasury planning.
+                    <div className="text-[11px] text-text-secondary">
+                      Settlement arrives 9 days after factory invoice default deadline without proactive liquidity planning.
                     </div>
                   </div>
                 </div>
 
-                <div className="px-3 py-1.5 rounded-lg bg-[#FF4757] text-black font-mono font-bold text-xs whitespace-nowrap self-end sm:self-auto">
-                  HIGH DEFICIT RISK
+                <div className="px-3 py-1 rounded-lg bg-crimson text-white font-mono font-bold text-[11px] whitespace-nowrap self-end sm:self-auto shadow-xs">
+                  DEFICIT RISK
                 </div>
               </div>
             </div>

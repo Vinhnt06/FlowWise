@@ -6,7 +6,6 @@ import {
   FileSpreadsheet,
   CheckCircle2,
   Download,
-  AlertCircle,
   ArrowRight,
 } from 'lucide-react';
 import { formatCurrencyAmount } from '@/lib/finance-engine';
@@ -95,7 +94,7 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
     setIsProcessing(true);
     setTimeout(() => {
       setIsProcessing(false);
-    }, 400);
+    }, 300);
   };
 
   return (
@@ -103,15 +102,15 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
       {/* Header Statement */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Multi-Platform Settlement Ingestion</h2>
-          <span className="text-xs text-[#8E8EA8]">
+          <h2 className="text-2xl font-bold text-text-primary tracking-tight">Multi-Platform Settlement Ingestion</h2>
+          <span className="text-xs text-text-muted">
             Automated reconciliation and escrow holdback extraction for Shopee, TikTok Shop, and factory invoices
           </span>
         </div>
 
         {/* Formula reminder pill */}
-        <div className="px-3.5 py-1.5 rounded-xl bg-[#161622] border border-[#232336] text-[11px] font-mono text-[#A1A1BA] flex items-center gap-2">
-          <span className="text-[#00D4AA] font-bold">Theorem:</span>
+        <div className="px-3.5 py-1.5 rounded-xl bg-bg-surface border border-border-main text-[11px] font-mono text-text-secondary flex items-center gap-2 shadow-xs">
+          <span className="text-primary font-bold">Theorem:</span>
           <span>Net = Gross - Platform Fee - Refunds - Shipping/COD - Escrow Hold</span>
         </div>
       </div>
@@ -119,18 +118,18 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Multi-Source Selectors */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="rounded-2xl bg-[#111118] border border-[#232336] p-5 backdrop-blur-xl">
-            <span className="text-xs font-mono uppercase tracking-wider text-[#8E8EA8] block mb-4">
+          <div className="rounded-2xl bg-bg-surface border border-border-main p-5 shadow-xs transition-colors duration-200">
+            <span className="text-xs font-mono uppercase tracking-wider text-text-muted block mb-4">
               Select Source or Drop Ledger File
             </span>
 
             {/* Drop Zone Box */}
-            <div className="border-2 border-dashed border-[#00D4AA]/40 rounded-xl p-6 text-center bg-[#0A0A0F] hover:border-[#00D4AA] transition-colors cursor-pointer mb-4">
-              <UploadCloud className="w-8 h-8 text-[#00D4AA] mx-auto mb-2" />
-              <span className="text-xs font-semibold text-white block mb-1">
+            <div className="border-2 border-dashed border-primary/30 rounded-xl p-6 text-center bg-bg-surface-elevated hover:border-primary transition-colors cursor-pointer mb-4">
+              <UploadCloud className="w-8 h-8 text-primary mx-auto mb-2" />
+              <span className="text-xs font-semibold text-text-primary block mb-1">
                 Drag & drop files or choose preset
               </span>
-              <span className="text-[10px] text-[#8E8EA8] block">Supports CSV and XLSX from e-commerce portals</span>
+              <span className="text-[10px] text-text-muted block">Supports CSV and XLSX from e-commerce portals</span>
             </div>
 
             {/* Quick 1-Click Preset Buttons */}
@@ -139,8 +138,8 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
                 onClick={() => handleSimulateUpload('SHOPEE')}
                 className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all ${
                   selectedSource === 'SHOPEE'
-                    ? 'bg-[#161622] border-[#00D4AA] text-white shadow-md'
-                    : 'bg-[#161622]/60 border-[#232336] text-[#8E8EA8] hover:text-white'
+                    ? 'bg-bg-surface-elevated border-primary text-text-primary shadow-xs'
+                    : 'bg-bg-surface-elevated/40 border-border-main text-text-secondary hover:text-text-primary'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -149,80 +148,80 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
                   </div>
                   <div>
                     <span className="text-xs font-semibold block">Shopee Settlement CSV</span>
-                    <span className="text-[10px] text-[#8E8EA8]">Seller Centre payout batch</span>
+                    <span className="text-[10px] text-text-muted">Seller Centre payout batch</span>
                   </div>
                 </div>
-                {selectedSource === 'SHOPEE' && <CheckCircle2 className="w-4 h-4 text-[#00D4AA]" />}
+                {selectedSource === 'SHOPEE' && <CheckCircle2 className="w-4 h-4 text-primary" />}
               </button>
 
               <button
                 onClick={() => handleSimulateUpload('TIKTOK')}
                 className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all ${
                   selectedSource === 'TIKTOK'
-                    ? 'bg-[#161622] border-[#00D4AA] text-white shadow-md'
-                    : 'bg-[#161622]/60 border-[#232336] text-[#8E8EA8] hover:text-white'
+                    ? 'bg-bg-surface-elevated border-primary text-text-primary shadow-xs'
+                    : 'bg-bg-surface-elevated/40 border-border-main text-text-secondary hover:text-text-primary'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-6 h-6 rounded bg-black flex items-center justify-center text-white text-[10px] font-bold border border-white/20">
+                  <div className="w-6 h-6 rounded bg-neutral-900 flex items-center justify-center text-white text-[10px] font-bold border border-border-subtle">
                     TT
                   </div>
                   <div>
                     <span className="text-xs font-semibold block">TikTok Shop Income CSV</span>
-                    <span className="text-[10px] text-[#8E8EA8]">Income Center & creator deductions</span>
+                    <span className="text-[10px] text-text-muted">Income Center & creator deductions</span>
                   </div>
                 </div>
-                {selectedSource === 'TIKTOK' && <CheckCircle2 className="w-4 h-4 text-[#00D4AA]" />}
+                {selectedSource === 'TIKTOK' && <CheckCircle2 className="w-4 h-4 text-primary" />}
               </button>
 
               <button
                 onClick={() => handleSimulateUpload('1688')}
                 className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all ${
                   selectedSource === '1688'
-                    ? 'bg-[#161622] border-[#FF6B35] text-white shadow-md'
-                    : 'bg-[#161622]/60 border-[#232336] text-[#8E8EA8] hover:text-white'
+                    ? 'bg-bg-surface-elevated border-cny text-text-primary shadow-xs'
+                    : 'bg-bg-surface-elevated/40 border-border-main text-text-secondary hover:text-text-primary'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-6 h-6 rounded bg-[#FF6B35] flex items-center justify-center text-white text-[9px] font-mono font-bold">
+                  <div className="w-6 h-6 rounded bg-cny flex items-center justify-center text-white text-[9px] font-mono font-bold">
                     1688
                   </div>
                   <div>
                     <span className="text-xs font-semibold block">1688 Vendor Invoices</span>
-                    <span className="text-[10px] text-[#8E8EA8]">Guangzhou factory payables (CNY)</span>
+                    <span className="text-[10px] text-text-muted">Guangzhou factory payables (CNY)</span>
                   </div>
                 </div>
-                {selectedSource === '1688' && <CheckCircle2 className="w-4 h-4 text-[#FF6B35]" />}
+                {selectedSource === '1688' && <CheckCircle2 className="w-4 h-4 text-cny" />}
               </button>
 
               <button
                 onClick={() => handleSimulateUpload('BANK')}
                 className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all ${
                   selectedSource === 'BANK'
-                    ? 'bg-[#161622] border-[#4D9FFF] text-white shadow-md'
-                    : 'bg-[#161622]/60 border-[#232336] text-[#8E8EA8] hover:text-white'
+                    ? 'bg-bg-surface-elevated border-usd text-text-primary shadow-xs'
+                    : 'bg-bg-surface-elevated/40 border-border-main text-text-secondary hover:text-text-primary'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-6 h-6 rounded bg-[#1F1F2E] flex items-center justify-center text-[#4D9FFF] text-[10px] font-bold">
+                  <div className="w-6 h-6 rounded bg-usd/15 border border-usd/30 flex items-center justify-center text-usd text-[10px] font-bold">
                     MB
                   </div>
                   <div>
                     <span className="text-xs font-semibold block">Commercial Bank Statement</span>
-                    <span className="text-[10px] text-[#8E8EA8]">Actual rent & payroll outflows</span>
+                    <span className="text-[10px] text-text-muted">Actual rent & payroll outflows</span>
                   </div>
                 </div>
-                {selectedSource === 'BANK' && <CheckCircle2 className="w-4 h-4 text-[#4D9FFF]" />}
+                {selectedSource === 'BANK' && <CheckCircle2 className="w-4 h-4 text-usd" />}
               </button>
             </div>
 
             {/* Download Sample Files Link */}
-            <div className="pt-4 mt-4 border-t border-[#232336] flex items-center justify-between text-[11px] font-mono">
-              <span className="text-[#8E8EA8]">Download sample CSV:</span>
+            <div className="pt-4 mt-4 border-t border-border-subtle flex items-center justify-between text-[11px] font-mono">
+              <span className="text-text-muted">Download sample CSV:</span>
               <a
                 href="/sample-data/shopee_settlement_sample.csv"
                 download
-                className="text-[#00D4AA] hover:underline flex items-center gap-1 font-semibold"
+                className="text-primary hover:underline flex items-center gap-1 font-semibold"
               >
                 <Download className="w-3 h-3" />
                 Shopee.csv
@@ -233,13 +232,13 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
 
         {/* Right Column: Parsed Data Table Preview */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="rounded-2xl bg-[#111118] border border-[#232336] p-5 backdrop-blur-xl">
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#232336]">
+          <div className="rounded-2xl bg-bg-surface border border-border-main p-5 shadow-xs transition-colors duration-200">
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-border-subtle">
               <div className="flex items-center gap-2">
-                <FileSpreadsheet className="w-4 h-4 text-[#00D4AA]" />
-                <span className="text-sm font-bold text-white">Parsed Multi-Channel Ledger Preview</span>
+                <FileSpreadsheet className="w-4 h-4 text-primary" />
+                <span className="text-sm font-bold text-text-primary">Parsed Multi-Channel Ledger Preview</span>
               </div>
-              <span className="text-xs font-mono text-[#00D4AA] bg-[#00D4AA]/10 border border-[#00D4AA]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+              <span className="text-xs font-mono text-primary bg-primary/10 border border-primary/25 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 font-medium">
                 <CheckCircle2 className="w-3 h-3" />
                 Normalized 100%
               </span>
@@ -249,38 +248,38 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
             <div className="overflow-x-auto">
               <table className="w-full text-left font-mono text-xs">
                 <thead>
-                  <tr className="border-b border-[#232336] text-[#8E8EA8] text-[11px]">
+                  <tr className="border-b border-border-subtle text-text-muted text-[11px]">
                     <th className="pb-3 font-medium">Date</th>
                     <th className="pb-3 font-medium">Channel</th>
                     <th className="pb-3 font-medium text-right">Gross GMV</th>
                     <th className="pb-3 font-medium text-right">Platform Fee</th>
                     <th className="pb-3 font-medium text-right">Escrow Hold</th>
-                    <th className="pb-3 font-medium text-right text-[#00D4AA]">Net Payout</th>
+                    <th className="pb-3 font-medium text-right text-emerald-600 dark:text-emerald-400">Net Payout</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#232336]/40">
+                <tbody className="divide-y divide-border-subtle">
                   {sampleRows.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3 text-white">{row.date}</td>
+                    <tr key={idx} className="hover:bg-bg-surface-elevated/50 transition-colors">
+                      <td className="py-3 text-text-primary">{row.date}</td>
                       <td className="py-3">
-                        <span className={`px-2 py-0.5 rounded text-[10px] ${
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-sans font-semibold ${
                           row.channel === 'Shopee'
                             ? 'bg-[#EE4D2D]/15 text-[#EE4D2D] border border-[#EE4D2D]/30'
-                            : 'bg-white/10 text-white border border-white/20'
+                            : 'bg-neutral-800 text-neutral-100 border border-neutral-700'
                         }`}>
                           {row.channel}
                         </span>
                       </td>
-                      <td className="py-3 text-right text-[#A1A1BA]">
+                      <td className="py-3 text-right text-text-secondary tabular-nums">
                         {formatCurrencyAmount(row.gross, 'VND')}
                       </td>
-                      <td className="py-3 text-right text-[#FF4757]">
+                      <td className="py-3 text-right text-crimson tabular-nums">
                         -{formatCurrencyAmount(row.fee, 'VND')}
                       </td>
-                      <td className="py-3 text-right text-[#FFAA00]">
+                      <td className="py-3 text-right text-amber tabular-nums">
                         -{formatCurrencyAmount(row.hold, 'VND')}
                       </td>
-                      <td className="py-3 text-right font-bold text-[#00D4AA]">
+                      <td className="py-3 text-right font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
                         +{formatCurrencyAmount(row.net, 'VND')}
                       </td>
                     </tr>
@@ -290,21 +289,21 @@ export default function ScreenD1Upload({ onProceed }: { onProceed?: () => void }
             </div>
 
             {/* Progress Bar & Next Action Button */}
-            <div className="pt-6 mt-4 border-t border-[#232336] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="pt-6 mt-4 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="w-full sm:w-1/2">
-                <div className="flex justify-between text-[11px] font-mono text-[#8E8EA8] mb-1">
+                <div className="flex justify-between text-[11px] font-mono text-text-muted mb-1">
                   <span>Data Ingestion Pipeline:</span>
-                  <span className="text-[#00D4AA]">100% Normalized</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">100% Normalized</span>
                 </div>
-                <div className="w-full bg-[#232336] h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-[#00D4AA] h-full w-full shadow-[0_0_8px_#00D4AA]" />
+                <div className="w-full bg-border-main h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-emerald-500 h-full w-full" />
                 </div>
               </div>
 
               {onProceed && (
                 <button
                   onClick={onProceed}
-                  className="px-6 py-2.5 rounded-xl text-xs font-semibold text-black bg-[#00D4AA] hover:bg-[#05F3C4] shadow-lg shadow-[#00D4AA]/25 transition-all flex items-center gap-1.5"
+                  className="px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-primary hover:bg-primary-hover shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <span>Proceed to 13-Week Trajectory</span>
                   <ArrowRight className="w-3.5 h-3.5" />

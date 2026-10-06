@@ -14,7 +14,7 @@ export default function DashboardPage() {
   const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-[#f1f2f6] flex flex-col font-sans selection:bg-[#00d4aa] selection:text-black">
+    <div className="min-h-screen bg-bg-base text-text-primary flex flex-col font-sans selection:bg-primary selection:text-white transition-colors duration-200">
       {/* Sticky Header with Mandatory Simulated Data Banner */}
       <DashboardHeader
         currentTab={currentTab}
