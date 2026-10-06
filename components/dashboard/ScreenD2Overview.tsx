@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import {
   Wallet,
   Coins,
@@ -65,14 +66,23 @@ export default function ScreenD2Overview({
 
   return (
     <div className="space-y-8">
-      {/* 3 Large Currency Balance Cards */}
+      {/* 3 Large Currency Balance Cards with 3D Coin Medallions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Card 1: VND Operating Cash */}
-        <div className="rounded-2xl bg-bg-surface border border-vnd/30 p-6 shadow-xs hover:border-vnd/60 transition-all duration-200">
+        <div className="rounded-2xl bg-bg-surface border border-vnd/30 p-6 shadow-xs hover:border-vnd/60 transition-all duration-200 group">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-              Operating Cashflow (VND)
-            </span>
+            <div className="flex items-center gap-2">
+              <Image
+                src="/images/coin-vnd.jpg"
+                alt="VND Medallion"
+                width={28}
+                height={28}
+                className="w-7 h-7 rounded-full object-cover shadow-xs border border-vnd/40 group-hover:scale-105 transition-transform"
+              />
+              <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
+                Operating Cashflow (VND)
+              </span>
+            </div>
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
           </div>
 
@@ -101,11 +111,20 @@ export default function ScreenD2Overview({
         </div>
 
         {/* Card 2: CNY Supplier Payables */}
-        <div className="rounded-2xl bg-bg-surface border border-cny/30 p-6 shadow-xs hover:border-cny/60 transition-all duration-200">
+        <div className="rounded-2xl bg-bg-surface border border-cny/30 p-6 shadow-xs hover:border-cny/60 transition-all duration-200 group">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-              Supplier Payables (CNY)
-            </span>
+            <div className="flex items-center gap-2">
+              <Image
+                src="/images/coin-cny.jpg"
+                alt="CNY Medallion"
+                width={28}
+                height={28}
+                className="w-7 h-7 rounded-full object-cover shadow-xs border border-cny/40 group-hover:scale-105 transition-transform"
+              />
+              <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
+                Supplier Payables (CNY)
+              </span>
+            </div>
             <span className="w-2.5 h-2.5 rounded-full bg-cny" />
           </div>
 
@@ -135,11 +154,20 @@ export default function ScreenD2Overview({
         </div>
 
         {/* Card 3: USD Cross-Border Reserves */}
-        <div className="rounded-2xl bg-bg-surface border border-usd/30 p-6 shadow-xs hover:border-usd/60 transition-all duration-200">
+        <div className="rounded-2xl bg-bg-surface border border-usd/30 p-6 shadow-xs hover:border-usd/60 transition-all duration-200 group">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-              Global Ad & Freight Reserves (USD)
-            </span>
+            <div className="flex items-center gap-2">
+              <Image
+                src="/images/coin-usd.jpg"
+                alt="USD Medallion"
+                width={28}
+                height={28}
+                className="w-7 h-7 rounded-full object-cover shadow-xs border border-usd/40 group-hover:scale-105 transition-transform"
+              />
+              <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
+                Global Ad & Freight Reserves (USD)
+              </span>
+            </div>
             <span className="w-2.5 h-2.5 rounded-full bg-usd" />
           </div>
 

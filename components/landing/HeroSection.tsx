@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ShieldCheck, AlertTriangle, Play, Sparkles, TrendingUp, ArrowUpRight, ArrowDownRight, Layers } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowRight, ShieldCheck, AlertTriangle, Play, ArrowUpRight, ArrowDownRight, Layers } from 'lucide-react';
 import { VND_BASELINE_FORECAST, CNY_BASELINE_FORECAST, USD_BASELINE_FORECAST, TIMELINE_WEEKS } from '@/data/shopx-dataset';
 import { useTheme } from '@/components/providers/ThemeProvider';
 
@@ -18,7 +19,7 @@ export default function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-[92vh] flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden bg-bg-base transition-colors duration-200">
-      {/* Precision Technical Grid Background (Replaces AI neon blobs) */}
+      {/* Precision Technical Grid Background */}
       <div 
         className={`absolute inset-0 pointer-events-none opacity-60 ${
           theme === 'light' ? 'fintech-grid-light' : 'fintech-grid-dark'
@@ -111,7 +112,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Interactive Week Scrubber Slider */}
+            {/* Interactive Timeline Scrubber (Weeks 1 to 13) */}
             <div className="py-6 border-b border-border-main">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
@@ -119,18 +120,14 @@ export default function HeroSection() {
                     Timeline Scrubber:
                   </span>
                   <span className="text-xs font-mono font-bold text-primary">
-                    {TIMELINE_WEEKS[activeWeek - 1].weekLabel} ({TIMELINE_WEEKS[activeWeek - 1].startDate} &rarr; {TIMELINE_WEEKS[activeWeek - 1].endDate})
+                    Week {activeWeek} ({TIMELINE_WEEKS[activeWeek - 1]?.startDate} &rarr; {TIMELINE_WEEKS[activeWeek - 1]?.endDate})
                   </span>
                 </div>
-                {activeWeek === 2 ? (
+
+                {activeWeek === 2 && (
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-crimson bg-crimson-surface border border-crimson/30 px-2.5 py-0.5 rounded-full font-bold">
                     <AlertTriangle className="w-3.5 h-3.5" />
                     Liquidity Breach (-10M VND)
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-primary bg-primary-surface border border-primary/30 px-2.5 py-0.5 rounded-full font-semibold">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Buffer Maintained
                   </span>
                 )}
               </div>
@@ -161,7 +158,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Dynamic Metric Display Based on Selected Currency & Week */}
+            {/* Dynamic Metric Display Based on Selected Currency & Week with 3D Coin Medallions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
               {/* VND Card */}
               {(selectedCurrency === 'ALL' || selectedCurrency === 'VND') && (
@@ -172,7 +169,13 @@ export default function HeroSection() {
                 }`}>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[11px] font-mono text-vnd font-semibold flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-vnd" />
+                      <Image
+                        src="/images/coin-vnd.jpg"
+                        alt="VND"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 rounded-full object-cover shadow-2xs border border-vnd/40"
+                      />
                       VND Operations Ledger
                     </span>
                     <span className="text-[10px] font-mono text-text-muted">Shopee & TikTok</span>
@@ -204,7 +207,13 @@ export default function HeroSection() {
                 <div className="p-4 rounded-xl bg-bg-surface-subtle border border-border-main hover:border-cny/40 transition-all">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[11px] font-mono text-cny font-semibold flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-cny" />
+                      <Image
+                        src="/images/coin-cny.jpg"
+                        alt="CNY"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 rounded-full object-cover shadow-2xs border border-cny/40"
+                      />
                       CNY Factory Payables
                     </span>
                     <span className="text-[10px] font-mono text-text-muted">1688 Direct OEM</span>
@@ -230,7 +239,13 @@ export default function HeroSection() {
                 <div className="p-4 rounded-xl bg-bg-surface-subtle border border-border-main hover:border-usd/40 transition-all">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[11px] font-mono text-usd font-semibold flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-usd" />
+                      <Image
+                        src="/images/coin-usd.jpg"
+                        alt="USD"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 rounded-full object-cover shadow-2xs border border-usd/40"
+                      />
                       USD Ad Spend & Freight
                     </span>
                     <span className="text-[10px] font-mono text-text-muted">Meta & Logistics</span>
@@ -261,6 +276,34 @@ export default function HeroSection() {
               <Link href="/dashboard" className="text-primary hover:underline flex items-center gap-1 font-semibold">
                 Open full 13-week scenario cockpit &rarr;
               </Link>
+            </div>
+          </div>
+
+          {/* High-End 3D Treasury Console Visual Showcase Banner */}
+          <div className="mt-8 rounded-2xl overflow-hidden border border-border-main bg-bg-surface shadow-sm group">
+            <div className="relative w-full h-56 sm:h-72 overflow-hidden">
+              <Image
+                src="/images/fintech-treasury-glass.jpg"
+                alt="Institutional 3D Treasury Mesh & Real-time Telemetry"
+                fill
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-bg-surface via-transparent to-transparent opacity-90" />
+              <div className="absolute bottom-4 left-4 right-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs font-mono font-bold text-text-primary tracking-tight">
+                    Multi-Currency Treasury Mesh &amp; Liquidity Graph
+                  </span>
+                  <span className="text-[10px] font-mono text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
+                    3D Telemetry
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-text-secondary">
+                  Continuous Reconciliation Across SEA Marketplaces
+                </span>
+              </div>
             </div>
           </div>
         </div>

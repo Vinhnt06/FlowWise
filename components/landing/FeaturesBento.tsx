@@ -1,11 +1,24 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UploadCloud, LineChart, AlertOctagon, SlidersHorizontal, FileCheck, CheckCircle2, Cpu, ShieldCheck, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+import {
+  UploadCloud,
+  LineChart,
+  SlidersHorizontal,
+  FileCheck,
+  ShieldCheck,
+  CheckCircle2,
+  ArrowRight,
+  TrendingDown,
+  AlertOctagon,
+  Percent,
+  Cpu,
+} from 'lucide-react';
 
 export default function FeaturesBento() {
-  const [activeLever, setActiveLever] = useState<'none' | 'lever1' | 'both'>('both');
+  const [activeLever, setActiveLever] = useState<'lever1' | 'both'>('both');
 
   return (
     <section id="features" className="relative py-24 bg-bg-base overflow-hidden border-b border-border-main transition-colors duration-200">
@@ -25,9 +38,9 @@ export default function FeaturesBento() {
           </p>
         </div>
 
-        {/* Gapless Bento Grid Layout */}
+        {/* Ramp/Linear Style Bento Grid (3-Tier Hierarchy) */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Card 1 (Wide 7 cols): 1-Click Multi-Channel Ledger Ingestion */}
+          {/* Card 1 (7 cols): Automated Multi-Channel Settlement Ingestion */}
           <div className="md:col-span-7 rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 relative overflow-hidden group hover:border-primary/40 transition-all duration-200 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -35,8 +48,12 @@ export default function FeaturesBento() {
                   <UploadCloud className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-text-primary tracking-tight">1-Click Multi-Channel Ingestion</h3>
-                  <span className="text-xs text-text-muted">Instant normalization for Shopee, TikTok Shop & Bank CSVs</span>
+                  <h3 className="text-lg font-bold text-text-primary tracking-tight">
+                    1-Click Multi-Channel Ingestion
+                  </h3>
+                  <span className="text-xs text-text-muted">
+                    Instant normalization for Shopee, TikTok Shop & Bank CSVs
+                  </span>
                 </div>
               </div>
               <span className="text-[10px] font-mono text-primary bg-primary-surface px-2 py-0.5 rounded border border-primary/20 font-semibold">
@@ -44,7 +61,6 @@ export default function FeaturesBento() {
               </span>
             </div>
 
-            {/* Inner Ingestion Preview */}
             <div className="p-4 rounded-xl bg-bg-surface-elevated border border-border-main flex flex-col sm:flex-row items-center gap-4">
               <div className="flex flex-col items-center justify-center p-4 rounded-lg border border-dashed border-border-strong bg-bg-surface text-center w-full sm:w-44 shadow-xs">
                 <span className="text-[10px] font-mono text-primary bg-primary-surface px-2 py-0.5 rounded font-bold mb-1 border border-primary/20">
@@ -80,37 +96,40 @@ export default function FeaturesBento() {
             </div>
           </div>
 
-          {/* Card 2 (5 cols): Deterministic 13-Week Mathematical Engine */}
-          <div className="md:col-span-5 rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 relative overflow-hidden group hover:border-primary/40 transition-all duration-200 shadow-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-primary-surface border border-primary/20 flex items-center justify-center text-primary">
-                <LineChart className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-text-primary tracking-tight">13-Week Liquidity Engine</h3>
-                <span className="text-xs text-text-muted">Chained balance across consecutive weeks</span>
-              </div>
-            </div>
-
-            {/* Formula & Sparkline Visual */}
-            <div className="p-4 rounded-xl bg-bg-surface-elevated border border-border-main space-y-3">
-              <div className="p-2.5 rounded-lg bg-bg-surface border border-border-main font-mono text-[11px] text-text-secondary">
-                <div className="text-primary font-bold mb-1">CONSERVATION THEOREM:</div>
-                <code>Closing[t] = Opening[t] + Inflows[t] - Outflows[t]</code>
-                <div className="text-[10px] text-text-muted mt-1">Opening[t+1] === Closing[t] (Strict Invariant)</div>
+          {/* Card 2 (5 cols): Deterministic 13-Week Mathematical Engine with 3D Preview */}
+          <div className="md:col-span-5 rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 relative overflow-hidden group hover:border-primary/40 transition-all duration-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-primary-surface border border-primary/20 flex items-center justify-center text-primary">
+                  <LineChart className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-text-primary tracking-tight">13-Week Liquidity Engine</h3>
+                  <span className="text-xs text-text-muted">Chained balance across consecutive weeks</span>
+                </div>
               </div>
 
-              {/* Sparkline curve */}
-              <div className="h-16 flex items-center justify-center">
-                <svg className="w-full h-full" viewBox="0 0 250 50" fill="none">
-                  <path
-                    d="M0 35 Q 40 5, 80 45 T 160 15 T 250 10"
-                    stroke="var(--primary)"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
+              {/* Formula & 3D Visual */}
+              <div className="p-4 rounded-xl bg-bg-surface-elevated border border-border-main space-y-3">
+                <div className="p-2.5 rounded-lg bg-bg-surface border border-border-main font-mono text-[11px] text-text-secondary">
+                  <div className="text-primary font-bold mb-1">CONSERVATION THEOREM:</div>
+                  <code>Closing[t] = Opening[t] + Inflows[t] - Outflows[t]</code>
+                  <div className="text-[10px] text-text-muted mt-1">Opening[t+1] === Closing[t] (Strict Invariant)</div>
+                </div>
+
+                <div className="relative h-20 w-full rounded-lg overflow-hidden border border-border-main">
+                  <Image
+                    src="/images/fintech-treasury-glass.jpg"
+                    alt="3D Liquidity Telemetry"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <line x1="0" y1="28" x2="250" y2="28" stroke="var(--amber)" strokeDasharray="3 3" />
-                </svg>
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-surface via-transparent to-transparent opacity-80" />
+                  <div className="absolute bottom-1.5 left-2 right-2 text-[10px] font-mono text-text-primary flex items-center justify-between">
+                    <span>13-Week Trajectory Matrix</span>
+                    <span className="text-emerald-500 font-bold">Real-time</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -139,13 +158,11 @@ export default function FeaturesBento() {
                 <span>Week 2 Predicted Deficit:</span>
                 <span>-10,000,000 ₫</span>
               </div>
-              <div className="text-[10px] text-text-muted mt-1">
-                Threshold: 160M ₫ | Projected: 150M ₫
-              </div>
+              <div className="text-[10px] text-text-muted mt-1">Threshold: 160M ₫ | Projected: 150M ₫</div>
             </div>
           </div>
 
-          {/* Card 4 (4 cols): Interactive Scenario Simulator */}
+          {/* Card 4 (4 cols): Interactive 3-Lever Deficit Simulator */}
           <div className="md:col-span-4 rounded-2xl bg-bg-surface border border-border-main p-6 group hover:border-primary/40 transition-all duration-200 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">

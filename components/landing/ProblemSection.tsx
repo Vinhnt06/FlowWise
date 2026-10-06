@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AlertCircle, Clock, Percent, ArrowDownRight, TrendingDown, ShieldAlert, Sliders } from 'lucide-react';
+import Image from 'next/image';
+import { AlertCircle, Clock, Percent, ArrowDownRight, TrendingDown, ShieldAlert, Sliders, Lock } from 'lucide-react';
 
 export default function ProblemSection() {
   const [demoSales, setDemoSales] = useState<number>(500); // 500 Million VND
@@ -37,7 +38,7 @@ export default function ProblemSection() {
 
         {/* Interactive Cash Gap Comparison Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Settlement Hold & Deductions Card */}
+          {/* Left Column: Settlement Hold & Deductions Card + 3D Escrow Vault */}
           <div className="lg:col-span-5 space-y-6">
             <div className="rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 shadow-sm transition-colors duration-200">
               <div className="flex items-center justify-between pb-4 mb-5 border-b border-border-main">
@@ -51,6 +52,7 @@ export default function ProblemSection() {
                 </span>
               </div>
 
+              {/* 4 Deduction Rows */}
               <div className="space-y-3 font-mono text-xs sm:text-sm">
                 <div className="flex items-center justify-between p-3 rounded-xl bg-bg-surface-elevated border border-border-main">
                   <span className="text-text-secondary flex items-center gap-2">
@@ -91,21 +93,50 @@ export default function ProblemSection() {
               </div>
             </div>
 
-            {/* Treasury Survey Callout */}
+            {/* 3D Isometric Escrow Vault Visualization Card */}
+            <div className="rounded-2xl bg-bg-surface border border-border-main p-4 shadow-sm overflow-hidden group">
+              <div className="flex items-center justify-between mb-3 px-1">
+                <div className="flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-primary" />
+                  <span className="text-xs font-bold text-text-primary tracking-tight">
+                    Payment Rails to Escrow Vault
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full font-semibold">
+                  Multi-Platform Flow
+                </span>
+              </div>
+
+              <div className="relative rounded-xl overflow-hidden border border-border-main">
+                <Image
+                  src="/images/fintech-escrow-vault.jpg"
+                  alt="Marketplace Payment Rails & Audited Bank Escrow Vault"
+                  width={600}
+                  height={338}
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-surface/90 via-transparent to-transparent opacity-90" />
+                <div className="absolute bottom-3 left-3 right-3 text-xs font-mono flex items-center justify-between">
+                  <span className="text-text-primary font-bold">Marketplaces &rarr; Bank Escrow</span>
+                  <span className="text-crimson font-bold">14-Day Settlement Trap</span>
+                </div>
+              </div>
+            </div>
+
+            {/* CFO Quote Box */}
             <div className="p-4 rounded-xl bg-bg-surface border border-border-main text-xs text-text-secondary leading-relaxed shadow-xs">
               <span className="text-text-primary font-medium">
                 &ldquo;You don&apos;t go broke from low margins. You go broke because your money is locked in marketplace escrow when your factory invoices come due.&rdquo;
               </span>
               <div className="mt-2 text-[10px] font-mono text-primary font-semibold">
-                &mdash; Southeast Asian E-Commerce CFO Survey 2026
+                — Southeast Asian E-Commerce CFO Survey 2026
               </div>
             </div>
           </div>
 
-          {/* Right Column: Interactive Escrow Simulator & Cash Gap Visualizer */}
+          {/* Right Column: Interactive Real-Time Cash Gap Simulator */}
           <div className="lg:col-span-7">
             <div className="rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-8 shadow-sm relative transition-colors duration-200">
-              {/* Header with Interactive Slider */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-border-main">
                 <div>
                   <h3 className="text-lg font-bold text-text-primary tracking-tight flex items-center gap-2">
