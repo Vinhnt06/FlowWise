@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowRight, ShieldCheck, AlertTriangle, Play, ArrowUpRight, ArrowDownRight, Layers } from 'lucide-react';
 import { VND_BASELINE_FORECAST, CNY_BASELINE_FORECAST, USD_BASELINE_FORECAST, TIMELINE_WEEKS } from '@/data/shopx-dataset';
 import { useTheme } from '@/components/providers/ThemeProvider';
+import FintechBackgroundVideo from './FintechBackgroundVideo';
 
 export default function HeroSection() {
   const [selectedCurrency, setSelectedCurrency] = useState<'ALL' | 'VND' | 'CNY' | 'USD'>('ALL');
@@ -19,9 +20,12 @@ export default function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-[92vh] flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden bg-bg-base transition-colors duration-200">
+      {/* Illustrative Fintech Ambient Video & 60FPS Fluid Motion Background */}
+      <FintechBackgroundVideo />
+
       {/* Precision Technical Grid Background */}
       <div 
-        className={`absolute inset-0 pointer-events-none opacity-60 ${
+        className={`absolute inset-0 pointer-events-none opacity-30 z-[1] ${
           theme === 'light' ? 'fintech-grid-light' : 'fintech-grid-dark'
         }`}
         style={{
