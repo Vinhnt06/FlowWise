@@ -7,6 +7,7 @@ import {
   CreditCard,
   FileCheck,
 } from 'lucide-react';
+import InteractiveForecastChart from '@/components/charts/InteractiveForecastChart';
 import { VND_SUMMARY, DEFAULT_RESCUE_PRESETS } from '@/data/shopx-dataset';
 import { simulateMitigationScenario, formatCurrencyAmount } from '@/lib/finance-engine';
 import { ScenarioParams } from '@/types/finance';
@@ -241,32 +242,17 @@ export default function ScreenD4Simulator({ onOpenReportModal }: ScreenD4Simulat
               </div>
             </div>
 
-            {/* Comparison SVG Chart */}
-            <div className="h-56 w-full relative py-2">
-              <svg className="w-full h-full" viewBox="0 0 500 180" fill="none">
-                {/* Horizontal Buffer Line at y=100 (160M) */}
-                <line x1="20" y1="100" x2="480" y2="100" stroke="currentColor" className="text-border-subtle" strokeDasharray="3 3" />
-                <text x="390" y="95" fill="currentColor" className="text-text-muted" fontSize="10" fontFamily="monospace">Buffer 160M ₫</text>
-
-                {/* Baseline Red Dip (150M at Week 2 -> y=125) */}
-                <path
-                  d="M 30 50 C 50 55, 75 125, 95 125 C 115 125, 135 90, 155 90 C 200 90, 250 80, 320 85 C 380 90, 420 80, 470 70"
-                  stroke="#EF4444"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-
-                {/* Simulated Green Curve Rescued (Above buffer -> y=65) */}
-                <path
-                  d="M 30 50 C 50 50, 75 65, 95 65 C 115 65, 135 60, 155 60 C 200 60, 250 45, 320 40 C 380 35, 420 30, 470 25"
-                  stroke="#10B981"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-
-                {/* Rescued Point Pill at x=95, y=65 */}
-                <circle cx="95" cy="65" r="4.5" fill="#10B981" />
-              </svg>
+            {/* Interactive Dynamic Comparison Spline Chart */}
+            <div className="py-2">
+              <InteractiveForecastChart
+                weeks={simulationResult.baseline.weeks}
+                comparisonWeeks={simulationResult.simulated.weeks}
+                currency="VND"
+                bufferThreshold={160_000_000}
+                selectedWeek={2}
+                heightClassName="h-60 sm:h-72"
+                showScrubber={false}
+              />
             </div>
 
             {/* KPI Status Summary Cards */}
