@@ -20,6 +20,7 @@ import {
 import { Currency, WeeklyForecast } from '@/types/finance';
 import { formatCurrencyAmount } from '@/lib/finance-engine';
 import InteractiveForecastChart from '@/components/charts/InteractiveForecastChart';
+import FintechSpotlightCard from '@/components/common/FintechSpotlightCard';
 
 export default function ForecastPreviewSection() {
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>('VND');
@@ -60,7 +61,10 @@ export default function ForecastPreviewSection() {
         </div>
 
         {/* Interactive Dashboard Forecast Card */}
-        <div className="rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-8 shadow-sm transition-colors duration-200">
+        <FintechSpotlightCard
+          spotlightColor="rgba(16, 185, 129, 0.08)"
+          className="rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-8 shadow-sm transition-colors duration-200"
+        >
           {/* Top Bar */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-border-subtle">
             <div>
@@ -213,7 +217,7 @@ export default function ForecastPreviewSection() {
               </div>
             </div>
           </div>
-        </div>
+        </FintechSpotlightCard>
       </div>
     </section>
   );

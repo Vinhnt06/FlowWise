@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '@/components/landing/Navbar';
 import HeroSection from '@/components/landing/HeroSection';
+import FintechLiveTicker from '@/components/landing/FintechLiveTicker';
 import TrustBar from '@/components/landing/TrustBar';
 import ProblemSection from '@/components/landing/ProblemSection';
 import FeaturesBento from '@/components/landing/FeaturesBento';
@@ -20,6 +21,9 @@ export default function Home() {
       <main>
         {/* Section 1: Hero with Technical Grid & Scrubber Terminal */}
         <HeroSection />
+
+        {/* Live Financial Telemetry & Cross-Border Exchange Ticker */}
+        <FintechLiveTicker />
 
         {/* Section 2: Institutional Trust Rail & Platform APIs */}
         <TrustBar />

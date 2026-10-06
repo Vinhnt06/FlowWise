@@ -7,6 +7,8 @@ import { ArrowRight, ShieldCheck, AlertTriangle, Play, ArrowUpRight, ArrowDownRi
 import { VND_BASELINE_FORECAST, CNY_BASELINE_FORECAST, USD_BASELINE_FORECAST, TIMELINE_WEEKS } from '@/data/shopx-dataset';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import FintechBackgroundVideo from './FintechBackgroundVideo';
+import FintechBorderBeam from '@/components/common/FintechBorderBeam';
+import FintechTiltCard from '@/components/common/FintechTiltCard';
 
 export default function HeroSection() {
   const [selectedCurrency, setSelectedCurrency] = useState<'ALL' | 'VND' | 'CNY' | 'USD'>('ALL');
@@ -80,7 +82,9 @@ export default function HeroSection() {
 
         {/* Treasury Terminal Card with Real-time Week Scrubber */}
         <div className="relative max-w-4xl mx-auto text-left">
-          <div className="rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-8 shadow-sm transition-colors duration-200">
+          <div className="relative rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-8 shadow-sm transition-colors duration-200 overflow-hidden">
+            <FintechBorderBeam size={240} duration={9} colorFrom="#10B981" colorTo="#F59E0B" />
+
             {/* Top Bar: Ledger Status & Currency Pills */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border-main">
               <div className="flex items-center gap-3">
@@ -283,33 +287,35 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* High-End 3D Treasury Console Visual Showcase Banner */}
-          <div className="mt-8 rounded-2xl overflow-hidden border border-border-main bg-bg-surface shadow-sm group">
-            <div className="relative w-full h-56 sm:h-72 overflow-hidden">
-              <Image
-                src="/images/fintech-treasury-glass.jpg"
-                alt="Institutional 3D Treasury Mesh & Real-time Telemetry"
-                fill
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-bg-surface via-transparent to-transparent opacity-90" />
-              <div className="absolute bottom-4 left-4 right-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-mono font-bold text-text-primary tracking-tight">
-                    Multi-Currency Treasury Mesh &amp; Liquidity Graph
-                  </span>
-                  <span className="text-[10px] font-mono text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
-                    3D Telemetry
+          {/* High-End 3D Treasury Console Visual Showcase Banner with 3D Tilt */}
+          <FintechTiltCard maxTilt={5} glareOpacity={0.12} className="mt-8 rounded-2xl">
+            <div className="rounded-2xl overflow-hidden border border-border-main bg-bg-surface shadow-sm group">
+              <div className="relative w-full h-56 sm:h-72 overflow-hidden">
+                <Image
+                  src="/images/fintech-treasury-glass.jpg"
+                  alt="Institutional 3D Treasury Mesh & Real-time Telemetry"
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-surface via-transparent to-transparent opacity-90" />
+                <div className="absolute bottom-4 left-4 right-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-mono font-bold text-text-primary tracking-tight">
+                      Multi-Currency Treasury Mesh &amp; Liquidity Graph
+                    </span>
+                    <span className="text-[10px] font-mono text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
+                      3D Telemetry
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-text-secondary">
+                    Continuous Reconciliation Across SEA Marketplaces
                   </span>
                 </div>
-                <span className="text-[11px] font-mono text-text-secondary">
-                  Continuous Reconciliation Across SEA Marketplaces
-                </span>
               </div>
             </div>
-          </div>
+          </FintechTiltCard>
         </div>
       </div>
     </section>

@@ -16,6 +16,7 @@ import {
   Percent,
   Cpu,
 } from 'lucide-react';
+import FintechSpotlightCard from '@/components/common/FintechSpotlightCard';
 
 export default function FeaturesBento() {
   const [activeLever, setActiveLever] = useState<'lever1' | 'both'>('both');
@@ -41,7 +42,7 @@ export default function FeaturesBento() {
         {/* Ramp/Linear Style Bento Grid (3-Tier Hierarchy) */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Card 1 (7 cols): Automated Multi-Channel Settlement Ingestion */}
-          <div className="md:col-span-7 rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 relative overflow-hidden group hover:border-primary/40 transition-all duration-200 shadow-sm">
+          <FintechSpotlightCard spotlightColor="rgba(16, 185, 129, 0.14)" className="md:col-span-7 rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 group hover:border-primary/40 transition-all duration-200 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-primary-surface border border-primary/20 flex items-center justify-center text-primary">
@@ -94,10 +95,10 @@ export default function FeaturesBento() {
                 </div>
               </div>
             </div>
-          </div>
+          </FintechSpotlightCard>
 
           {/* Card 2 (5 cols): Deterministic 13-Week Mathematical Engine with 3D Preview */}
-          <div className="md:col-span-5 rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 relative overflow-hidden group hover:border-primary/40 transition-all duration-200 shadow-sm flex flex-col justify-between">
+          <FintechSpotlightCard spotlightColor="rgba(16, 185, 129, 0.14)" className="md:col-span-5 rounded-2xl bg-bg-surface border border-border-main p-6 sm:p-7 group hover:border-primary/40 transition-all duration-200 shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-primary-surface border border-primary/20 flex items-center justify-center text-primary">
@@ -132,10 +133,10 @@ export default function FeaturesBento() {
                 </div>
               </div>
             </div>
-          </div>
+          </FintechSpotlightCard>
 
           {/* Card 3 (4 cols): Smart Buffer Deficit Alerts */}
-          <div className="md:col-span-4 rounded-2xl bg-bg-surface border border-border-main p-6 group hover:border-amber/40 transition-all duration-200 shadow-sm">
+          <FintechSpotlightCard spotlightColor="rgba(245, 158, 11, 0.14)" className="md:col-span-4 rounded-2xl bg-bg-surface border border-border-main p-6 group hover:border-amber/40 transition-all duration-200 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-amber-surface border border-amber/30 flex items-center justify-center text-amber">
@@ -160,10 +161,10 @@ export default function FeaturesBento() {
               </div>
               <div className="text-[10px] text-text-muted mt-1">Threshold: 160M ₫ | Projected: 150M ₫</div>
             </div>
-          </div>
+          </FintechSpotlightCard>
 
           {/* Card 4 (4 cols): Interactive 3-Lever Deficit Simulator */}
-          <div className="md:col-span-4 rounded-2xl bg-bg-surface border border-border-main p-6 group hover:border-primary/40 transition-all duration-200 shadow-sm">
+          <FintechSpotlightCard spotlightColor="rgba(16, 185, 129, 0.14)" className="md:col-span-4 rounded-2xl bg-bg-surface border border-border-main p-6 group hover:border-primary/40 transition-all duration-200 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-primary-surface border border-primary/20 flex items-center justify-center text-primary">
@@ -206,10 +207,10 @@ export default function FeaturesBento() {
                 {activeLever === 'both' ? 'Surplus: +79,000,000 ₫' : 'Surplus: +39,000,000 ₫'}
               </span>
             </div>
-          </div>
+          </FintechSpotlightCard>
 
           {/* Card 5 (4 cols): CFO-Grade Boardroom Audit & Sign-off */}
-          <div className="md:col-span-4 rounded-2xl bg-bg-surface border border-border-main p-6 group hover:border-primary/40 transition-all duration-200 shadow-sm flex flex-col justify-between">
+          <FintechSpotlightCard spotlightColor="rgba(56, 189, 248, 0.14)" className="md:col-span-4 rounded-2xl bg-bg-surface border border-border-main p-6 group hover:border-primary/40 transition-all duration-200 shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
@@ -236,7 +237,7 @@ export default function FeaturesBento() {
               <span>View Executive Report Dossier</span>
               <ArrowRight className="w-3.5 h-3.5 text-primary group-hover/btn:translate-x-1 transition-transform" />
             </Link>
-          </div>
+          </FintechSpotlightCard>
         </div>
       </div>
     </section>

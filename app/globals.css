@@ -144,3 +144,33 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+/* Institutional Fintech Running Marquee */
+@keyframes fintech-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-fintech-marquee {
+  display: flex;
+  width: max-content;
+  animation: fintech-marquee 40s linear infinite;
+}
+
+.animate-fintech-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam linear infinite;
+}
