@@ -29,8 +29,21 @@ export default function InteractiveForecastChart({
   showScrubber = true,
 }: InteractiveForecastChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(1000);
   const [hoveredWeekIndex, setHoveredWeekIndex] = useState<number | null>(null);
   const [isHovering, setIsHovering] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (!containerRef.current) return;
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(Math.max(600, containerRef.current.clientWidth));
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   // Active week index (0-indexed): prioritize hover, fallback to selectedWeek
   const activeIndex = hoveredWeekIndex !== null 
@@ -41,12 +54,12 @@ export default function InteractiveForecastChart({
   const activeComparisonData = comparisonWeeks ? comparisonWeeks[activeIndex] : null;
 
   // Chart coordinate space configuration
-  const chartWidth = 1000;
-  const chartHeight = 360;
-  const paddingLeft = 75;
+  const chartWidth = containerWidth;
+  const chartHeight = 340;
+  const paddingLeft = 70;
   const paddingRight = 35;
-  const paddingTop = 40;
-  const paddingBottom = 50;
+  const paddingTop = 45;
+  const paddingBottom = 45;
   const plotWidth = chartWidth - paddingLeft - paddingRight;
   const plotHeight = chartHeight - paddingTop - paddingBottom;
   const baselineY = chartHeight - paddingBottom;
@@ -129,9 +142,9 @@ export default function InteractiveForecastChart({
       const pNextNext = pts[Math.min(i + 2, pts.length - 1)];
 
       const cp1x = pCurr.x + (pNext.x - pPrev.x) * tension;
-      const cp1y = pCurr.y + (pNext.y - pPrev.y) * tension;
+      const cp1y = Math.max(paddingTop - 12, Math.min(baselineY + 8, pCurr.y + (pNext.y - pPrev.y) * tension));
       const cp2x = pNext.x - (pNextNext.x - pCurr.x) * tension;
-      const cp2y = pNext.y - (pNextNext.y - pCurr.y) * tension;
+      const cp2y = Math.max(paddingTop - 12, Math.min(baselineY + 8, pNext.y - (pNextNext.y - pCurr.y) * tension));
 
       d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${pNext.x.toFixed(1)} ${pNext.y.toFixed(1)}`;
     }
@@ -219,7 +232,6 @@ export default function InteractiveForecastChart({
         <svg
           className="w-full h-full"
           viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-          preserveAspectRatio="none"
           fill="none"
         >
           <defs>
@@ -355,10 +367,10 @@ export default function InteractiveForecastChart({
                   <circle
                     cx={pt.x}
                     cy={pt.y}
-                    r={isSelected ? 14 : 10}
+                    r={isSelected ? 13 : 9}
                     fill="#EF4444"
-                    fillOpacity="0.25"
-                    className="animate-ping"
+                    fillOpacity="0.35"
+                    className="animate-pulse"
                   />
                 )}
 
@@ -413,8 +425,8 @@ export default function InteractiveForecastChart({
             isRightSide ? '-translate-x-full pr-4' : isLeftSide ? 'translate-x-4' : '-translate-x-1/2'
           }`}
           style={{
-            left: `${(activeX / chartWidth) * 100}%`,
-            top: `${Math.min(Math.max((activeY / chartHeight) * 100 - 35, 5), 65)}%`,
+            left: `${Math.min(Math.max((activeX / chartWidth) * 100, 16), 84)}%`,
+            top: '12px',
           }}
         >
           <div className="bg-bg-surface/95 backdrop-blur-md border border-border-strong rounded-xl p-3 shadow-xl min-w-[220px] max-w-[280px] pointer-events-auto transition-colors">

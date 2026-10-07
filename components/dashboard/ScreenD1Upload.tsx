@@ -164,7 +164,6 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
       if (text) {
         const lines = text.split('\n').filter((l) => l.trim().length > 0);
         if (lines.length > 1) {
-          // If valid CSV with lines, generate normalized rows
           const parsed = lines.slice(1, 10).map((line, idx) => {
             const cols = line.split(',');
             const date = cols[0] || `2026-10-${10 + idx}`;
@@ -214,18 +213,18 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
               Enterprise Data Input & Ledger Ingestion
             </h2>
             <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-primary/10 text-primary border border-primary/25 font-semibold">
-              Nhập Dữ Liệu Doanh Nghiệp
+              Data Ingestion Hub
             </span>
           </div>
           <span className="text-xs text-text-muted">
-            Nhập file đối soát bán hàng TMĐT (Shopee, TikTok Shop), hóa đơn xưởng 1688 hoặc tùy chỉnh trực tiếp tham số tài chính cho doanh nghiệp của bạn.
+            Ingest multi-channel settlement exports (Shopee, TikTok Shop, 1688 factory invoices) or configure custom enterprise liquidity parameters.
           </span>
         </div>
 
         {/* Formula reminder pill */}
         <div className="px-3.5 py-1.5 rounded-xl bg-bg-surface border border-border-main text-[11px] font-mono text-text-secondary flex items-center gap-2 shadow-xs shrink-0">
-          <span className="text-primary font-bold">Quy luật bảo toàn:</span>
-          <span>Net Payout = Gross - Phí sàn - Hoàn/Hủy - Vận chuyển - Escrow Hold</span>
+          <span className="text-primary font-bold">Conservation Theorem:</span>
+          <span>Net Payout = Gross - Platform Fee - Refunds - Shipping/COD - Escrow Hold</span>
         </div>
       </div>
 
@@ -241,7 +240,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
           }`}
         >
           <UploadCloud className="w-4 h-4" />
-          <span>Cách 1: Tải Lên File Đối Soát (CSV / Excel Import)</span>
+          <span>Option 1: File Ingestion (CSV / XLSX Import)</span>
         </button>
 
         <button
@@ -254,7 +253,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
           }`}
         >
           <Sliders className="w-4 h-4" />
-          <span>Cách 2: Nhập Tham Số Kinh Doanh Trực Tiếp (Manual Parameters)</span>
+          <span>Option 2: Manual Enterprise Parameters</span>
           <span className="text-[10px] bg-amber/15 text-amber border border-amber/30 px-1.5 py-0.2 rounded font-bold">
             Interactive
           </span>
@@ -268,7 +267,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
           <div className="lg:col-span-4 space-y-4">
             <div className="rounded-2xl bg-bg-surface border border-border-main p-5 shadow-xs transition-colors duration-200">
               <span className="text-xs font-mono uppercase tracking-wider text-text-muted block mb-4">
-                Chọn file hoặc tải mẫu đối soát
+                Select File or Choose Preset
               </span>
 
               {/* Hidden Real File Input */}
@@ -287,19 +286,19 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
               >
                 <UploadCloud className="w-8 h-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-semibold text-text-primary block mb-1">
-                  {uploadedFileName ? `Đã chọn: ${uploadedFileName}` : 'Bấm để tải file CSV / Excel của bạn'}
+                  {uploadedFileName ? `Selected: ${uploadedFileName}` : 'Click or drop your CSV / XLSX file here'}
                 </span>
                 <span className="text-[10px] text-text-muted block">
-                  {uploadedFileSize ? `Kích thước: ${uploadedFileSize} • Sẵn sàng phân tích` : 'Hỗ trợ file xuất từ Shopee Seller Centre, TikTok Shop, 1688'}
+                  {uploadedFileSize ? `Size: ${uploadedFileSize} • Ready to parse` : 'Supports Shopee Seller Centre, TikTok Shop, and 1688 exports'}
                 </span>
                 <span className="mt-2.5 inline-block text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
-                  + Chọn File Từ Máy Tính
+                  + Browse Local Files
                 </span>
               </div>
 
               {/* Quick 1-Click Preset Buttons */}
               <span className="text-[11px] font-mono text-text-muted block mb-2 uppercase tracking-wide">
-                Hoặc nạp nhanh bộ dữ liệu mẫu ShopX:
+                Or load instant ShopX sample dataset:
               </span>
               <div className="space-y-2">
                 <button
@@ -317,7 +316,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     </div>
                     <div>
                       <span className="text-xs font-semibold block">Shopee Settlement CSV</span>
-                      <span className="text-[10px] text-text-muted">Batch đối soát Shopee Mall (T+3)</span>
+                      <span className="text-[10px] text-text-muted">Shopee Mall payout batch (T+3 Escrow)</span>
                     </div>
                   </div>
                   {selectedSource === 'SHOPEE' && <CheckCircle2 className="w-4 h-4 text-primary" />}
@@ -338,7 +337,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     </div>
                     <div>
                       <span className="text-xs font-semibold block">TikTok Shop Income CSV</span>
-                      <span className="text-[10px] text-text-muted">Doanh thu Creator & Giam vốn Escrow</span>
+                      <span className="text-[10px] text-text-muted">Income Center & creator deductions</span>
                     </div>
                   </div>
                   {selectedSource === 'TIKTOK' && <CheckCircle2 className="w-4 h-4 text-primary" />}
@@ -359,7 +358,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     </div>
                     <div>
                       <span className="text-xs font-semibold block">1688 Factory Invoices</span>
-                      <span className="text-[10px] text-text-muted">Công nợ xưởng Quảng Châu (CNY)</span>
+                      <span className="text-[10px] text-text-muted">Guangzhou factory payables (CNY)</span>
                     </div>
                   </div>
                   {selectedSource === '1688' && <CheckCircle2 className="w-4 h-4 text-cny" />}
@@ -380,7 +379,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     </div>
                     <div>
                       <span className="text-xs font-semibold block">Commercial Bank Statement</span>
-                      <span className="text-[10px] text-text-muted">Sao kê chi phí lương & kho bãi</span>
+                      <span className="text-[10px] text-text-muted">Actual rent & payroll outflows</span>
                     </div>
                   </div>
                   {selectedSource === 'BANK' && <CheckCircle2 className="w-4 h-4 text-usd" />}
@@ -389,7 +388,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
 
               {/* Download Sample Files Link */}
               <div className="pt-4 mt-4 border-t border-border-subtle space-y-1.5 text-[11px] font-mono">
-                <span className="text-text-muted block">Tải template file mẫu chuẩn:</span>
+                <span className="text-text-muted block">Download standardized CSV templates:</span>
                 <div className="flex flex-wrap gap-2">
                   <a
                     href="/sample-data/shopee_settlement_sample.csv"
@@ -429,12 +428,12 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                 <div className="flex items-center gap-2">
                   <FileSpreadsheet className="w-4 h-4 text-primary" />
                   <span className="text-sm font-bold text-text-primary">
-                    Bảng Đối Soát Sổ Cái Đa Kênh Đã Phân Tách ({tableRows.length} giao dịch)
+                    Multi-Channel Normalized Ledger Preview ({tableRows.length} transactions)
                   </span>
                 </div>
                 <span className="text-xs font-mono text-primary bg-primary/10 border border-primary/25 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 font-medium">
                   <CheckCircle2 className="w-3 h-3" />
-                  {isProcessing ? 'Đang bóc tách...' : 'Chuẩn hóa 100%'}
+                  {isProcessing ? 'Normalizing...' : '100% Normalized'}
                 </span>
               </div>
 
@@ -443,15 +442,15 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                 <table className="w-full text-left font-mono text-xs">
                   <thead>
                     <tr className="border-b border-border-subtle text-text-muted text-[11px]">
-                      <th className="pb-3 font-medium">Ngày</th>
-                      <th className="pb-3 font-medium">Kênh</th>
-                      <th className="pb-3 font-medium text-right">Doanh thu gộp</th>
-                      <th className="pb-3 font-medium text-right">Phí sàn</th>
-                      <th className="pb-3 font-medium text-right">Giam Escrow</th>
-                      <th className="pb-3 font-medium text-right text-emerald-600 dark:text-emerald-400">Thực nhận Net</th>
+                      <th className="pb-3 font-medium">Date</th>
+                      <th className="pb-3 font-medium">Channel</th>
+                      <th className="pb-3 font-medium text-right">Gross GMV</th>
+                      <th className="pb-3 font-medium text-right">Platform Fee</th>
+                      <th className="pb-3 font-medium text-right">Escrow Hold</th>
+                      <th className="pb-3 font-medium text-right text-emerald-600 dark:text-emerald-400">Net Payout</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border-subtle">
+                  <tbody className="divide-y border-border-subtle">
                     {tableRows.map((row, idx) => (
                       <tr key={idx} className="hover:bg-bg-surface-elevated/50 transition-colors">
                         <td className="py-3 text-text-primary">{row.date}</td>
@@ -488,8 +487,8 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
               <div className="pt-6 mt-4 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="w-full sm:w-1/2">
                   <div className="flex justify-between text-[11px] font-mono text-text-muted mb-1">
-                    <span>Trạng thái bóc tách dòng tiền:</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">100% Khớp toán học</span>
+                    <span>Ledger normalization pipeline:</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">100% Deterministic match</span>
                   </div>
                   <div className="w-full bg-border-main h-1.5 rounded-full overflow-hidden">
                     <div className="bg-emerald-500 h-full w-full" />
@@ -502,7 +501,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     onClick={onProceed}
                     className="px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-primary hover:bg-primary-hover shadow-xs transition-colors flex items-center gap-1.5"
                   >
-                    <span>Xem Dự Báo 13 Tuần (13-Week Trajectory)</span>
+                    <span>Proceed to 13-Week Trajectory</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 )}
@@ -520,22 +519,22 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
             <div className="lg:col-span-8 rounded-2xl bg-bg-surface border border-border-main p-6 shadow-xs space-y-6">
               <div>
                 <h3 className="text-base font-bold text-text-primary tracking-tight">
-                  Nhập Hồ Sơ & Tham Số Dòng Tiền Doanh Nghiệp
+                  Enterprise Treasury Parameters & Assumptions
                 </h3>
                 <span className="text-xs text-text-muted">
-                  Tùy chỉnh số dư đầu kỳ, doanh số tuần và các tỷ lệ chiết khấu sàn để kiểm tra mô hình dòng tiền độc lập.
+                  Customize opening balances, weekly gross volume, and platform deductions for isolated ledger simulation.
                 </span>
               </div>
 
-              {/* Group 1: Thông tin doanh nghiệp */}
+              {/* Group 1: Enterprise Profile */}
               <div className="p-4 rounded-xl bg-bg-surface-elevated/40 border border-border-main space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-text-primary">
                   <Building2 className="w-4 h-4 text-primary" />
-                  <span>1. Thông Tin Doanh Nghiệp</span>
+                  <span>1. Enterprise Identification</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                   <div>
-                    <label className="text-text-muted block mb-1">Tên Doanh Nghiệp</label>
+                    <label className="text-text-muted block mb-1">Company Legal Entity</label>
                     <input
                       type="text"
                       value={companyName}
@@ -544,7 +543,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     />
                   </div>
                   <div>
-                    <label className="text-text-muted block mb-1">Mã Số Thuế / Gian Hàng</label>
+                    <label className="text-text-muted block mb-1">Tax ID / Merchant Identifier</label>
                     <input
                       type="text"
                       value={taxId}
@@ -555,15 +554,15 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                 </div>
               </div>
 
-              {/* Group 2: Số dư ban đầu 3 loại tiền tệ */}
+              {/* Group 2: Opening Balances */}
               <div className="p-4 rounded-xl bg-bg-surface-elevated/40 border border-border-main space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-text-primary">
                   <Wallet className="w-4 h-4 text-primary" />
-                  <span>2. Số Dư Ban Đầu Đầu Kỳ (3 Tài Khoản Độc Lập)</span>
+                  <span>2. Opening Balances (Strict Denomination Isolation)</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
                   <div>
-                    <label className="text-vnd font-semibold block mb-1">Tài Khoản VND (Vận Hành)</label>
+                    <label className="text-vnd font-semibold block mb-1">VND Operating Account</label>
                     <input
                       type="number"
                       step={10000000}
@@ -576,7 +575,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     </span>
                   </div>
                   <div>
-                    <label className="text-cny font-semibold block mb-1">Tài Khoản CNY (Xưởng 1688)</label>
+                    <label className="text-cny font-semibold block mb-1">CNY Supplier Account (1688)</label>
                     <input
                       type="number"
                       step={5000}
@@ -589,7 +588,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                     </span>
                   </div>
                   <div>
-                    <label className="text-usd font-semibold block mb-1">Tài Khoản USD (Dự Trữ)</label>
+                    <label className="text-usd font-semibold block mb-1">USD Reserve Account</label>
                     <input
                       type="number"
                       step={1000}
@@ -604,15 +603,15 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                 </div>
               </div>
 
-              {/* Group 3: Doanh số & Tỷ lệ chiết khấu sàn */}
+              {/* Group 3: Weekly GMV & Marketplace Deductions */}
               <div className="p-4 rounded-xl bg-bg-surface-elevated/40 border border-border-main space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-text-primary">
                   <Percent className="w-4 h-4 text-primary" />
-                  <span>3. Doanh Số Bán Hàng & Các Khoản Khấu Trừ Sàn TMĐT</span>
+                  <span>3. Weekly E-Commerce Volume & Marketplace Deductions</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
                   <div>
-                    <label className="text-text-muted block mb-1">Doanh Thu Gộp Hàng Tuần (Gross GMV)</label>
+                    <label className="text-text-muted block mb-1">Estimated Weekly Gross GMV</label>
                     <input
                       type="number"
                       step={20000000}
@@ -621,12 +620,12 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                       className="w-full px-3 py-2 rounded-lg bg-bg-surface border border-border-main text-text-primary focus:outline-hidden focus:border-primary"
                     />
                     <span className="text-[10px] text-text-muted mt-1 block">
-                      {formatCurrencyAmount(weeklyGmv, 'VND')} / tuần
+                      {formatCurrencyAmount(weeklyGmv, 'VND')} / week
                     </span>
                   </div>
 
                   <div>
-                    <label className="text-text-muted block mb-1">Phí Sàn TMĐT (Shopee / TikTok Fee)</label>
+                    <label className="text-text-muted block mb-1">Platform Commission Fee</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="range"
@@ -641,7 +640,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                   </div>
 
                   <div>
-                    <label className="text-text-muted block mb-1">Tỷ Lệ Giữ Tiền Escrow (Escrow Holdback)</label>
+                    <label className="text-text-muted block mb-1">Escrow Holdback Rate</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="range"
@@ -656,7 +655,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                   </div>
 
                   <div>
-                    <label className="text-text-muted block mb-1">Chu Kỳ Đối Soát Tiền Về</label>
+                    <label className="text-text-muted block mb-1">Settlement Release Lag</label>
                     <div className="flex gap-2">
                       <button
                         type="button"
@@ -667,7 +666,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                             : 'bg-bg-surface text-text-muted border-border-main'
                         }`}
                       >
-                        Shopee (T+3 Ngày)
+                        Shopee (T+3 Days)
                       </button>
                       <button
                         type="button"
@@ -678,22 +677,22 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                             : 'bg-bg-surface text-text-muted border-border-main'
                         }`}
                       >
-                        TikTok Shop (T+7 Ngày)
+                        TikTok Shop (T+7 Days)
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Group 4: Định phí & Ngưỡng an toàn */}
+              {/* Group 4: OPEX & Safety Buffer */}
               <div className="p-4 rounded-xl bg-bg-surface-elevated/40 border border-border-main space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-text-primary">
                   <ShieldAlert className="w-4 h-4 text-primary" />
-                  <span>4. Định Phí Vận Hành & Ngưỡng Đệm An Toàn</span>
+                  <span>4. Fixed OPEX & Minimum Safe Buffer</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
                   <div>
-                    <label className="text-text-muted block mb-1">Định Phí Hàng Tuần (Lương + Kho Bãi)</label>
+                    <label className="text-text-muted block mb-1">Weekly Fixed OPEX (Payroll & Lease)</label>
                     <input
                       type="number"
                       step={5000000}
@@ -702,12 +701,12 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                       className="w-full px-3 py-2 rounded-lg bg-bg-surface border border-border-main text-text-primary focus:outline-hidden focus:border-primary"
                     />
                     <span className="text-[10px] text-text-muted mt-1 block">
-                      {formatCurrencyAmount(weeklyOpex, 'VND')} / tuần
+                      {formatCurrencyAmount(weeklyOpex, 'VND')} / week
                     </span>
                   </div>
 
                   <div>
-                    <label className="text-text-muted block mb-1">Ngưỡng Dự Phòng An Toàn (Safe Buffer)</label>
+                    <label className="text-text-muted block mb-1">Minimum Safe Liquidity Buffer</label>
                     <input
                       type="number"
                       step={10000000}
@@ -729,7 +728,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                 className="w-full py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-mono font-bold shadow-sm transition-all flex items-center justify-center gap-2"
               >
                 <RefreshCw className="w-4 h-4" />
-                <span>⚡ Tính Toán & Cập Nhật Mô Hình 13 Tuần</span>
+                <span>⚡ Compute & Sync 13-Week Trajectory</span>
               </button>
             </div>
 
@@ -738,7 +737,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
               <div className="rounded-2xl bg-bg-surface border border-border-main p-5 shadow-xs space-y-4 sticky top-24">
                 <div className="flex items-center justify-between pb-3 border-b border-border-subtle">
                   <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-                    Kết Quả Mô Phỏng Tức Thì
+                    Instant Model Verification
                   </span>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 </div>
@@ -746,13 +745,13 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                 {/* Net Payout Calculated Box */}
                 <div className="p-4 rounded-xl bg-bg-surface-elevated border border-border-main space-y-2">
                   <span className="text-[11px] font-mono text-text-muted block">
-                    Doanh Thu Thực Nhận Ròng / Tuần
+                    Net Weekly Inflow (Normalized)
                   </span>
                   <div className="font-mono text-2xl font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
                     {formatCurrencyAmount(computedNetWeekly, 'VND')}
                   </div>
                   <div className="text-[10px] font-mono text-text-muted">
-                    Đã khấu trừ {totalDeductionPct}% ({formatCurrencyAmount(weeklyGmv - computedNetWeekly, 'VND')}) gồm phí sàn & giam Escrow.
+                    Total deductions: {totalDeductionPct}% ({formatCurrencyAmount(weeklyGmv - computedNetWeekly, 'VND')}) including commissions, returns & escrow hold.
                   </div>
                 </div>
 
@@ -771,18 +770,18 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                       <Check className="w-4 h-4 shrink-0 text-emerald-600" />
                     )}
                     <span>
-                      {isWeek2Breached ? 'Cảnh Báo: Thâm Hụt Tiền Mặt Tuần 2' : 'Dòng Tiền Đạt Chuẩn An Toàn'}
+                      {isWeek2Breached ? 'CRITICAL ALERT: Week 2 Deficit Detected' : 'Liquidity Buffer Maintained'}
                     </span>
                   </div>
 
                   <p className="text-[11px] font-mono leading-relaxed">
                     {isWeek2Breached ? (
                       <>
-                        Số dư dự kiến Tuần 2: <strong>{formatCurrencyAmount(week2ProjectedBalance, 'VND')}</strong> thấp hơn ngưỡng đệm an toàn ({formatCurrencyAmount(safetyBuffer, 'VND')}). Thâm hụt <strong>{formatCurrencyAmount(deficitAmount, 'VND')}</strong> do độ trễ thanh toán {settlementDays}.
+                        Week 2 projected balance: <strong>{formatCurrencyAmount(week2ProjectedBalance, 'VND')}</strong> drops below safe threshold ({formatCurrencyAmount(safetyBuffer, 'VND')}). Deficit of <strong>{formatCurrencyAmount(deficitAmount, 'VND')}</strong> caused by marketplace {settlementDays} lag.
                       </>
                     ) : (
                       <>
-                        Dòng tiền vận hành duy trì trên mức đệm an toàn. Không phát hiện thâm hụt.
+                        Operating cashflow remains securely above the minimum liquidity buffer across all projected weeks.
                       </>
                     )}
                   </p>
@@ -796,7 +795,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                       onClick={onProceed}
                       className="w-full py-2.5 px-3 rounded-lg bg-bg-surface-elevated hover:bg-bg-surface-elevated/80 border border-border-main text-xs font-mono font-medium text-text-primary transition-colors flex items-center justify-between"
                     >
-                      <span>1. Xem Biểu Đồ 13 Tuần</span>
+                      <span>1. View 13-Week Trajectory</span>
                       <ArrowRight className="w-3.5 h-3.5 text-primary" />
                     </button>
                   )}
@@ -807,7 +806,7 @@ export default function ScreenD1Upload({ onProceed, onNavigateToSimulator }: Scr
                       onClick={onNavigateToSimulator}
                       className="w-full py-2.5 px-3 rounded-lg bg-amber text-black hover:bg-amber/90 font-bold text-xs font-mono transition-colors flex items-center justify-between shadow-xs"
                     >
-                      <span>2. Bật Kịch Bản Giải Cứu (Simulator)</span>
+                      <span>2. Launch Scenario Simulator</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   )}

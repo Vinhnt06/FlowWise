@@ -18,6 +18,7 @@ When user's prompt is NOT in English:
 1. **Internally translate** for better comprehension
 2. **Respond in user's language** - match their communication
 3. **Code comments/variables** remain in English
+4. **All UI copy, buttons, badges, labels, and charts** MUST be 100% in English (zero non-English in UI)
 
 ---
 

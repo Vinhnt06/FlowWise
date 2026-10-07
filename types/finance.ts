@@ -65,7 +65,7 @@ export interface Transaction {
  */
 export interface WeeklyForecast {
   weekNumber: number;
-  weekLabel: string; // e.g., "Tuần 1", "Tuần 2"
+  weekLabel: string; // e.g., "Week 1", "Week 2"
   startDate: string; // YYYY-MM-DD
   endDate: string;   // YYYY-MM-DD
   openingBalance: number;
@@ -99,17 +99,17 @@ export interface CurrencyForecastSummary {
  * Parameters for the 3-lever Scenario Simulator
  */
 export interface ScenarioParams {
-  // Lever 1: Accelerate Receivables (Thu sớm công nợ khách sỉ)
+  // Lever 1: Accelerate Receivables (Early wholesale collection)
   accelerateReceivables: boolean;
   accelerateReceivablesAmount: number; // Amount brought forward to Week 2
   accelerateReceivablesDiscountPct: number; // Discount given (e.g. 2%)
 
-  // Lever 2: Defer Payables (Giãn hạn thanh toán nhà cung cấp)
+  // Lever 2: Defer Payables (Extend vendor payment terms)
   deferPayables: boolean;
   deferPayablesAmount: number; // Amount deferred from Week 2
   deferPayablesDays: number; // Shifted by 14 days (+2 weeks)
 
-  // Lever 3: Credit Line Draw (Kích hoạt hạn mức tín dụng ngắn hạn)
+  // Lever 3: Credit Line Draw (Draw revolving short-term credit)
   creditLineDrawn: boolean;
   creditLineAmount: number; // Inflow added to Week 2
   creditLineAnnualRatePct: number; // Annual interest rate (e.g. 8%)

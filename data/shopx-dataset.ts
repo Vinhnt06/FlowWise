@@ -93,79 +93,79 @@ const VND_INITIAL_BALANCE = 280_000_000;
 const VND_SAFE_BUFFER = 160_000_000;
 
 const VND_WEEKLY_BUCKETS = [
-  // Tuần 1: Normal steady state
+  // Week 1: Normal steady state
   {
     ...TIMELINE_WEEKS[0],
     inflow: 90_000_000, // Shopee payout 55M + TikTok 35M
     outflow: 90_000_000, // Ads 30M + Warehousing 20M + Staff 40M
   },
-  // Tuần 2: CRITICAL LIQUIDITY GAP (Deficit 10M)
+  // Week 2: CRITICAL LIQUIDITY GAP (Deficit 10M)
   {
     ...TIMELINE_WEEKS[1],
     inflow: 110_000_000, // Shopee payout 65M + TikTok 45M
     outflow: 240_000_000, // Supplier payment batch 180M + Warehouse rental 60M
   },
-  // Tuần 3: Rebound begins
+  // Week 3: Rebound begins
   {
     ...TIMELINE_WEEKS[2],
     inflow: 125_000_000,
     outflow: 85_000_000,
   },
-  // Tuần 4: Wholesale collection
+  // Week 4: Wholesale collection
   {
     ...TIMELINE_WEEKS[3],
     inflow: 140_000_000,
     outflow: 95_000_000,
   },
-  // Tuần 5: Mid-month mega campaign
+  // Week 5: Mid-month mega campaign
   {
     ...TIMELINE_WEEKS[4],
     inflow: 160_000_000,
     outflow: 110_000_000,
   },
-  // Tuần 6: Steady
+  // Week 6: Steady
   {
     ...TIMELINE_WEEKS[5],
     inflow: 130_000_000,
     outflow: 90_000_000,
   },
-  // Tuần 7: Steady
+  // Week 7: Steady
   {
     ...TIMELINE_WEEKS[6],
     inflow: 135_000_000,
     outflow: 95_000_000,
   },
-  // Tuần 8: Black Friday prep
+  // Week 8: Black Friday prep
   {
     ...TIMELINE_WEEKS[7],
     inflow: 155_000_000,
     outflow: 120_000_000,
   },
-  // Tuần 9: Post campaign payout
+  // Week 9: Post campaign payout
   {
     ...TIMELINE_WEEKS[8],
     inflow: 180_000_000,
     outflow: 115_000_000,
   },
-  // Tuần 10: 12.12 Mega Sale prep
+  // Week 10: 12.12 Mega Sale prep
   {
     ...TIMELINE_WEEKS[9],
     inflow: 170_000_000,
     outflow: 130_000_000,
   },
-  // Tuần 11: Mega Sale payouts arrive
+  // Week 11: Mega Sale payouts arrive
   {
     ...TIMELINE_WEEKS[10],
     inflow: 210_000_000,
     outflow: 140_000_000,
   },
-  // Tuần 12: Year-end shopping
+  // Week 12: Year-end shopping
   {
     ...TIMELINE_WEEKS[11],
     inflow: 220_000_000,
     outflow: 145_000_000,
   },
-  // Tuần 13: Closing year
+  // Week 13: Closing year
   {
     ...TIMELINE_WEEKS[12],
     inflow: 190_000_000,

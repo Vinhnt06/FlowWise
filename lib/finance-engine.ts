@@ -189,7 +189,7 @@ export function simulateMitigationScenario(
   // Target index for Week 2 is 1 (0-indexed)
   const week2Index = 1;
 
-  // LEVER 1: Accelerate Receivables (Thu sớm công nợ sỉ)
+  // LEVER 1: Accelerate Receivables (Early wholesale collections)
   if (params.accelerateReceivables && params.accelerateReceivablesAmount > 0) {
     const discountAmount =
       (params.accelerateReceivablesAmount * params.accelerateReceivablesDiscountPct) / 100;

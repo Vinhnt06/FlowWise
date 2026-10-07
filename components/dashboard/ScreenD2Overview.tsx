@@ -16,8 +16,12 @@ import {
   VND_SUMMARY,
   CNY_SUMMARY,
   USD_SUMMARY,
+  VND_BASELINE_FORECAST,
+  CNY_BASELINE_FORECAST,
+  USD_BASELINE_FORECAST,
 } from '@/data/shopx-dataset';
 import { formatCurrencyAmount } from '@/lib/finance-engine';
+import InteractiveForecastChart from '@/components/charts/InteractiveForecastChart';
 
 interface ScreenD2OverviewProps {
   onNavigateToForecast: () => void;
@@ -69,6 +73,84 @@ export default function ScreenD2Overview({
     },
   ];
 
+  // Precision 13-Week Mathematical Area Sparkline
+  const renderSparkline = (
+    values: number[],
+    strokeColor: string,
+    gradientId: string
+  ) => {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min || 1;
+    const width = 220;
+    const height = 44;
+    const paddingX = 5;
+    const paddingY = 7;
+    const availableW = width - paddingX * 2;
+    const availableH = height - paddingY * 2;
+
+    const points = values.map((v, i) => {
+      const x = paddingX + (i / (values.length - 1)) * availableW;
+      const y = height - paddingY - ((v - min) / range) * availableH;
+      return { x, y };
+    });
+
+    // Smooth continuous cubic bezier curve
+    let pathD = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
+    const clampY = (val: number) => Math.max(paddingY / 2, Math.min(height - paddingY / 2, val));
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = points[Math.max(0, i - 1)];
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      const p3 = points[Math.min(points.length - 1, i + 2)];
+
+      const cp1x = p1.x + (p2.x - p0.x) * 0.16;
+      const cp1y = clampY(p1.y + (p2.y - p0.y) * 0.16);
+      const cp2x = p2.x - (p3.x - p1.x) * 0.16;
+      const cp2y = clampY(p2.y - (p3.y - p1.y) * 0.16);
+
+      pathD += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+    }
+
+    const lastPoint = points[points.length - 1];
+    const firstPoint = points[0];
+    const areaD = `${pathD} L ${lastPoint.x.toFixed(1)} ${height} L ${firstPoint.x.toFixed(1)} ${height} Z`;
+
+    return (
+      <div className="h-11 w-full mb-3">
+        <svg
+          className="w-full h-full overflow-visible"
+          viewBox={`0 0 ${width} ${height}`}
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={strokeColor} stopOpacity="0.25" />
+              <stop offset="100%" stopColor={strokeColor} stopOpacity="0.0" />
+            </linearGradient>
+          </defs>
+          <path d={areaD} fill={`url(#${gradientId})`} />
+          <path
+            d={pathD}
+            stroke={strokeColor}
+            strokeWidth="2.2"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* Endpoint Pulse & Dot */}
+          <circle cx={lastPoint.x} cy={lastPoint.y} r="3" fill={strokeColor} />
+          <circle cx={lastPoint.x} cy={lastPoint.y} r="6" fill={strokeColor} fillOpacity="0.2" />
+        </svg>
+      </div>
+    );
+  };
+
+  const vndValues = VND_BASELINE_FORECAST.map((w) => w.closingBalance);
+  const cnyValues = CNY_BASELINE_FORECAST.map((w) => w.closingBalance);
+  const usdValues = USD_BASELINE_FORECAST.map((w) => w.closingBalance);
+
   return (
     <div className="space-y-8">
       {/* Enterprise Data Ingestion Quick-Action Callout */}
@@ -81,14 +163,14 @@ export default function ScreenD2Overview({
             <div>
               <div className="flex items-center gap-2">
                 <h4 className="text-sm font-bold text-text-primary">
-                  Phần Nhập Dữ Liệu Doanh Nghiệp (Enterprise Data Input & Ledger Ingestion)
+                  Enterprise Data Ingestion & Ledger Intake
                 </h4>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-primary text-white font-semibold">
-                  Bước 1
+                  STEP 1: INGESTION
                 </span>
               </div>
               <p className="text-xs text-text-secondary mt-0.5">
-                Tải lên file đối soát Shopee, TikTok Shop, hóa đơn xưởng 1688 hoặc nhập trực tiếp số dư ban đầu & tỷ lệ chiết khấu để mô phỏng dòng tiền 13 tuần.
+                Upload Shopee, TikTok Shop, or 1688 factory exports, or manually tune enterprise opening balances and platform deductions for 13-week liquidity modeling.
               </p>
             </div>
           </div>
@@ -97,13 +179,13 @@ export default function ScreenD2Overview({
             onClick={onNavigateToUpload}
             className="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-primary hover:bg-primary-hover shadow-xs transition-all flex items-center gap-2 shrink-0 active:scale-95"
           >
-            <span>Nhập Dữ Liệu Ngay</span>
+            <span>Ingest Enterprise Data</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
 
-      {/* 3 Large Currency Balance Cards with 3D Coin Medallions */}
+      {/* 3 Large Currency Balance Cards with 3D Coin Medallions & Accurate Sparklines */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Card 1: VND Operating Cash */}
         <div className="rounded-2xl bg-bg-surface border border-vnd/30 p-6 shadow-xs hover:border-vnd/60 transition-all duration-200 group">
@@ -123,24 +205,15 @@ export default function ScreenD2Overview({
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
           </div>
 
-          <div className="font-mono text-3xl font-extrabold text-vnd tracking-tight mb-4 tabular-nums">
+          <div className="font-mono text-3xl font-extrabold text-vnd tracking-tight mb-2 tabular-nums">
             {formatCurrencyAmount(VND_SUMMARY.currentBalance, 'VND')}
           </div>
 
-          {/* Mini Sparkline */}
-          <div className="h-10 w-full mb-4">
-            <svg className="w-full h-full" viewBox="0 0 100 25" fill="none">
-              <path
-                d="M 0 15 Q 20 5, 40 18 T 80 8 T 100 12"
-                stroke="#10B981"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
+          {/* Precision 13-Week Area Sparkline */}
+          {renderSparkline(vndValues, '#059669', 'sparkline-vnd-grad')}
 
           <div className="pt-3 border-t border-border-subtle flex items-center justify-between text-xs font-mono">
-            <span className="text-text-muted">Safe Buffer: 160M ₫</span>
+            <span className="text-text-muted">Safe Buffer: 160M VND</span>
             <span className="text-vnd bg-vnd/10 px-2 py-0.5 rounded font-semibold">
               Currently Maintained
             </span>
@@ -165,21 +238,12 @@ export default function ScreenD2Overview({
             <span className="w-2.5 h-2.5 rounded-full bg-cny" />
           </div>
 
-          <div className="font-mono text-3xl font-extrabold text-cny tracking-tight mb-4 tabular-nums">
+          <div className="font-mono text-3xl font-extrabold text-cny tracking-tight mb-2 tabular-nums">
             {formatCurrencyAmount(CNY_SUMMARY.currentBalance, 'CNY')}
           </div>
 
-          {/* Mini Sparkline */}
-          <div className="h-10 w-full mb-4">
-            <svg className="w-full h-full" viewBox="0 0 100 25" fill="none">
-              <path
-                d="M 0 10 Q 30 20, 60 8 T 100 18"
-                stroke="#F97316"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
+          {/* Precision 13-Week Area Sparkline */}
+          {renderSparkline(cnyValues, '#EA580C', 'sparkline-cny-grad')}
 
           <div className="pt-3 border-t border-border-subtle flex items-center justify-between text-xs font-mono">
             <span className="text-text-muted">1688 Vendor Terms:</span>
@@ -208,21 +272,12 @@ export default function ScreenD2Overview({
             <span className="w-2.5 h-2.5 rounded-full bg-usd" />
           </div>
 
-          <div className="font-mono text-3xl font-extrabold text-usd tracking-tight mb-4 tabular-nums">
+          <div className="font-mono text-3xl font-extrabold text-usd tracking-tight mb-2 tabular-nums">
             {formatCurrencyAmount(USD_SUMMARY.currentBalance, 'USD')}
           </div>
 
-          {/* Mini Sparkline */}
-          <div className="h-10 w-full mb-4">
-            <svg className="w-full h-full" viewBox="0 0 100 25" fill="none">
-              <path
-                d="M 0 18 Q 30 5, 60 15 T 100 10"
-                stroke="#2563EB"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
+          {/* Precision 13-Week Area Sparkline */}
+          {renderSparkline(usdValues, '#2563EB', 'sparkline-usd-grad')}
 
           <div className="pt-3 border-t border-border-subtle flex items-center justify-between text-xs font-mono">
             <span className="text-text-muted">Ad Spend & Logistics:</span>
@@ -233,63 +288,40 @@ export default function ScreenD2Overview({
         </div>
       </div>
 
-      {/* 2-Column Split: Left (Mini 13-Week Chart) | Right (Recent Transactions) */}
+      {/* 2-Column Split: Left (Interactive 13-Week Chart) | Right (Recent Transactions) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Mini 13-Week Forecast Cockpit */}
-        <div className="lg:col-span-7 rounded-2xl bg-bg-surface border border-border-main p-6 shadow-xs">
-          <div className="flex items-center justify-between pb-4 mb-4 border-b border-border-subtle">
-            <div>
-              <h3 className="text-base font-bold text-text-primary tracking-tight">
-                13-Week Liquidity Trajectory (VND)
-              </h3>
-              <span className="text-xs text-text-muted">
-                Deterministic baseline model for ShopX
-              </span>
-            </div>
-            <button
-              onClick={onNavigateToForecast}
-              className="text-xs font-mono text-primary hover:underline font-semibold"
-            >
-              Open Fullscreen Trajectory &rarr;
-            </button>
-          </div>
-
-          {/* Mini Curve with Highlighted Week 2 */}
-          <div className="relative py-4">
-            <div className="h-44 w-full relative">
-              <svg className="w-full h-full" viewBox="0 0 500 150" fill="none">
-                {/* Horizontal Buffer Line at y=90 */}
-                <line x1="20" y1="90" x2="480" y2="90" stroke="#EF4444" strokeDasharray="4 4" strokeWidth="1.5" />
-                <text x="340" y="85" fill="#EF4444" fontSize="10" fontFamily="monospace">
-                  Minimum Buffer: 160M ₫
-                </text>
-
-                {/* Trajectory */}
-                <path
-                  d="M 30 30 C 50 35, 70 120, 85 120 C 100 120, 120 70, 140 70 C 180 70, 220 50, 260 55 C 320 60, 380 40, 470 20"
-                  stroke="#10B981"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-
-                {/* Week 2 Red Zone Pill */}
-                <circle cx="85" cy="120" r="5" fill="#EF4444" className="animate-pulse" />
-              </svg>
-
-              {/* Week 2 Tag Callout */}
-              <div className="absolute top-[52%] left-[16%] bg-crimson/15 border border-crimson px-2.5 py-1 rounded-lg text-center backdrop-blur-md">
-                <span className="text-[10px] font-mono font-bold text-crimson block">Week 2: 150M</span>
-                <span className="text-[9px] text-amber">Deficit -10M</span>
+        {/* Left Column: Interactive 13-Week Forecast Cockpit */}
+        <div className="lg:col-span-7 rounded-2xl bg-bg-surface border border-border-main p-6 shadow-xs flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-border-subtle">
+              <div>
+                <h3 className="text-base font-bold text-text-primary tracking-tight">
+                  13-Week Liquidity Trajectory (VND Ledger)
+                </h3>
+                <span className="text-xs text-text-muted">
+                  Interactive mathematical baseline model for ShopX
+                </span>
               </div>
+              <button
+                type="button"
+                onClick={onNavigateToForecast}
+                className="text-xs font-mono text-primary hover:underline font-semibold"
+              >
+                Open Fullscreen Trajectory &rarr;
+              </button>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] font-mono text-text-muted mt-2">
-              <span>Week 1</span>
-              <span className="text-crimson font-bold">Week 2 (Risk)</span>
-              <span>Week 6</span>
-              <span>Week 10</span>
-              <span>Week 13</span>
-            </div>
+            {/* Real Interactive Forecast Chart */}
+            <InteractiveForecastChart
+              weeks={VND_BASELINE_FORECAST}
+              currency="VND"
+              bufferThreshold={160_000_000}
+              selectedWeek={2}
+              onSelectWeek={onNavigateToForecast}
+              onNavigateToSimulator={onNavigateToSimulator}
+              heightClassName="h-64 sm:h-72"
+              showScrubber={true}
+            />
           </div>
 
           <div className="mt-4 p-3.5 rounded-xl bg-amber/10 border border-amber/25 flex items-center justify-between">
@@ -298,6 +330,7 @@ export default function ScreenD2Overview({
               <span>Liquidity shortfall of 10M VND detected in Week 2 below safety buffer.</span>
             </div>
             <button
+              type="button"
               onClick={onNavigateToSimulator}
               className="px-3 py-1 rounded-lg text-xs font-bold text-black bg-amber hover:bg-amber/90 transition-colors shrink-0"
             >
