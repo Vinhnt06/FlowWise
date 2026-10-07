@@ -8,6 +8,9 @@ import {
   DollarSign,
   AlertTriangle,
   CheckCircle2,
+  UploadCloud,
+  ArrowRight,
+  Sparkles,
 } from 'lucide-react';
 import {
   VND_SUMMARY,
@@ -19,11 +22,13 @@ import { formatCurrencyAmount } from '@/lib/finance-engine';
 interface ScreenD2OverviewProps {
   onNavigateToForecast: () => void;
   onNavigateToSimulator: () => void;
+  onNavigateToUpload?: () => void;
 }
 
 export default function ScreenD2Overview({
   onNavigateToForecast,
   onNavigateToSimulator,
+  onNavigateToUpload,
 }: ScreenD2OverviewProps) {
   const recentTransactions = [
     {
@@ -66,6 +71,38 @@ export default function ScreenD2Overview({
 
   return (
     <div className="space-y-8">
+      {/* Enterprise Data Ingestion Quick-Action Callout */}
+      {onNavigateToUpload && (
+        <div className="rounded-2xl bg-gradient-to-r from-primary/10 via-bg-surface to-bg-surface border border-primary/30 p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center font-bold shrink-0">
+              <UploadCloud className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h4 className="text-sm font-bold text-text-primary">
+                  Phần Nhập Dữ Liệu Doanh Nghiệp (Enterprise Data Input & Ledger Ingestion)
+                </h4>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-primary text-white font-semibold">
+                  Bước 1
+                </span>
+              </div>
+              <p className="text-xs text-text-secondary mt-0.5">
+                Tải lên file đối soát Shopee, TikTok Shop, hóa đơn xưởng 1688 hoặc nhập trực tiếp số dư ban đầu & tỷ lệ chiết khấu để mô phỏng dòng tiền 13 tuần.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onNavigateToUpload}
+            className="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-primary hover:bg-primary-hover shadow-xs transition-all flex items-center gap-2 shrink-0 active:scale-95"
+          >
+            <span>Nhập Dữ Liệu Ngay</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* 3 Large Currency Balance Cards with 3D Coin Medallions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Card 1: VND Operating Cash */}

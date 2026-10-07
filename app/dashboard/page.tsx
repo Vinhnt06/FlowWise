@@ -36,6 +36,7 @@ export default function DashboardPage() {
             <ScreenD2Overview
               onNavigateToForecast={() => setCurrentTab('forecast')}
               onNavigateToSimulator={() => setCurrentTab('simulator')}
+              onNavigateToUpload={() => setCurrentTab('upload')}
             />
           )}
 
@@ -54,6 +55,7 @@ export default function DashboardPage() {
           {currentTab === 'upload' && (
             <ScreenD1Upload
               onProceed={() => setCurrentTab('forecast')}
+              onNavigateToSimulator={() => setCurrentTab('simulator')}
             />
           )}
         </main>

@@ -21,7 +21,7 @@ export default function DashboardHeader({ currentTab, onOpenReportModal }: Dashb
       case 'simulator':
         return 'Week 2 Deficit Mitigation Simulator';
       case 'upload':
-        return 'Multi-Platform Settlement Ingestion';
+        return 'Enterprise Data Input & Ledger Ingestion';
       default:
         return 'Dashboard';
     }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 interface FintechTiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -12,13 +12,13 @@ interface FintechTiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function FintechTiltCard({
   children,
   className = '',
-  maxTilt = 7,
+  maxTilt = 6,
   glareOpacity = 0.15,
   ...props
 }: FintechTiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState<string>('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
-  const [glarePos, setGlarePos] = useState<{ x: number; y: number; opacity: number }>({ x: 50, y: 50, opacity: 0 });
+  const glareRef = useRef<HTMLDivElement>(null);
+  const rafId = useRef<number | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -32,17 +32,30 @@ export default function FintechTiltCard({
     const rotateX = ((y - centerY) / centerY) * -maxTilt;
     const rotateY = ((x - centerX) / centerX) * maxTilt;
 
-    setTransform(`perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.015, 1.015, 1.015)`);
-    setGlarePos({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
-      opacity: glareOpacity,
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
+      if (cardRef.current) {
+        cardRef.current.style.transition = 'transform 0.08s ease-out';
+        cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.012, 1.012, 1.012)`;
+      }
+      if (glareRef.current) {
+        const glareX = (x / rect.width) * 100;
+        const glareY = (y / rect.height) * 100;
+        glareRef.current.style.opacity = `${glareOpacity}`;
+        glareRef.current.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, 0.32), transparent 65%)`;
+      }
     });
   };
 
   const handleMouseLeave = () => {
-    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
-    setGlarePos((prev) => ({ ...prev, opacity: 0 }));
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    if (cardRef.current) {
+      cardRef.current.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.4, 1)';
+      cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    }
+    if (glareRef.current) {
+      glareRef.current.style.opacity = '0';
+    }
   };
 
   return (
@@ -51,22 +64,18 @@ export default function FintechTiltCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform,
+        transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
         transformStyle: 'preserve-3d',
-        transition: 'transform 0.18s cubic-bezier(0.2, 0.8, 0.4, 1)',
       }}
       className={`relative will-change-transform ${className}`}
       {...props}
     >
       {/* Specular Glare Reflection Layer */}
       <div
-        className="pointer-events-none absolute -inset-px rounded-inherit transition-opacity duration-300 z-20"
-        style={{
-          opacity: glarePos.opacity,
-          background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255, 255, 255, 0.35), transparent 60%)`,
-        }}
+        ref={glareRef}
+        className="pointer-events-none absolute -inset-px rounded-[inherit] transition-opacity duration-300 z-10 opacity-0"
       />
-      {children}
+      <div className="relative z-[1] h-full w-full">{children}</div>
     </div>
   );
 }

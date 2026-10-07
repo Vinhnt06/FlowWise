@@ -42,8 +42,8 @@ export default function DashboardSidebar({
     },
     {
       id: 'upload',
-      label: 'Ledger Ingestion',
-      badge: 'CSV Parser',
+      label: 'Data Input & Ingestion',
+      badge: 'Upload / Manual',
       icon: UploadCloud,
     },
   ];

@@ -236,6 +236,7 @@ export default function FintechBackgroundVideo({
             : 'bg-gradient-to-b from-[#F8FAFC]/75 via-[#F8FAFC]/45 to-[#F8FAFC]'
         }`}
         style={{
+          WebkitMaskImage: 'radial-gradient(ellipse at 50% 45%, black 40%, transparent 95%)',
           maskImage: 'radial-gradient(ellipse at 50% 45%, black 40%, transparent 95%)',
         }}
       />

@@ -31,7 +31,8 @@ export default function HeroSection() {
           theme === 'light' ? 'fintech-grid-light' : 'fintech-grid-dark'
         }`}
         style={{
-          maskImage: 'radial-gradient(ellipse at center, black 50%, transparent 85%)'
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 50%, transparent 85%)',
+          maskImage: 'radial-gradient(ellipse at center, black 50%, transparent 85%)',
         }}
       />
 
