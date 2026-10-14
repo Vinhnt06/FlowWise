@@ -8,6 +8,7 @@ import ScreenD2Overview from '@/components/dashboard/ScreenD2Overview';
 import ScreenD3Forecast from '@/components/dashboard/ScreenD3Forecast';
 import ScreenD4Simulator from '@/components/dashboard/ScreenD4Simulator';
 import ScreenD5ReportModal from '@/components/dashboard/ScreenD5ReportModal';
+import FintechAiCopilot from '@/components/dashboard/FintechAiCopilot';
 
 export default function DashboardPage() {
   const [currentTab, setCurrentTab] = useState<string>('overview');
@@ -65,6 +66,12 @@ export default function DashboardPage() {
       <ScreenD5ReportModal
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
+      />
+
+      {/* Floating Treasury AI Copilot (SPEC M08) */}
+      <FintechAiCopilot
+        onNavigateToSimulator={() => setCurrentTab('simulator')}
+        onNavigateToForecast={() => setCurrentTab('forecast')}
       />
     </div>
   );

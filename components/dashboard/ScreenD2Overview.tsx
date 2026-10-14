@@ -11,6 +11,10 @@ import {
   UploadCloud,
   ArrowRight,
   Sparkles,
+  TrendingDown,
+  Layers,
+  ShieldCheck,
+  Calendar,
 } from 'lucide-react';
 import {
   VND_SUMMARY,
@@ -184,6 +188,47 @@ export default function ScreenD2Overview({
           </button>
         </div>
       )}
+
+      {/* SPEC M04: 5-Second Executive Health Pulse */}
+      <div className="rounded-2xl bg-bg-surface border border-border-main p-4 sm:p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-amber/15 text-amber flex items-center justify-center font-bold shrink-0">
+            <AlertTriangle className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
+                EXECUTIVE LIQUIDITY PULSE (SPEC M04)
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber/15 text-amber border border-amber/30">
+                1 Deficit Week Flagged
+              </span>
+            </div>
+            <p className="text-xs text-text-primary font-medium mt-0.5">
+              Operating treasury is fully solvent overall, but faces an isolated <strong>10,000,000 VND shortfall in Week 2</strong> due to 1688 OEM payables and platform escrow lag.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 w-full md:w-auto shrink-0 justify-between md:justify-end">
+          <div className="px-3 py-1.5 rounded-xl bg-bg-surface-elevated border border-border-main text-right">
+            <span className="text-[10px] font-mono text-text-muted block">Runway</span>
+            <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">13+ Weeks</span>
+          </div>
+          <div className="px-3 py-1.5 rounded-xl bg-bg-surface-elevated border border-border-main text-right">
+            <span className="text-[10px] font-mono text-text-muted block">Buffer Ratio</span>
+            <span className="text-xs font-mono font-bold text-amber">87.5% (W2)</span>
+          </div>
+          <button
+            type="button"
+            onClick={onNavigateToSimulator}
+            className="px-3.5 py-2 rounded-xl text-xs font-mono font-bold text-black bg-amber hover:bg-amber/90 transition-all shadow-xs flex items-center gap-1.5 active:scale-95"
+          >
+            <span>Resolve Gap</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
 
       {/* 3 Large Currency Balance Cards with 3D Coin Medallions & Accurate Sparklines */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -372,6 +417,96 @@ export default function ScreenD2Overview({
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* SPEC M06: Deficit Root Cause Drivers Breakdown */}
+      <div className="rounded-2xl bg-bg-surface border border-border-main p-6 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-5 border-b border-border-subtle">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-bold text-text-primary tracking-tight">
+                Deficit Root Cause Drivers (Spec M06 — Week 2 Breakdown)
+              </h3>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-crimson/15 text-crimson border border-crimson/30">
+                10M VND GAP
+              </span>
+            </div>
+            <p className="text-xs text-text-muted mt-0.5">
+              Exact mathematical decomposition of the 240,000,000 VND total weekly outflow pulling Week 2 closing balance below the 160M VND safe threshold.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onNavigateToSimulator}
+            className="text-xs font-mono font-bold text-primary hover:underline flex items-center gap-1.5 shrink-0"
+          >
+            <span>Simulate Mitigation Levers</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Driver 1 */}
+          <div className="p-4 rounded-xl bg-bg-surface-elevated/70 border border-border-main hover:border-cny/40 transition-colors">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-cny/10 text-cny border border-cny/25">
+                DRIVER 1 • 75.0% OF OUTFLOW
+              </span>
+              <span className="text-xs font-mono font-bold text-crimson tabular-nums">180,000,000 ₫</span>
+            </div>
+            <h4 className="text-xs font-bold text-text-primary mb-1">
+              1688 OEM Factory Batch Settlement
+            </h4>
+            <p className="text-[11px] font-mono text-text-muted leading-relaxed">
+              Wholesale cosmetic inventory batch due on 14-day terms. Mitigable by negotiating a 14-day deferral (Lever 2).
+            </p>
+            <div className="mt-3 pt-2 border-t border-border-subtle flex items-center justify-between text-[10px] font-mono text-text-secondary">
+              <span>Source: Supplier Invoice #1688-GZ</span>
+              <span className="text-cny font-bold">Reschedulable</span>
+            </div>
+          </div>
+
+          {/* Driver 2 */}
+          <div className="p-4 rounded-xl bg-bg-surface-elevated/70 border border-border-main hover:border-border-strong transition-colors">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-bg-surface text-text-muted border border-border-main">
+                DRIVER 2 • 25.0% OF OUTFLOW
+              </span>
+              <span className="text-xs font-mono font-bold text-crimson tabular-nums">60,000,000 ₫</span>
+            </div>
+            <h4 className="text-xs font-bold text-text-primary mb-1">
+              Central Warehouse Lease & Distribution
+            </h4>
+            <p className="text-[11px] font-mono text-text-muted leading-relaxed">
+              Fixed commercial hub rental and logistics fulfillment retainer. Rigid contractual obligation without penalty waiver.
+            </p>
+            <div className="mt-3 pt-2 border-t border-border-subtle flex items-center justify-between text-[10px] font-mono text-text-secondary">
+              <span>Source: Contract #WH-SGN-2026</span>
+              <span className="text-text-muted">Fixed OPEX</span>
+            </div>
+          </div>
+
+          {/* Driver 3 */}
+          <div className="p-4 rounded-xl bg-bg-surface-elevated/70 border border-border-main hover:border-primary/40 transition-colors">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/25">
+                DRIVER 3 • ESCROW LAG
+              </span>
+              <span className="text-xs font-mono font-bold text-amber tabular-nums">~11,000,000 ₫</span>
+            </div>
+            <h4 className="text-xs font-bold text-text-primary mb-1">
+              Shopee & TikTok Escrow Holdback
+            </h4>
+            <p className="text-[11px] font-mono text-text-muted leading-relaxed">
+              Standard 10% marketplace buyer confirmation reserve held under T+3/T+7 lag; scheduled for automatic release in Week 3.
+            </p>
+            <div className="mt-3 pt-2 border-t border-border-subtle flex items-center justify-between text-[10px] font-mono text-text-secondary">
+              <span>Source: Settlement Reserve Ledger</span>
+              <span className="text-primary font-bold">Unlocks W3</span>
+            </div>
           </div>
         </div>
       </div>
