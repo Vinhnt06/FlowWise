@@ -40,6 +40,7 @@ export default function DashboardHeader({ currentTab, onOpenReportModal }: Dashb
         <div className="flex items-center gap-4">
           <Link
             href="/"
+            transitionTypes={['nav-back']}
             className="flex items-center gap-1.5 text-xs font-mono text-text-muted hover:text-text-primary px-2.5 py-1.5 rounded-lg border border-transparent hover:border-border-main hover:bg-bg-surface-elevated transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />

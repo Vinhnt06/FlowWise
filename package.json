@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:finance": "tsx scripts/test-finance-engine.ts"
+    "test:finance": "tsx scripts/test-finance-engine.ts",
+    "test:spec": "tsx scripts/test-worked-example.ts"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

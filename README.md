@@ -24,8 +24,8 @@
 ## 💡 Vấn Đề Cốt Lõi: "Doanh Số Trên Sàn ≠ Tiền Trong Tài Khoản"
 
 Các chủ shop bán hàng đa kênh tại Việt Nam thường xuyên đối mặt với nguy cơ vỡ nợ kỹ thuật dù kinh doanh có lãi:
-1. **Độ trễ dòng tiền (Cash Gap):** Sàn TMĐT (Shopee, TikTok Shop) giam giữ tiền đối soát 14-21 ngày.
-2. **Chiết giảm ngầm:** Phí sàn (12%), tỷ lệ hoàn đơn COD (5%), phí vận chuyển bào mòn lợi nhuận gộp.
+1. **Độ trễ dòng tiền (Cash Gap):** Sàn TMĐT (Shopee, TikTok Shop) giữ tiền đối soát một thời gian trước khi trả về *(số ngày cụ thể chưa xác minh — xem `FlowWise_Shopee_TikTok_nghiep_vu.xlsx`, R03/R05)*.
+2. **Chiết giảm ngầm:** Phí sàn, hoàn đơn COD, phí vận chuyển bào mòn lợi nhuận gộp *(mức % chưa xác minh — R07–R15)*.
 3. **Ảo giác ngoại tệ:** Việc quy đổi gộp CNY (nợ xưởng 1688) và USD (quảng cáo quốc tế) sang VND theo tỷ giá kế toán tạo ra ảo giác "vẫn còn nhiều tiền", dẫn đến thiếu hụt tiền mặt đột ngột khi các hóa đơn xưởng đến hạn.
 
 ---
@@ -62,7 +62,8 @@ FlowWise **tuyệt đối không quy đổi chéo tiền tệ** theo tỷ giá g
 Dự án tích hợp bộ kiểm thử 7 tiêu chuẩn tài chính khắt khe:
 
 ```bash
-npm run test:finance
+npm run test:finance   # engine cũ (bucket theo tuần), 7 test
+npm run test:spec      # TC01–TC08 theo sheet "Ví dụ tính tay" của FlowWise1.xlsx
 ```
 
 Kết quả:

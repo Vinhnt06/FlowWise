@@ -27,5 +27,8 @@ jobs:
       - name: Run Finance Engine Test Suite (7-Point Deterministic Verification)
         run: npm run test:finance
 
+      - name: Run Spec Acceptance Tests (TC01–TC08, worked example)
+        run: npm run test:spec
+
       - name: Build Next.js Production Bundle
         run: npm run build

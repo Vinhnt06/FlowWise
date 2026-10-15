@@ -61,6 +61,19 @@ export interface Transaction {
 }
 
 /**
+ * A dated cash movement (spec: cash_event). Signed amount: inflow +, outflow −.
+ */
+export interface CashEvent {
+  id: string;
+  date: string; // ISO YYYY-MM-DD
+  amount: number;
+  currency: Currency;
+  type: 'bank' | 'receivable' | 'payable' | 'recurring' | 'settlement' | 'hold_release' | 'loan';
+  description: string;
+  flexible?: boolean;
+}
+
+/**
  * 13-Week Cashflow Forecast for a single week
  */
 export interface WeeklyForecast {

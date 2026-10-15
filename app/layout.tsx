@@ -1,31 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Fira_Code, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
+  subsets: ["latin", "vietnamese"],
+  weight: ["500", "600", "700"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const firaCode = Fira_Code({
+  variable: "--font-fira-code",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "FlowWise | Predictive Multi-Currency Cashflow Intelligence & 13-Week Liquidity Engine",
+  title: "FlowWise | 13-week cash forecast for online shops",
   description:
-    "Deterministic 13-week liquidity forecasting with absolute currency isolation (VND, CNY, USD) for cross-border e-commerce brands on Shopee, TikTok Shop & 1688.",
+    "FlowWise turns a shop's bank statement, invoices and bills into 13 weeks of balances in VND, CNY and USD, warns before a week drops below the safety level, and lets you test a fix.",
   keywords: [
-    "cashflow forecasting",
     "13-week cash flow",
-    "e-commerce liquidity",
-    "multi-currency cashflow",
+    "cash flow forecast",
+    "Shopee seller cash flow",
+    "TikTok Shop payouts",
+    "multi-currency cash",
     "fintechathon",
-    "cross-border treasury",
-    "shopee seller cashflow",
-    "tiktok shop escrow",
   ],
 };
 
@@ -38,7 +42,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${plusJakarta.variable} ${dmSans.variable} ${firaCode.variable} h-full antialiased`}
     >
       <head>
         <script
@@ -60,7 +64,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-bg-base text-text-primary transition-colors duration-200">
+      <body className="min-h-full flex flex-col bg-bg-base text-text-primary">
         <ThemeProvider>
           {children}
         </ThemeProvider>
