@@ -9,6 +9,7 @@
  */
 
 import {
+  CashEvent,
   Currency,
   PlatformPayoutInput,
   PlatformPayoutCalculation,
@@ -117,6 +118,64 @@ export function calculateWeeklyForecast(
   }
 
   return results;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function parseIsoDate(iso: string): number {
+  const [y, m, d] = iso.split('-').map(Number);
+  return Date.UTC(y, m - 1, d);
+}
+
+function formatIsoDate(ms: number): string {
+  return new Date(ms).toISOString().slice(0, 10);
+}
+
+/**
+ * Group dated cash events into weekly buckets.
+ * - Week n starts at asOfDate + 7×(n−1) and ends 6 days later (week 1 starts on the cut-off date).
+ * - Events dated before the cut-off land in week 1 (overdue policy); events after the last week are left out.
+ * - Only events in the requested currency are counted: currencies are never mixed.
+ */
+export function bucketEventsByWeek(
+  events: CashEvent[],
+  asOfDate: string,
+  currency: Currency,
+  weeks = 13
+): WeeklyBucketInput[] {
+  const start = parseIsoDate(asOfDate);
+  const buckets: WeeklyBucketInput[] = Array.from({ length: weeks }, (_, i) => ({
+    weekNumber: i + 1,
+    weekLabel: `Week ${i + 1}`,
+    startDate: formatIsoDate(start + i * 7 * DAY_MS),
+    endDate: formatIsoDate(start + (i * 7 + 6) * DAY_MS),
+    inflow: 0,
+    outflow: 0,
+  }));
+
+  for (const event of events) {
+    if (event.currency !== currency) continue;
+    const index = Math.max(0, Math.floor((parseIsoDate(event.date) - start) / (7 * DAY_MS)));
+    if (index >= weeks) continue;
+    if (event.amount >= 0) {
+      buckets[index].inflow += event.amount;
+    } else {
+      buckets[index].outflow += -event.amount;
+    }
+  }
+
+  return buckets;
+}
+
+/**
+ * Shift one event's date by a number of days, returning a new event list (scenario S1: delay a bill).
+ */
+export function shiftEventDate(events: CashEvent[], eventId: string, days: number): CashEvent[] {
+  return events.map((event) =>
+    event.id === eventId
+      ? { ...event, date: formatIsoDate(parseIsoDate(event.date) + days * DAY_MS) }
+      : event
+  );
 }
 
 /**

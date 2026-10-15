@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, ViewTransition } from 'react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import ScreenD1Upload from '@/components/dashboard/ScreenD1Upload';
@@ -15,7 +15,12 @@ export default function DashboardPage() {
   const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-bg-base text-text-primary flex flex-col font-sans selection:bg-primary selection:text-white transition-colors duration-200">
+    <ViewTransition
+      default="none"
+      enter={{ 'nav-forward': 'nav-forward', 'nav-back': 'nav-back', default: 'none' }}
+      exit={{ 'nav-forward': 'nav-forward', 'nav-back': 'nav-back', default: 'none' }}
+    >
+      <div className="min-h-screen bg-bg-base text-text-primary flex flex-col font-sans selection:bg-primary selection:text-white transition-colors duration-200">
       {/* Sticky Header with Mandatory Simulated Data Banner */}
       <DashboardHeader
         currentTab={currentTab}
@@ -73,6 +78,7 @@ export default function DashboardPage() {
         onNavigateToSimulator={() => setCurrentTab('simulator')}
         onNavigateToForecast={() => setCurrentTab('forecast')}
       />
-    </div>
+      </div>
+    </ViewTransition>
   );
 }
