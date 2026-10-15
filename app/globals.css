@@ -393,19 +393,44 @@ body {
   width: 24px;
   height: 24px;
   margin-top: -8px;
+  border: 3px solid var(--bg-surface);
   border-radius: 9999px;
   background: var(--primary);
-  transition: transform var(--t-press) var(--ease-out);
+  box-shadow: var(--elev-md); /* taste-skill-ignore: range thumb, a form control */
+  transition:
+    transform var(--t-press) var(--ease-out),
+    box-shadow var(--t-hover) ease;
 }
 .fw-range::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  border: 0;
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--bg-surface);
   border-radius: 9999px;
   background: var(--primary);
+  box-shadow: var(--elev-md); /* taste-skill-ignore: range thumb, a form control */
+  transition: transform var(--t-press) var(--ease-out);
+}
+.fw-range:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
 }
 .fw-range:active::-webkit-slider-thumb {
-  transform: scale(1.15);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px var(--primary-surface), var(--elev-md); /* taste-skill-ignore: range thumb pressed */
+}
+.fw-range:hover::-moz-range-thumb {
+  transform: scale(1.1);
+}
+.fw-range:active::-moz-range-thumb {
+  transform: scale(1.2);
+}
+.fw-range:focus-visible {
+  outline: none;
+}
+.fw-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--bg-surface), 0 0 0 5px var(--primary); /* taste-skill-ignore: focus ring */
+}
+.fw-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px var(--bg-surface), 0 0 0 5px var(--primary); /* taste-skill-ignore: focus ring */
 }
 
 /* Horizontal panel row (showcase) */

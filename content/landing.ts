@@ -110,6 +110,7 @@ export const fixes = {
       discountLabel: 'Discount',
       receive: 'You receive',
       cost: 'Cost of the discount',
+      asIs: 'The sample shop as it is today. With a real invoice, collecting early would move its payment date in this forecast.',
     },
     {
       id: 'loan',
@@ -137,10 +138,28 @@ export const fixes = {
   levels: { OK: 'Above safety', BELOW_BUFFER: 'Below safety', SHORTFALL: 'Short of cash' },
 };
 
+export const chart = {
+  balance: 'Closing balance',
+  plan: 'With your changes',
+  before: 'Before',
+  safety: 'Safety level',
+  drag: 'drag the line',
+  week: 'Week',
+  closing: 'Closing',
+  in: 'In',
+  out: 'Out',
+  levels: { OK: 'Above safety', BELOW_BUFFER: 'Below safety', SHORTFALL: 'Short of cash' },
+};
+
 export const tryFix = {
   heading: 'Try a fix yourself',
   output: {
     title: 'Sample shop · VND',
+    reset: 'Reset',
+    vsBefore: 'vs before',
+    same: 'Same as before',
+    beforeWas: 'Before:',
+    shortSuffix: 'short of cash',
     lowest: 'Lowest balance',
     firstBelow: 'First week below safety',
     weeksBelow: 'Weeks below safety',
@@ -156,6 +175,7 @@ export const tryFix = {
       paragraph:
         'Bills marked as flexible can be paid later. Drag to see where the 130,000,000 ₫ payment lands.',
       label: 'Days later',
+      presets: [{ label: '7 days', value: 7 }, { label: '14 days', value: 14 }, { label: '21 days', value: 21 }],
     },
     {
       id: 'buffer',
@@ -163,6 +183,8 @@ export const tryFix = {
       paragraph:
         'The lowest balance you are comfortable with. Under it you get a warning; under zero, a shortfall.',
       label: 'Safety level',
+      hint: 'You can also drag the amber line on the chart.',
+      presets: [{ label: '120M', value: 120_000_000 }, { label: '160M', value: 160_000_000 }, { label: '200M', value: 200_000_000 }],
     },
     {
       id: 'payoutDelay',
@@ -170,12 +192,14 @@ export const tryFix = {
       paragraph:
         'Add a few days to every platform payout and see whether the plan still holds.',
       label: 'Days late',
+      presets: [{ label: '2 days', value: 2 }, { label: '5 days', value: 5 }, { label: '7 days', value: 7 }],
     },
     {
       id: 'opening',
       sentence: 'Start from another balance',
       paragraph: 'Change what is in the account on the cut-off date, 12 October 2026 in this sample.',
       label: 'Opening balance',
+      presets: [{ label: '150M', value: 150_000_000 }, { label: '200M', value: 200_000_000 }, { label: '300M', value: 300_000_000 }],
     },
   ],
 };

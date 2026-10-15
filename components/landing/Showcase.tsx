@@ -47,7 +47,7 @@ function Row({ label, value, strong, tone }: { label: string; value: string; str
 
 function PanelShell({ title, children, badge }: { title: string; children: React.ReactNode; badge?: React.ReactNode }) {
   return (
-    <div data-ui className="rounded-lg bg-bg-surface p-5 text-[14px] text-text-primary shadow-lg">
+    <div data-ui className="w-full rounded-lg bg-bg-surface p-5 text-[14px] text-text-primary shadow-lg">
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="font-display text-[15px] font-semibold text-text-primary">{title}</p>
         {badge}
@@ -235,14 +235,13 @@ export default function Showcase() {
     row.scrollTo({ left: target.offsetLeft + target.offsetWidth / 2 - row.clientWidth / 2, behavior: 'smooth' });
   };
 
-  const panel = showcase.panels[active];
 
   return (
     <section id="forecast" aria-label={showcase.intro} className="bg-[var(--field)] py-24 text-white lg:min-h-[96svh] lg:py-32">
       <div className="relative">
         <div
           ref={rowRef}
-          className="snap-row flex items-start gap-[8vw] overflow-x-auto px-[calc(50vw-min(43vw,220px))] py-6 lg:gap-[26vw]"
+          className="snap-row flex items-center gap-[8vw] overflow-x-auto px-[calc(50vw-min(43vw,220px))] py-6 lg:gap-[26vw]"
         >
           {showcase.panels.map((p, i) => {
             const Panel = PANELS[p.id];
@@ -250,7 +249,7 @@ export default function Showcase() {
               <div
                 key={p.id}
                 inert={i !== active}
-                className={`w-[min(86vw,440px)] shrink-0 transition-[opacity,transform] duration-300 ${
+                className={`flex w-[min(86vw,440px)] shrink-0 transition-[opacity,transform] duration-300 ${
                   i === active ? 'opacity-100' : 'scale-[0.96] opacity-[0.22]'
                 }`}
               >
@@ -264,8 +263,23 @@ export default function Showcase() {
           className="mt-8 px-4 sm:px-10 lg:pointer-events-none lg:absolute lg:left-[calc(50%+268px)] lg:top-6 lg:mt-0 lg:w-[min(300px,calc(26vw-80px))] lg:px-0"
           aria-live="polite"
         >
-          <h2 className="font-display text-[24px] font-semibold leading-[1.25] text-white">{panel.name}</h2>
-          <p className="mt-2 max-w-[34ch] text-[16px] leading-[1.6] text-[#CBD5E1]">{panel.lines}</p>
+          <div className="grid">
+            {showcase.panels.map((p, i) => (
+              <div
+                key={p.id}
+                aria-hidden={i !== active}
+                className={`[grid-area:1/1] transition-[opacity,translate,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+                  i === active ? 'visible translate-y-0 opacity-100' : 'invisible translate-y-1 opacity-0'
+                }`}
+              >
+                <p className="text-[13px] font-semibold tabular-nums text-[#CBD5E1]">
+                  {i + 1} / {showcase.panels.length}
+                </p>
+                <h2 className="mt-2 font-display text-[24px] font-semibold leading-[1.25] text-white">{p.name}</h2>
+                <p className="mt-2 max-w-[34ch] text-[16px] leading-[1.6] text-[#CBD5E1]">{p.lines}</p>
+              </div>
+            ))}
+          </div>
           <div className="mt-6 flex gap-2 lg:pointer-events-auto">
             <button
               type="button"

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { RotateCcw } from 'lucide-react';
 import { CashEvent } from '@/types/finance';
 import { shiftEventDate } from '@/lib/finance-engine';
 import {
@@ -11,15 +12,19 @@ import {
   forecastWorkedExample,
 } from '@/data/worked-example';
 import { tryFix } from '@/content/landing';
-import { alertLevel } from '@/lib/scenarios';
-import { vnd, vndCompact, weekRange } from '@/lib/format';
+import { vnd, vndCompact } from '@/lib/format';
+import BalanceChart from './BalanceChart';
+import RangeControl from './RangeControl';
+import { Ticker } from './useTweened';
 
-const MAX = 450_000_000;
-const LEVEL = {
-  OK: { bar: 'bg-navy', text: 'text-text-secondary', label: 'Above safety' },
-  BELOW_BUFFER: { bar: 'bg-amber', text: 'font-semibold text-amber-ink', label: 'Below safety' },
-  SHORTFALL: { bar: 'bg-crimson', text: 'font-semibold text-crimson-ink', label: 'Short of cash' },
-} as const;
+/** Every slider extreme stays inside this range, so the chart scale never moves. */
+const DOMAIN: [number, number] = [-150_000_000, 500_000_000];
+const BUFFER_RANGE = { min: 100_000_000, max: 220_000_000, step: 10_000_000 };
+const before = forecastWorkedExample(WORKED_EXAMPLE_EVENTS);
+
+type BlockId = 'delay' | 'buffer' | 'payoutDelay' | 'opening';
+type State = Record<BlockId, number>;
+const START: State = { delay: 0, buffer: WORKED_EXAMPLE_BUFFER, payoutDelay: 0, opening: WORKED_EXAMPLE_OPENING };
 
 function delayPayouts(events: CashEvent[], days: number): CashEvent[] {
   if (days === 0) return events;
@@ -29,50 +34,41 @@ function delayPayouts(events: CashEvent[], days: number): CashEvent[] {
   );
 }
 
-interface ControlProps {
-  id: string;
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  display: string;
-  onChange: (value: number) => void;
+const days = (n: number) => `${n} ${n === 1 ? 'day' : 'days'}`;
+
+function Delta({ now, was }: { now: number; was: number }) {
+  const copy = tryFix.output;
+  const d = now - was;
+  if (d === 0) return <span className="text-text-secondary">{copy.same}</span>;
+  return (
+    <span className={d > 0 ? 'text-positive' : 'text-crimson-ink'}>
+      {d > 0 ? '+' : ''}
+      {vndCompact(d)} {copy.vsBefore}
+    </span>
+  );
 }
 
-function Control({ id, label, value, min, max, step, display, onChange }: ControlProps) {
-  const fill = `${((value - min) / (max - min)) * 100}%`;
+function Tile({ label, value, sub }: { label: string; value: React.ReactNode; sub: React.ReactNode }) {
   return (
-    <div className="mt-5">
-      <div className="flex items-baseline justify-between text-[15px]">
-        <label htmlFor={id} className="text-text-secondary">{label}</label>
-        <output htmlFor={id} className="num font-semibold tabular-nums text-text-primary">{display}</output>
-      </div>
-      <input
-        id={id}
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="fw-range mt-1"
-        style={{ ['--fill' as string]: fill }}
-      />
+    <div className="flex min-w-0 flex-col rounded-lg bg-bg-surface-elevated p-3">
+      <dt className="text-[13px] text-text-secondary">{label}</dt>
+      <dd className="num mt-1 whitespace-nowrap text-[15px] font-semibold tabular-nums sm:text-[17px]">{value}</dd>
+      <dd className="mt-auto pt-1 text-[13px]">{sub}</dd>
     </div>
   );
 }
 
 /**
- * Try a fix — "Fixed output, live controls": the output stays pinned on the left
- * while each block on the right adds a control that changes it.
+ * Try a fix — "Fixed output, live controls": the forecast stays pinned on the left while
+ * each block on the right adds a control that changes it. The chart keeps the starting
+ * forecast as a dashed mark, so every change shows how far a week moved.
  */
 export default function TryFix() {
   const copy = tryFix;
-  const [delay, setDelay] = useState(0);
-  const [buffer, setBuffer] = useState(WORKED_EXAMPLE_BUFFER);
-  const [payoutDelay, setPayoutDelay] = useState(0);
-  const [opening, setOpening] = useState(WORKED_EXAMPLE_OPENING);
+  const [state, setState] = useState<State>(START);
+  const set = (id: BlockId) => (value: number) => setState((s) => ({ ...s, [id]: value }));
+  const { delay, buffer, payoutDelay, opening } = state;
+  const changed = (Object.keys(START) as BlockId[]).some((k) => state[k] !== START[k]);
 
   const summary = useMemo(() => {
     const events = delayPayouts(shiftEventDate(WORKED_EXAMPLE_EVENTS, WORKED_EXAMPLE_DEFER_ID, delay), payoutDelay);
@@ -80,25 +76,27 @@ export default function TryFix() {
   }, [delay, buffer, payoutDelay, opening]);
 
   const firstBelow = summary.weeks.find((w) => w.isBreached);
+  const firstBefore = before.weeks.find((w) => w.closingBalance < buffer);
   const shortWeeks = summary.weeks.filter((w) => w.closingBalance < 0).length;
   const belowOnly = summary.breachWeeksCount - shortWeeks;
+  const lowestTone = summary.lowestBalance < 0 ? 'text-crimson-ink' : summary.lowestBalance < buffer ? 'text-amber-ink' : 'text-text-primary';
 
-  const controls: Record<string, React.ReactNode> = {
+  const controls: Record<BlockId, React.ReactNode> = {
     delay: (
-      <Control id="fix-delay" label={copy.blocks[0].label} value={delay} min={0} max={28} step={1}
-        display={`${delay} ${delay === 1 ? 'day' : 'days'}`} onChange={setDelay} />
+      <RangeControl id="fix-delay" label={copy.blocks[0].label} value={delay} min={0} max={28} step={1}
+        display={days(delay)} ends={['0', '28 days']} displayWidth="8ch" onChange={set('delay')} />
     ),
     buffer: (
-      <Control id="fix-buffer" label={copy.blocks[1].label} value={buffer} min={100_000_000} max={220_000_000}
-        step={10_000_000} display={vnd(buffer)} onChange={setBuffer} />
+      <RangeControl id="fix-buffer" label={copy.blocks[1].label} value={buffer} min={BUFFER_RANGE.min} max={BUFFER_RANGE.max}
+        step={BUFFER_RANGE.step} display={vnd(buffer)} ends={['100M', '220M']} onChange={set('buffer')} />
     ),
     payoutDelay: (
-      <Control id="fix-payout" label={copy.blocks[2].label} value={payoutDelay} min={0} max={7} step={1}
-        display={`${payoutDelay} ${payoutDelay === 1 ? 'day' : 'days'}`} onChange={setPayoutDelay} />
+      <RangeControl id="fix-payout" label={copy.blocks[2].label} value={payoutDelay} min={0} max={7} step={1}
+        display={days(payoutDelay)} ends={['0', '7 days']} displayWidth="8ch" onChange={set('payoutDelay')} />
     ),
     opening: (
-      <Control id="fix-opening" label={copy.blocks[3].label} value={opening} min={100_000_000} max={400_000_000}
-        step={10_000_000} display={vnd(opening)} onChange={setOpening} />
+      <RangeControl id="fix-opening" label={copy.blocks[3].label} value={opening} min={100_000_000} max={400_000_000}
+        step={10_000_000} display={vnd(opening)} ends={['100M', '400M']} onChange={set('opening')} />
     ),
   };
 
@@ -107,62 +105,69 @@ export default function TryFix() {
       <h2 className="px-4 pb-8 pt-24 font-display text-[clamp(32px,3.6vw,52px)] font-bold leading-[1.1] tracking-[-0.025em] text-text-primary sm:px-10 lg:hidden">
         {copy.heading}
       </h2>
-      <div className="col-span-12 flex py-10 lg:sticky lg:top-0 lg:z-10 lg:py-0 items-center justify-center overflow-hidden bg-bg-surface-elevated px-4 lg:col-span-6 lg:h-[100svh]">
-        <div data-ui className="w-full max-w-[460px] rounded-lg bg-bg-surface p-5 shadow-lg">
-          <div className="flex items-start justify-between gap-3">
-            <p className="font-display text-[15px] font-semibold text-text-primary">{copy.output.title}</p>
-            <span className="rounded-sm bg-amber-surface px-2 py-0.5 text-[13px] font-medium text-amber-ink">{copy.output.sample}</span>
+      <div className="col-span-12 flex items-center justify-center overflow-hidden bg-bg-surface-elevated px-4 py-10 lg:sticky lg:top-0 lg:z-10 lg:col-span-6 lg:h-[100svh] lg:py-0">
+        <div data-ui className="w-full max-w-[540px] rounded-lg bg-bg-surface p-5 shadow-lg">
+          <div className="flex items-center justify-between gap-3">
+            <p className="whitespace-nowrap font-display text-[15px] font-semibold text-text-primary">{copy.output.title}</p>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setState(START)}
+                disabled={!changed}
+                className={`press flex items-center gap-1.5 rounded-sm px-2 py-0.5 text-[13px] font-medium text-text-secondary hover:bg-bg-surface-elevated hover:text-text-primary ${
+                  changed ? '' : 'invisible'
+                }`}
+              >
+                <RotateCcw className="h-3.5 w-3.5" aria-hidden />
+                <span className="sr-only sm:not-sr-only">{copy.output.reset}</span>
+              </button>
+              <span className="whitespace-nowrap rounded-sm bg-amber-surface px-2 py-0.5 text-[13px] font-medium text-amber-ink">{copy.output.sample}</span>
+            </div>
           </div>
-          <dl className="mt-4 grid grid-cols-2 gap-3 text-[13px]">
-            <div className="rounded-lg bg-bg-surface-elevated p-3">
-              <dt className="text-text-secondary">{copy.output.lowest}</dt>
-              <dd className={`mt-1 num text-[15px] font-semibold tabular-nums ${summary.lowestBalance < 0 ? 'text-crimson-ink' : summary.lowestBalance < buffer ? 'text-amber-ink' : 'text-text-primary'}`}>
-                {vnd(summary.lowestBalance)}
-              </dd>
-            </div>
-            <div className="rounded-lg bg-bg-surface-elevated p-3">
-              <dt className="text-text-secondary">{copy.output.firstBelow}</dt>
-              <dd className={`mt-1 text-[15px] font-semibold ${firstBelow ? 'text-amber-ink' : 'text-positive'}`}>
-                {firstBelow ? `Week ${firstBelow.weekNumber}` : copy.output.none}
-              </dd>
-            </div>
-            <div className="rounded-lg bg-bg-surface-elevated p-3">
-              <dt className="text-text-secondary">{copy.output.weeksBelow} · {copy.output.shortfall.toLowerCase()}</dt>
-              <dd className="mt-1 num text-[15px] font-semibold tabular-nums">
-                <span className={belowOnly ? 'text-amber-ink' : ''}>{belowOnly}</span>
-                {' · '}
-                <span className={shortWeeks ? 'text-crimson-ink' : ''}>{shortWeeks}</span>
-              </dd>
-            </div>
-            <div className="rounded-lg bg-bg-surface-elevated p-3">
-              <dt className="text-text-secondary">{copy.output.week13}</dt>
-              <dd className="mt-1 num text-[15px] font-semibold tabular-nums">{vnd(summary.weeks[12].closingBalance)}</dd>
-            </div>
+
+          <p className="sr-only" aria-live="polite">
+            {copy.output.lowest}: {vnd(summary.lowestBalance)}. {copy.output.firstBelow}:{' '}
+            {firstBelow ? `Week ${firstBelow.weekNumber}` : copy.output.none}.
+          </p>
+          <dl className="mt-4 grid grid-cols-2 gap-3">
+            <Tile
+              label={copy.output.lowest}
+              value={<span className={lowestTone}><Ticker value={summary.lowestBalance} format={vnd} /></span>}
+              sub={<Delta now={summary.lowestBalance} was={before.lowestBalance} />}
+            />
+            <Tile
+              label={copy.output.firstBelow}
+              value={
+                <span className={firstBelow ? (summary.weeks[firstBelow.weekNumber - 1].closingBalance < 0 ? 'text-crimson-ink' : 'text-amber-ink') : 'text-positive'}>
+                  {firstBelow ? `Week ${firstBelow.weekNumber}` : copy.output.none}
+                </span>
+              }
+              sub={<span className="text-text-secondary">{copy.output.beforeWas} {firstBefore ? `Week ${firstBefore.weekNumber}` : copy.output.none}</span>}
+            />
+            <Tile
+              label={copy.output.weeksBelow}
+              value={<span className={belowOnly ? 'text-amber-ink' : 'text-text-primary'}>{belowOnly}</span>}
+              sub={<span className={shortWeeks ? 'font-semibold text-crimson-ink' : 'text-text-secondary'}>{shortWeeks} {copy.output.shortSuffix}</span>}
+            />
+            <Tile
+              label={copy.output.week13}
+              value={<Ticker value={summary.weeks[12].closingBalance} format={vnd} />}
+              sub={<Delta now={summary.weeks[12].closingBalance} was={before.weeks[12].closingBalance} />}
+            />
           </dl>
-          <ol className="mt-4 hidden space-y-[3px] sm:block" aria-label={copy.output.title}>
-            {summary.weeks.map((w) => {
-              const level = LEVEL[alertLevel(w.closingBalance, buffer)];
-              const width = `${Math.max(1.5, Math.min(100, (w.closingBalance / MAX) * 100))}%`;
-              return (
-                <li key={w.weekNumber} className="grid grid-cols-[28px_minmax(0,1fr)_64px_96px] items-center gap-2 text-[13px]">
-                  <span className="text-text-muted tabular-nums">{w.weekNumber}</span>
-                  <span className="relative h-3 rounded-[3px] bg-bg-surface-elevated" title={weekRange(w.startDate, w.endDate)}>
-                    <span
-                      className={`absolute inset-y-0 left-0 rounded-[3px] transition-[width,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${level.bar}`}
-                      style={{ width: w.closingBalance < 0 ? '1.5%' : width }}
-                    />
-                    <span
-                      aria-hidden
-                      className="absolute -inset-y-1 w-[2px] bg-amber"
-                      style={{ left: `${(buffer / MAX) * 100}%` }}
-                    />
-                  </span>
-                  <span className="num text-right tabular-nums text-text-primary">{vndCompact(w.closingBalance)}</span>
-                  <span className={`text-right ${level.text}`}>{level.label}</span>
-                </li>
-              );
-            })}
-          </ol>
+
+          <div className="mt-5">
+            <BalanceChart
+              weeks={summary.weeks}
+              before={before.weeks}
+              buffer={buffer}
+              domain={DOMAIN}
+              ticks={[-100_000_000, 0, 200_000_000, 400_000_000]}
+              height={200}
+              label={copy.output.title}
+              safety={{ ...BUFFER_RANGE, onChange: set('buffer') }}
+            />
+          </div>
         </div>
       </div>
 
@@ -170,21 +175,44 @@ export default function TryFix() {
         <h2 className="hidden font-display text-[clamp(32px,3.6vw,52px)] font-bold leading-[1.1] tracking-[-0.025em] text-text-primary lg:block" data-rise>
           {copy.heading}
         </h2>
-        {copy.blocks.map((block, i) => (
-          <div key={block.id} className={`max-w-[44ch] ${i === 0 ? 'lg:mt-12' : 'mt-16 lg:mt-[40vh]'}`} data-rise>
-            <h3 className="font-display text-[24px] font-semibold leading-[1.2] text-text-primary">
-              {block.sentence}
-            </h3>
-            <p className="mt-3 text-[18px] leading-[1.6] text-text-primary">{block.paragraph}</p>
-            {controls[block.id]}
-            <p className="mt-3 text-[15px] text-text-secondary lg:hidden" aria-live="polite">
-              {copy.output.lowest}:{' '}
-              <span className={`font-semibold ${summary.lowestBalance < 0 ? 'text-crimson-ink' : summary.lowestBalance < buffer ? 'text-amber-ink' : 'text-text-primary'}`}>{vnd(summary.lowestBalance)}</span>
-              {' · '}{copy.output.firstBelow}:{' '}
-              <span className="font-semibold text-text-primary">{firstBelow ? `Week ${firstBelow.weekNumber}` : copy.output.none}</span>
-            </p>
-          </div>
-        ))}
+        {copy.blocks.map((block, i) => {
+          const id = block.id as BlockId;
+          return (
+            <div key={block.id} className={`max-w-[46ch] ${i === 0 ? 'lg:mt-12' : 'mt-16 lg:mt-[26vh]'}`} data-rise>
+              <h3 className="font-display text-[24px] font-semibold leading-[1.2] text-text-primary">{block.sentence}</h3>
+              <p className="mt-3 text-[18px] leading-[1.6] text-text-primary">{block.paragraph}</p>
+              {controls[id]}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {block.presets.map((p) => {
+                  const on = state[id] === p.value;
+                  return (
+                    <button
+                      key={p.label}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => set(id)(p.value)}
+                      className={`press rounded-lg border px-3 py-1.5 text-[14px] font-medium tabular-nums ${
+                        on
+                          ? 'border-navy bg-navy text-on-navy'
+                          : 'border-border-main bg-bg-surface text-text-primary hover:border-border-strong'
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  );
+                })}
+              </div>
+              {'hint' in block && <p className="mt-3 text-[15px] text-text-secondary">{block.hint}</p>}
+              <p className="mt-3 text-[15px] text-text-secondary lg:hidden">
+                {copy.output.lowest}:{' '}
+                <span className={`font-semibold ${lowestTone}`}>{vnd(summary.lowestBalance)}</span>
+                {' · '}
+                {copy.output.firstBelow}:{' '}
+                <span className="font-semibold text-text-primary">{firstBelow ? `Week ${firstBelow.weekNumber}` : copy.output.none}</span>
+              </p>
+            </div>
+          );
+        })}
         <div className="h-[20vh]" aria-hidden />
       </div>
     </section>
