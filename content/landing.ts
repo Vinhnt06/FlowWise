@@ -81,12 +81,32 @@ export const showcase = {
 export const how = {
   heading: 'From files to a plan',
   stages: [
-    { name: 'Files', clause: 'Add the files you already have' },
-    { name: 'Check', clause: 'Check what was read' },
-    { name: 'Forecast', clause: 'See the next 13 weeks' },
-    { name: 'Approve', clause: 'Pick a fix and approve it' },
+    {
+      name: 'Files',
+      clause: 'Add the files you already have',
+      detail: 'Bank statement, platform settlements, bills and regular costs, as CSV or Excel. Columns are matched for you to check.',
+    },
+    {
+      name: 'Check',
+      clause: 'Check what was read',
+      detail: 'Every row is checked. Problems are listed with their file and row, and nothing is deleted without you.',
+    },
+    {
+      name: 'Forecast',
+      clause: 'See the next 13 weeks',
+      detail: 'One forecast per currency from your cut-off date, with the weeks below your safety level marked.',
+    },
+    {
+      name: 'Approve',
+      clause: 'Pick a fix and approve it',
+      detail: 'Compare fixes side by side, then approve one plan. FlowWise never moves money.',
+    },
   ],
-  sliderLabel: 'Stage',
+  step: 'Step',
+  of: 'of',
+  next: 'Next',
+  again: 'Start again',
+  sample: 'Simulated data',
 };
 
 export const fixes = {

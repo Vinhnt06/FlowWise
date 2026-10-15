@@ -18,6 +18,7 @@
 - `content/landing.ts` holds all landing copy (English only, written for shop owners).
 
 ### Changed
+- "From files to a plan" is a four-step stepper instead of a slider whose stops did not line up with their labels: numbered steps with a progress rail, a short explanation per step, Next / Start again on the fragment, arrow keys, and all four fragments stacked so the section keeps one height (it jumped between 699 and 877px on mobile).
 - No more layout jumps: the three fix panels are stacked in one grid cell (same height on every tab, cross-fade instead of remount), the showcase captions are stacked the same way so the arrows never move. The fix charts fill their panel, and S2 shows the sample's forecast as it is today. The fix tabs support arrow keys; the selected fix is highlighted in the side-by-side table.
 - S2 shows the invoice split into what you receive and the discount, with the same four result tiles as S1 and S3.
 - Below the safety level is now amber and short of cash is crimson across the landing; "Try it" shows a 13-row week list and its opening balance goes down to 100,000,000 ₫ so a shortfall can be seen.
