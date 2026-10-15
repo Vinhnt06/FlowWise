@@ -9,7 +9,8 @@ export const nav = {
   links: [
     { href: '#forecast', label: 'Forecast' },
     { href: '#how', label: 'How it works' },
-    { href: '#try', label: 'Try a fix' },
+    { href: '#fixes', label: 'Fixes' },
+    { href: '#try', label: 'Try it' },
     { href: '#files', label: 'Files' },
   ],
   action: 'Open the demo',
@@ -30,6 +31,15 @@ export const hero = {
     clear: 'No week falls below the safety level',
     weekShort: 'W',
   },
+};
+
+export const trace = {
+  heading: 'Every number has a source',
+  statement: 'Week 2 of the sample shop closes at 150,000,000 ₫. Here is where each dong of it comes from.',
+  totalLabel: 'Closing balance, week 2',
+  openingLabel: 'Carried over from week 1',
+  checked:
+    'The sample was first worked out by hand in a spreadsheet. The calculation in the app is checked against it on every change.',
 };
 
 export const showcase = {
@@ -79,6 +89,54 @@ export const how = {
   sliderLabel: 'Stage',
 };
 
+export const fixes = {
+  heading: 'Three ways to close the gap',
+  sentence: 'Each fix is a change to dated items, run through the same calculation, and shown with what it costs.',
+  items: [
+    {
+      id: 'delay',
+      name: 'Pay a bill later',
+      lines: 'Move a bill marked as flexible. The forecast runs again with the new date.',
+      label: 'Pay the 130,000,000 ₫ supplier bill',
+      unit: 'days later',
+      cost: 'Late fee not known. Ask the supplier before you agree.',
+    },
+    {
+      id: 'early',
+      name: 'Collect an invoice early',
+      lines: 'Offer a customer a discount to pay sooner. You receive less, earlier, and the discount is the cost.',
+      none: 'The sample shop is paid only through platform payouts, so it has no customer invoice to collect early. Try the arithmetic with your own figures.',
+      amountLabel: 'Invoice amount',
+      discountLabel: 'Discount',
+      receive: 'You receive',
+      cost: 'Cost of the discount',
+    },
+    {
+      id: 'loan',
+      name: 'Borrow for a few weeks',
+      lines: 'A short loan in the same currency as the gap. Every weekly repayment comes back out of the forecast.',
+      amountLabel: 'Amount',
+      weeksLabel: 'Repaid over',
+      rateLabel: 'Yearly rate (assumed)',
+      assumption: 'The rate is an assumption. Use the quote from your bank.',
+    },
+  ],
+  result: {
+    lowest: 'Lowest balance',
+    weeksBelow: 'Weeks below safety',
+    cost: 'Cost',
+    owedAfter: 'Still owed after week 13',
+    weeks: '13 weeks at a glance',
+  },
+  compare: {
+    heading: 'Side by side',
+    asIs: 'As is',
+    needsInvoice: 'Needs an invoice',
+    unknown: 'Not known',
+  },
+  levels: { OK: 'Above safety', BELOW_BUFFER: 'Below safety', SHORTFALL: 'Short of cash' },
+};
+
 export const tryFix = {
   heading: 'Try a fix yourself',
   output: {
@@ -89,6 +147,7 @@ export const tryFix = {
     week13: 'Balance after week 13',
     none: 'None',
     sample: 'Simulated data',
+    shortfall: 'Short of cash',
   },
   blocks: [
     {
@@ -125,35 +184,18 @@ export const currencies = {
   heading: 'Three balances, never added up',
   statement:
     'Dong for daily costs, yuan for suppliers on 1688, dollars for ads and freight. FlowWise never converts one into another, so a healthy yuan balance cannot hide a dong shortfall.',
+  table: {
+    title: 'Balances by currency',
+    sample: 'Simulated data',
+    columns: { currency: 'Currency', use: 'Used for', now: 'On the cut-off date', safety: 'Safety level', lowest: 'Lowest week', weeks: '13 weeks' },
+    total: 'All currencies together',
+    totalValue: 'Not added up',
+    totalNote: 'No exchange rate is applied anywhere. Each balance is planned on its own.',
+  },
   items: [
-    {
-      code: 'VND',
-      role: 'Where you sell',
-      detail: 'Platform payouts, salaries, rent, packaging.',
-      image: '/images/world/saigon-traffic-ovbn3helda0-poster.jpg',
-      video: '/images/world/saigon-traffic-ovbn3helda0.webm',
-      alt: 'Rush-hour motorbike traffic crossing a bridge in Saigon',
-      width: 854,
-      height: 480,
-    },
-    {
-      code: 'CNY',
-      role: 'Where you buy',
-      detail: 'Supplier bills from Yiwu, Guangzhou and 1688 stay in yuan.',
-      image: '/images/world/yiwu-international-trade-market-district-3-gate.jpg',
-      alt: 'Gate 67 of the Yiwu International Trade Market with its floor directory sign',
-      width: 1920,
-      height: 1440,
-    },
-    {
-      code: 'USD',
-      role: 'What you ship and advertise',
-      detail: 'Freight and ad spend paid in dollars.',
-      image: '/images/world/navire-conteneur-seaspan-saigon-au-port.jpg',
-      alt: 'The container ship Seaspan Saigon loaded with containers, with two tugboats alongside',
-      width: 1920,
-      height: 1440,
-    },
+    { code: 'VND', role: 'Where you sell', detail: 'Platform payouts, salaries, rent, packaging' },
+    { code: 'CNY', role: 'Where you buy', detail: 'Supplier bills from Yiwu, Guangzhou and 1688' },
+    { code: 'USD', role: 'What you ship and advertise', detail: 'Freight and ad spend' },
   ],
 };
 
@@ -205,21 +247,32 @@ export const promises = {
     'Move money or take a loan. It plans; you act.',
     'Delete a row it thinks is a duplicate. It asks you first.',
   ],
-  image: {
-    src: '/images/world/several-500-000-dong-banknotes-fanned-out.jpg',
-    alt: 'Fifteen 500,000-dong banknotes fanned out into a circle on a cloth',
-    width: 1920,
-    height: 2560,
+  check: {
+    title: 'Answer check',
+    sample: 'Simulated data',
+    question: 'Which week does my VND balance drop below the safety level?',
+    found: 'Found in the calculation',
+    sources: { closing: 'Week 2 closing balance', gap: 'Gap to the safety level', buffer: 'Your safety level' },
+    verdict: 'Every number in this answer was found in the calculation, so it can be sent.',
   },
 };
 
 export const cta = {
   lines: ['Try it on the', 'sample shop'],
-  image: {
-    src: '/images/world/ben-thanh-market-saigon.jpg',
-    alt: 'Ben Thanh Market clock tower in Saigon on an overcast day',
-    width: 1920,
-    height: 1440,
+  report: {
+    title: 'Cash plan · Sample shop · VND',
+    file: 'PDF',
+    rows: {
+      asOf: 'Cut-off date',
+      plan: 'Plan',
+      planValue: 'Pay bill E05 14 days later',
+      lowest: 'Lowest balance',
+      weeksBelow: 'Weeks below safety',
+      assumed: 'Assumed',
+      assumedValue: 'Platform payouts arrive on time',
+    },
+    approve: 'Approve this plan',
+    note: 'Approving records the plan and its assumptions. No money moves.',
   },
   action: 'Open the demo',
   note: 'No sign-up. The demo runs on simulated data from a made-up shop.',
@@ -230,5 +283,4 @@ export const footer = {
   legal: 'All figures on this page are simulated.',
   navHeading: 'On this page',
   invitation: 'Open the demo',
-  creditsHeading: 'Pictures',
 };

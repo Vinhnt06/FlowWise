@@ -1,15 +1,25 @@
-import Image from 'next/image';
+import { CurrencyForecastSummary } from '@/types/finance';
+import { WORKED_EXAMPLE_EVENTS, forecastWorkedExample } from '@/data/worked-example';
+import { CNY_SUMMARY, USD_SUMMARY } from '@/data/shopx-dataset';
 import { currencies } from '@/content/landing';
-import LoopVideo from './LoopVideo';
+import { money } from '@/lib/format';
+import WeekRibbon from './WeekRibbon';
+
+/** VND is the page's worked example; CNY and USD come from the simulated ShopX dataset. */
+const SUMMARIES: Record<string, CurrencyForecastSummary> = {
+  VND: forecastWorkedExample(WORKED_EXAMPLE_EVENTS),
+  CNY: CNY_SUMMARY,
+  USD: USD_SUMMARY,
+};
 
 const SWATCH: Record<string, string> = { VND: 'bg-vnd', CNY: 'bg-cny', USD: 'bg-usd' };
 
 /**
- * Three currencies — one large picture and two stacked, each naming where that money lives.
+ * Three currencies — one ledger, one row per currency, and a total row that is
+ * deliberately left empty: the product never converts or adds them.
  */
 export default function Currencies() {
-  const [main, ...rest] = currencies.items;
-
+  const t = currencies.table;
   return (
     <section aria-label={currencies.heading} className="mx-auto max-w-[1440px] px-4 py-28 sm:px-10 lg:py-40">
       <div className="grid gap-x-6 lg:grid-cols-12">
@@ -24,45 +34,54 @@ export default function Currencies() {
         </p>
       </div>
 
-      <div className="mt-16 grid gap-6 lg:grid-cols-12">
-        <figure className="lg:col-span-7" data-rise>
-          <div className="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-[720px]">
-            {'video' in main && main.video ? (
-              <>
-                <LoopVideo src={main.video} poster={main.image} className="drift absolute inset-0 h-full w-full object-cover" />
-                <span className="sr-only">{main.alt}</span>
-              </>
-            ) : (
-              <Image src={main.image} alt={main.alt} fill sizes="(min-width: 1024px) 58vw, 100vw" className="drift object-cover" />
-            )}
-          </div>
-          <Caption {...main} />
-        </figure>
-        <div className="grid gap-6 lg:col-span-5">
-          {rest.map((item, i) => (
-            <figure key={item.code} data-rise={String(i + 2)}>
-              <div className="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-[300px]">
-                <Image src={item.image} alt={item.alt} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
-              </div>
-              <Caption {...item} />
-            </figure>
-          ))}
+      <div data-ui className="mt-16 rounded-lg bg-bg-surface p-5 text-[14px] text-text-primary shadow-lg sm:p-8" data-rise="3">
+        <div className="flex items-start justify-between gap-4">
+          <p className="font-display text-[15px] font-semibold">{t.title}</p>
+          <span className="rounded-sm bg-amber-surface px-2 py-0.5 text-[13px] font-medium text-amber-ink">{t.sample}</span>
         </div>
+
+        <ul className="rows mt-4">
+          {currencies.items.map((item) => {
+            const s = SUMMARIES[item.code];
+            const code = item.code as 'VND' | 'CNY' | 'USD';
+            return (
+              <li key={code} className="grid items-center gap-x-6 gap-y-3 py-5 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,1fr))_minmax(0,1.6fr)]">
+                <div className="flex items-start gap-3">
+                  <span className={`mt-1.5 h-3 w-3 shrink-0 rounded-full ${SWATCH[code]}`} aria-hidden />
+                  <span>
+                    <span className="block font-display text-[24px] font-semibold leading-[1.15]">
+                      {code} · {item.role}
+                    </span>
+                    <span className="text-[13px] text-text-secondary">{item.detail}</span>
+                  </span>
+                </div>
+                <dl className="contents">
+                  <div className="flex justify-between gap-4 lg:block">
+                    <dt className="text-[13px] text-text-muted">{t.columns.now}</dt>
+                    <dd className="num font-semibold tabular-nums">{money(s.currentBalance, code)}</dd>
+                  </div>
+                  <div className="flex justify-between gap-4 lg:block">
+                    <dt className="text-[13px] text-text-muted">{t.columns.safety}</dt>
+                    <dd className="num tabular-nums">{money(s.safeBuffer, code)}</dd>
+                  </div>
+                  <div className="flex justify-between gap-4 lg:block">
+                    <dt className="text-[13px] text-text-muted">{t.columns.lowest}</dt>
+                    <dd className={`num tabular-nums ${s.lowestBalance < s.safeBuffer ? 'font-semibold text-amber-ink' : ''}`}>
+                      {money(s.lowestBalance, code)} · W{s.lowestWeek}
+                    </dd>
+                  </div>
+                </dl>
+                <WeekRibbon weeks={s.weeks} buffer={s.safeBuffer} label={`${code} ${t.columns.weeks}`} />
+              </li>
+            );
+          })}
+          <li className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-5">
+            <span className="font-display text-[24px] font-semibold text-text-secondary">{t.total}</span>
+            <span className="text-[13px] text-text-secondary">{t.totalNote}</span>
+            <span className="num text-[24px] font-semibold text-text-muted">{t.totalValue}</span>
+          </li>
+        </ul>
       </div>
     </section>
-  );
-}
-
-function Caption({ code, role, detail }: { code: string; role: string; detail: string }) {
-  return (
-    <figcaption className="mt-4 flex items-start gap-3">
-      <span className={`mt-1.5 h-3 w-3 shrink-0 rounded-full ${SWATCH[code]}`} aria-hidden />
-      <span>
-        <span className="font-display text-[24px] font-semibold text-text-primary">
-          {code} · {role}
-        </span>
-        <span className="block text-[16px] leading-[1.5] text-text-secondary">{detail}</span>
-      </span>
-    </figcaption>
   );
 }

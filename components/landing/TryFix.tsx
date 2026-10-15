@@ -11,10 +11,15 @@ import {
   forecastWorkedExample,
 } from '@/data/worked-example';
 import { tryFix } from '@/content/landing';
-import { vnd } from '@/lib/format';
-import WeekBars from './WeekBars';
+import { alertLevel } from '@/lib/scenarios';
+import { vnd, vndCompact, weekRange } from '@/lib/format';
 
 const MAX = 450_000_000;
+const LEVEL = {
+  OK: { bar: 'bg-navy', text: 'text-text-secondary', label: 'Above safety' },
+  BELOW_BUFFER: { bar: 'bg-amber', text: 'font-semibold text-amber-ink', label: 'Below safety' },
+  SHORTFALL: { bar: 'bg-crimson', text: 'font-semibold text-crimson-ink', label: 'Short of cash' },
+} as const;
 
 function delayPayouts(events: CashEvent[], days: number): CashEvent[] {
   if (days === 0) return events;
@@ -68,7 +73,6 @@ export default function TryFix() {
   const [buffer, setBuffer] = useState(WORKED_EXAMPLE_BUFFER);
   const [payoutDelay, setPayoutDelay] = useState(0);
   const [opening, setOpening] = useState(WORKED_EXAMPLE_OPENING);
-  const [selected, setSelected] = useState(1);
 
   const summary = useMemo(() => {
     const events = delayPayouts(shiftEventDate(WORKED_EXAMPLE_EVENTS, WORKED_EXAMPLE_DEFER_ID, delay), payoutDelay);
@@ -76,6 +80,8 @@ export default function TryFix() {
   }, [delay, buffer, payoutDelay, opening]);
 
   const firstBelow = summary.weeks.find((w) => w.isBreached);
+  const shortWeeks = summary.weeks.filter((w) => w.closingBalance < 0).length;
+  const belowOnly = summary.breachWeeksCount - shortWeeks;
 
   const controls: Record<string, React.ReactNode> = {
     delay: (
@@ -91,7 +97,7 @@ export default function TryFix() {
         display={`${payoutDelay} ${payoutDelay === 1 ? 'day' : 'days'}`} onChange={setPayoutDelay} />
     ),
     opening: (
-      <Control id="fix-opening" label={copy.blocks[3].label} value={opening} min={200_000_000} max={400_000_000}
+      <Control id="fix-opening" label={copy.blocks[3].label} value={opening} min={100_000_000} max={400_000_000}
         step={10_000_000} display={vnd(opening)} onChange={setOpening} />
     ),
   };
@@ -110,36 +116,53 @@ export default function TryFix() {
           <dl className="mt-4 grid grid-cols-2 gap-3 text-[13px]">
             <div className="rounded-lg bg-bg-surface-elevated p-3">
               <dt className="text-text-secondary">{copy.output.lowest}</dt>
-              <dd className={`mt-1 num text-[15px] font-semibold tabular-nums ${summary.lowestBalance < buffer ? 'text-crimson-ink' : 'text-text-primary'}`}>
+              <dd className={`mt-1 num text-[15px] font-semibold tabular-nums ${summary.lowestBalance < 0 ? 'text-crimson-ink' : summary.lowestBalance < buffer ? 'text-amber-ink' : 'text-text-primary'}`}>
                 {vnd(summary.lowestBalance)}
               </dd>
             </div>
             <div className="rounded-lg bg-bg-surface-elevated p-3">
               <dt className="text-text-secondary">{copy.output.firstBelow}</dt>
-              <dd className={`mt-1 text-[15px] font-semibold ${firstBelow ? 'text-crimson-ink' : 'text-positive'}`}>
+              <dd className={`mt-1 text-[15px] font-semibold ${firstBelow ? 'text-amber-ink' : 'text-positive'}`}>
                 {firstBelow ? `Week ${firstBelow.weekNumber}` : copy.output.none}
               </dd>
             </div>
             <div className="rounded-lg bg-bg-surface-elevated p-3">
-              <dt className="text-text-secondary">{copy.output.weeksBelow}</dt>
-              <dd className="mt-1 num text-[15px] font-semibold tabular-nums">{summary.breachWeeksCount}</dd>
+              <dt className="text-text-secondary">{copy.output.weeksBelow} · {copy.output.shortfall.toLowerCase()}</dt>
+              <dd className="mt-1 num text-[15px] font-semibold tabular-nums">
+                <span className={belowOnly ? 'text-amber-ink' : ''}>{belowOnly}</span>
+                {' · '}
+                <span className={shortWeeks ? 'text-crimson-ink' : ''}>{shortWeeks}</span>
+              </dd>
             </div>
             <div className="rounded-lg bg-bg-surface-elevated p-3">
               <dt className="text-text-secondary">{copy.output.week13}</dt>
               <dd className="mt-1 num text-[15px] font-semibold tabular-nums">{vnd(summary.weeks[12].closingBalance)}</dd>
             </div>
           </dl>
-          <div className="mt-4 hidden sm:block">
-            <WeekBars
-              weeks={summary.weeks}
-              buffer={buffer}
-              max={MAX}
-              selected={selected}
-              onSelect={setSelected}
-              height={120}
-              label={copy.output.title}
-            />
-          </div>
+          <ol className="mt-4 hidden space-y-[3px] sm:block" aria-label={copy.output.title}>
+            {summary.weeks.map((w) => {
+              const level = LEVEL[alertLevel(w.closingBalance, buffer)];
+              const width = `${Math.max(1.5, Math.min(100, (w.closingBalance / MAX) * 100))}%`;
+              return (
+                <li key={w.weekNumber} className="grid grid-cols-[28px_minmax(0,1fr)_64px_96px] items-center gap-2 text-[13px]">
+                  <span className="text-text-muted tabular-nums">{w.weekNumber}</span>
+                  <span className="relative h-3 rounded-[3px] bg-bg-surface-elevated" title={weekRange(w.startDate, w.endDate)}>
+                    <span
+                      className={`absolute inset-y-0 left-0 rounded-[3px] transition-[width,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${level.bar}`}
+                      style={{ width: w.closingBalance < 0 ? '1.5%' : width }}
+                    />
+                    <span
+                      aria-hidden
+                      className="absolute -inset-y-1 w-[2px] bg-amber"
+                      style={{ left: `${(buffer / MAX) * 100}%` }}
+                    />
+                  </span>
+                  <span className="num text-right tabular-nums text-text-primary">{vndCompact(w.closingBalance)}</span>
+                  <span className={`text-right ${level.text}`}>{level.label}</span>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </div>
 
@@ -156,7 +179,7 @@ export default function TryFix() {
             {controls[block.id]}
             <p className="mt-3 text-[15px] text-text-secondary lg:hidden" aria-live="polite">
               {copy.output.lowest}:{' '}
-              <span className={`font-semibold ${summary.lowestBalance < buffer ? 'text-crimson-ink' : 'text-text-primary'}`}>{vnd(summary.lowestBalance)}</span>
+              <span className={`font-semibold ${summary.lowestBalance < 0 ? 'text-crimson-ink' : summary.lowestBalance < buffer ? 'text-amber-ink' : 'text-text-primary'}`}>{vnd(summary.lowestBalance)}</span>
               {' · '}{copy.output.firstBelow}:{' '}
               <span className="font-semibold text-text-primary">{firstBelow ? `Week ${firstBelow.weekNumber}` : copy.output.none}</span>
             </p>

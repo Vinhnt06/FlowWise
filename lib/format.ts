@@ -29,3 +29,10 @@ export function weekRange(start: string, end: string): string {
   const b = shortDate.format(new Date(`${end}T00:00:00Z`));
   return `${a} – ${b}`;
 }
+
+/** Amount in its own currency, never converted: "150,000,000 ₫", "¥68,000", "$12,800" */
+export function money(amount: number, currency: 'VND' | 'CNY' | 'USD'): string {
+  if (currency === 'VND') return vnd(amount);
+  const sign = amount < 0 ? '−' : '';
+  return `${sign}${currency === 'CNY' ? '¥' : '$'}${fullVnd.format(Math.abs(Math.round(amount)))}`;
+}

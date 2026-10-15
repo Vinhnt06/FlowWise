@@ -1,7 +1,9 @@
 import { ViewTransition } from 'react';
 import SiteNav from '@/components/landing/SiteNav';
 import Hero from '@/components/landing/Hero';
+import Trace from '@/components/landing/Trace';
 import Showcase from '@/components/landing/Showcase';
+import Fixes from '@/components/landing/Fixes';
 import HowItWorks from '@/components/landing/HowItWorks';
 import TryFix from '@/components/landing/TryFix';
 import Currencies from '@/components/landing/Currencies';
@@ -21,8 +23,10 @@ export default function Home() {
         <SiteNav />
         <main>
           <Hero />
-          <Showcase />
+          <Trace />
           <HowItWorks />
+          <Showcase />
+          <Fixes />
           <TryFix />
           <Currencies />
           <FileList />

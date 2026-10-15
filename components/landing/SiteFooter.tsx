@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { footer, nav } from '@/content/landing';
-import credits from '@/public/images/world/credits.json';
 
 /**
  * Footer — "A footer of tiles": filled tiles, every cell used, the name returning at full width.
@@ -8,12 +7,12 @@ import credits from '@/public/images/world/credits.json';
 export default function SiteFooter() {
   return (
     <footer className="grid grid-cols-2 gap-1.5 p-2 lg:grid-cols-12 lg:gap-2 lg:p-3">
-      <div className="col-span-2 flex flex-col justify-between gap-8 rounded-lg bg-bg-surface-elevated p-5 lg:col-span-4 lg:min-h-[220px]">
+      <div className="col-span-2 flex flex-col justify-between gap-8 rounded-lg bg-bg-surface-elevated p-5 lg:col-span-7 lg:min-h-[220px]">
         <p className="text-[18px] leading-[1.5] text-text-primary">{footer.statement}</p>
         <p className="text-[13px] text-text-secondary">{footer.legal}</p>
       </div>
 
-      <nav aria-label={footer.navHeading} className="rounded-lg bg-bg-surface-elevated p-5 lg:col-span-3">
+      <nav aria-label={footer.navHeading} className="rounded-lg bg-bg-surface-elevated p-5 lg:col-span-5">
         <p className="text-[13px] text-text-secondary">{footer.navHeading}</p>
         <ul className="mt-3 space-y-2">
           {nav.links.map((link) => (
@@ -24,17 +23,6 @@ export default function SiteFooter() {
         </ul>
       </nav>
 
-      <div className="rounded-lg bg-bg-surface-elevated p-5 lg:col-span-5">
-        <p className="text-[13px] text-text-secondary">{footer.creditsHeading}</p>
-        <ul className="mt-3 space-y-2 text-[13px] leading-[1.5] text-text-primary">
-          {credits.map((c) => (
-            <li key={c.file}>
-              <a href={c.page} className="link-under underline-offset-2">“{c.title}”</a> by {c.creator},{' '}
-              <a href={c.licenseUrl} className="link-under">{c.license}</a>, via {c.via}
-            </li>
-          ))}
-        </ul>
-      </div>
 
       <div className="col-span-2 flex min-h-[160px] items-center justify-center overflow-hidden rounded-lg bg-[var(--field)] lg:col-span-8 lg:min-h-[320px]">
         <span className="font-display text-[clamp(64px,9vw,148px)] font-bold leading-[1.1] tracking-[-0.04em] text-white">

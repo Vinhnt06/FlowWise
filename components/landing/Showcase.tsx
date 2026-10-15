@@ -30,13 +30,13 @@ const SOURCE: Record<string, string> = {
 const shortDay = (iso: string) =>
   new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
 
-function Row({ label, value, strong, tone }: { label: string; value: string; strong?: boolean; tone?: 'bad' | 'good' }) {
+function Row({ label, value, strong, tone }: { label: string; value: string; strong?: boolean; tone?: 'bad' | 'warn' | 'good' }) {
   return (
     <div className="flex items-baseline justify-between gap-4 py-1.5">
       <span className="text-text-secondary">{label}</span>
       <span
         className={`num tabular-nums ${strong ? 'font-semibold text-text-primary' : 'text-text-primary'} ${
-          tone === 'bad' ? 'text-crimson-ink' : tone === 'good' ? 'text-positive' : ''
+          tone === 'bad' ? 'text-crimson-ink' : tone === 'warn' ? 'text-amber-ink' : tone === 'good' ? 'text-positive' : ''
         }`}
       >
         {value}
@@ -61,13 +61,13 @@ function WeekPanel() {
   return (
     <PanelShell
       title={`Week 2 · ${weekRange(week2.startDate, week2.endDate)}`}
-      badge={<span className="rounded-sm bg-crimson-surface px-2 py-0.5 text-[13px] font-medium text-crimson-ink">Below safety level</span>}
+      badge={<span className="rounded-sm bg-amber-surface px-2 py-0.5 text-[13px] font-medium text-amber-ink">Below safety level</span>}
     >
       <Row label="Opening" value={vnd(week2.openingBalance)} />
       <Row label="Money in" value={vndSigned(week2.inflow)} tone="good" />
       <Row label="Money out" value={vndSigned(-week2.outflow)} />
       <Row label="Closing" value={vnd(week2.closingBalance)} strong />
-      <Row label="Short of safety level" value={vnd(week2.deficitAmount)} tone="bad" />
+      <Row label="Short of safety level" value={vnd(week2.deficitAmount)} tone="warn" />
       <p className="mt-4 mb-1 text-[13px] font-semibold text-text-primary">Biggest items this week</p>
       <ul className="rows">
         {week2Events.map((e) => (
@@ -137,7 +137,7 @@ function PayoutPanel() {
       <div className="rule-t mt-2 pt-2">
         <Row label="Recomputed payout" value={vnd(35_100_000)} />
         <Row label="Payout in the report" value={vnd(31_500_000)} strong />
-        <Row label="Difference" value={vnd(-3_600_000)} tone="bad" />
+        <Row label="Difference" value={vnd(-3_600_000)} tone="warn" />
       </div>
       <p className="mt-3 flex gap-2 rounded bg-amber-surface p-3 text-[13px] text-text-primary">
         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-ink" aria-hidden />

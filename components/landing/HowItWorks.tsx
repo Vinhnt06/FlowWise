@@ -20,10 +20,10 @@ const deferred = forecastWorkedExample(
 
 function FilesState() {
   const mapping = [
-    ['Ngày giao dịch', 'date'],
-    ['Ghi nợ', 'debit (money out)'],
-    ['Ghi có', 'credit (money in)'],
-    ['Nội dung', 'description'],
+    ['trans_id', 'reference'],
+    ['debit_outflow_vnd', 'money out (VND)'],
+    ['credit_inflow_vnd', 'money in (VND)'],
+    ['beneficiary_counterparty', 'paid to or from'],
   ];
   return (
     <div>
@@ -98,14 +98,14 @@ function ForecastState() {
       </thead>
       <tbody className="rows">
         {baseline.weeks.slice(0, 5).map((w) => (
-          <tr key={w.weekNumber} className={w.isBreached ? 'bg-crimson-surface' : ''}>
+          <tr key={w.weekNumber} className={w.isBreached ? 'bg-amber-surface' : ''}>
             <td className="py-2 pl-1">
               <span className="text-text-primary">{w.weekNumber}</span>{' '}
               <span className="text-[13px] text-text-muted">{weekRange(w.startDate, w.endDate)}</span>
             </td>
             <td className="py-2 text-right num tabular-nums text-positive">+{vndCompact(w.inflow)}</td>
             <td className="py-2 text-right num tabular-nums">−{vndCompact(w.outflow)}</td>
-            <td className={`py-2 pr-1 text-right num font-semibold tabular-nums ${w.isBreached ? 'text-crimson-ink' : ''}`}>
+            <td className={`py-2 pr-1 text-right num font-semibold tabular-nums ${w.isBreached ? 'text-amber-ink' : ''}`}>
               {vndCompact(w.closingBalance)}
             </td>
           </tr>

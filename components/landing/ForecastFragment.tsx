@@ -65,7 +65,7 @@ export default function ForecastFragment() {
       </button>
 
       <p
-        className={`mt-4 flex items-center gap-2 text-[14px] font-medium ${firstBelow ? 'text-crimson-ink' : 'text-positive'}`}
+        className={`mt-4 flex items-center gap-2 text-[14px] font-medium ${firstBelow ? 'text-amber-ink' : 'text-positive'}`}
         aria-live="polite"
       >
         {firstBelow ? <AlertTriangle className="h-4 w-4" aria-hidden /> : <CheckCircle2 className="h-4 w-4" aria-hidden />}
@@ -77,7 +77,7 @@ export default function ForecastFragment() {
           {copy.safety}: <span className="num tabular-nums">{vnd(WORKED_EXAMPLE_BUFFER)}</span>
         </span>
         <span className="flex items-center gap-1.5">
-          <span aria-hidden className="safety-line inline-block w-4" />
+          <span aria-hidden className="safety-line draw-line inline-block w-4" />
           {copy.safety}
         </span>
       </div>

@@ -1,7 +1,10 @@
 'use client';
 
 import { WeeklyForecast } from '@/types/finance';
+import { alertLevel } from '@/lib/scenarios';
 import { vnd, vndCompact, weekRange } from '@/lib/format';
+
+const LEVEL_TEXT = { OK: 'Above safety', BELOW_BUFFER: 'Below safety', SHORTFALL: 'Short of cash' } as const;
 
 interface WeekBarsProps {
   weeks: WeeklyForecast[];
@@ -15,11 +18,13 @@ interface WeekBarsProps {
 
 /**
  * Closing balance per week as bars, with the safety level as a reference line.
- * Single series: the title names it, so there is no legend. Weeks below the safety
- * level use the status colour and are also named in the detail row (never colour alone).
+ * Single series: the title names it, so there is no legend. Two warning levels: below the
+ * safety level is amber, under zero is crimson, and both are named in the detail row (never colour alone).
+ * Bars grow in on first paint, one after another.
  */
 export default function WeekBars({ weeks, buffer, max, selected, onSelect, height = 200, label }: WeekBarsProps) {
   const pct = (value: number) => `${Math.max(0, Math.min(100, (value / max) * 100))}%`;
+  const barHeight = (value: number) => (value < 0 ? '3%' : pct(value));
   const week = weeks[selected];
 
   return (
@@ -27,12 +32,12 @@ export default function WeekBars({ weeks, buffer, max, selected, onSelect, heigh
       <div className="relative" style={{ height }} role="list" aria-label={label}>
         <div
           aria-hidden
-          className="safety-line absolute inset-x-0"
+          className="safety-line draw-line absolute inset-x-0"
           style={{ bottom: pct(buffer) }}
         />
         <div className="absolute inset-0 flex items-end gap-[2px]">
           {weeks.map((w, i) => {
-            const below = w.closingBalance < buffer;
+            const level = alertLevel(w.closingBalance, buffer);
             const active = i === selected;
             return (
               <button
@@ -42,14 +47,20 @@ export default function WeekBars({ weeks, buffer, max, selected, onSelect, heigh
                 onMouseEnter={() => onSelect(i)}
                 onFocus={() => onSelect(i)}
                 onClick={() => onSelect(i)}
-                aria-label={`Week ${w.weekNumber}: closes at ${vnd(w.closingBalance)}${below ? ', below the safety level' : ''}`}
+                aria-label={`Week ${w.weekNumber}: closes at ${vnd(w.closingBalance)}, ${LEVEL_TEXT[level].toLowerCase()}`}
                 className="group relative flex h-full flex-1 items-end"
               >
                 <span
-                  className={`block w-full rounded-t-[4px] transition-[height,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    below ? 'bg-crimson' : active ? 'bg-primary' : 'bg-navy group-hover:bg-primary'
+                  className={`grow block w-full rounded-t-[4px] transition-[height,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    level === 'SHORTFALL'
+                      ? 'bg-crimson'
+                      : level === 'BELOW_BUFFER'
+                        ? 'bg-amber'
+                        : active
+                          ? 'bg-primary'
+                          : 'bg-navy group-hover:bg-primary'
                   }`}
-                  style={{ height: pct(w.closingBalance) }}
+                  style={{ height: barHeight(w.closingBalance), ['--i' as string]: i }}
                 />
               </button>
             );
@@ -69,9 +80,17 @@ export default function WeekBars({ weeks, buffer, max, selected, onSelect, heigh
             <dt className="font-semibold text-text-primary">
               Week {week.weekNumber} · {weekRange(week.startDate, week.endDate)}
             </dt>
-            <dd className={week.closingBalance < buffer ? 'font-semibold text-crimson-ink' : 'text-text-secondary'}>
+            <dd
+              className={
+                week.closingBalance < 0
+                  ? 'font-semibold text-crimson-ink'
+                  : week.closingBalance < buffer
+                    ? 'font-semibold text-amber-ink'
+                    : 'text-text-secondary'
+              }
+            >
               {week.closingBalance < 0
-                ? 'Shortfall'
+                ? `Short of cash by ${vndCompact(-week.closingBalance)}`
                 : week.closingBalance < buffer
                   ? `Below safety by ${vndCompact(buffer - week.closingBalance)}`
                   : 'Above safety'}

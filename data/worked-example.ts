@@ -1,5 +1,5 @@
 /**
- * FlowWise — Worked Example (spec workbook FlowWise1.xlsx, sheet "Ví dụ tính tay")
+ * FlowWise — Worked Example (spec workbook FlowWise1.xlsx, worked-example sheet)
  *
  * SIMULATED DATA: a made-up shop, VND only. This is the reference dataset for
  * acceptance tests TC01–TC08 and the live forecast on the landing page.
