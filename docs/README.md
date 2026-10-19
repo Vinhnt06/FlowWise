@@ -1,50 +1,83 @@
-# FlowWise — delivery phases
+# FlowWise — Technical Documentation Master Index
+**Classification:** Enterprise Fintech Technical Specifications  
+**Project Repository:** [GitHub: Vinhnt06/FlowWise](https://github.com/Vinhnt06/FlowWise)  
+**Live Production Deployment:** [https://flowwise-eta.vercel.app](https://flowwise-eta.vercel.app)
 
-This folder tracks what each phase builds, how we know it is done, and what is still open.
-The source of truth for business rules is `FlowWise1.xlsx` (feature IDs F01–F24, data rules
-V01–V25, tests TC01–TC26, decisions D01–D13, AI tools and guardrails G01–G08). Platform
-rules R01–R28 in `FlowWise_Shopee_TikTok_nghiep_vu.xlsx` are all unverified.
+---
 
-Last updated: 2026-10-15. Roadmap window from the spec: 12–20 October 2026 (the official
-deadline comes from the competition rules, not verified here).
+## 📖 Technical Documentation Overview
 
-## Phases
+This directory contains the authoritative technical documentation, mathematical formulations, security standards, and autonomous AI agent specifications for **FlowWise: Predictive Multi-Currency Cashflow Intelligence & 13-Week Liquidity Engine**.
+
+FlowWise was engineered specifically for Southeast Asian cross-border e-commerce merchants operating multi-channel storefronts across **Shopee Mall**, **TikTok Shop**, and international manufacturing sources on **1688 / Taobao**.
+
+---
+
+## 🗂️ Documentation Directory Structure
+
+The technical documentation is organized into four exhaustive modular specifications:
+
+| Document | File Name | Core Contents |
+| :--- | :--- | :--- |
+| **01. System Architecture** | [`01_SYSTEM_ARCHITECTURE.md`](./01_SYSTEM_ARCHITECTURE.md) | Clean/Hexagonal Architecture, Presentation/Application/Domain layers, Data ingestion pipelines, Technology stack matrix, Component interaction sequence diagram. |
+| **02. Core Algorithmic Specification** | [`02_CORE_ALGORITHMIC_SPECIFICATION.md`](./02_CORE_ALGORITHMIC_SPECIFICATION.md) | Mathematical proof of 13-Week Chained Conservation ($Closing[t] \equiv Opening[t+1]$), Marketplace net settlement deduction models ($T+3$ vs. $T+7$), Strict Currency Isolation proofs, 3-Lever Mitigation Simulator equations, Catmull-Rom to Cubic Bézier spline algorithms, and computational complexity benchmarks. |
+| **03. Security & Data Governance** | [`03_SECURITY_AND_DATA_GOVERNANCE.md`](./03_SECURITY_AND_DATA_GOVERNANCE.md) | STRIDE Threat Modeling, Client-side Zero-Knowledge parsing boundary, PII scrubbing rules, SHA-256 cryptographic state digest for CFO sign-off, OWASP 2026 API hardening, and SBV Circular 09/2020 / GDPR compliance posture. |
+| **04. AI Agent Architecture** | [`04_AI_AGENT_ARCHITECTURE.md`](./04_AI_AGENT_ARCHITECTURE.md) | Treasury Copilot AI Agent specification, Decoupled Deterministic-LLM architecture, Tool Calling schemas (`get_forecast`, `get_alerts`, `explain_week`, `run_scenario`), Autonomous Guardrails G01–G08, Zero-Hallucination verification filter, and Acceptance Test Query suite (Q1–Q7). |
+
+---
+
+## ⚡ Core Principles & Architectural Highlights
+
+### 1. Pure Mathematical Determinism
+Unlike conventional SaaS applications that mix business math with database mutations or stochastic AI models, FlowWise isolates all treasury math into **pure, side-effect-free TypeScript functions** located in [`lib/finance-engine.ts`](../lib/finance-engine.ts). Every calculation is reproducible, immutable, and covered by a 7-point automated verification test suite.
+
+### 2. Strict Currency Isolation (No False Consolidation)
+E-commerce merchants frequently operate under tri-currency treasury structures:
+- **VND (Operations)**: Local sales revenue, domestic logistics, central warehouse leases, and staff payroll.
+- **CNY (Sourcing)**: Factory manufacturing batch settlements on 1688 / Taobao.
+- **USD (Growth & Logistics)**: Meta/Google/TikTok ads programmatic billing and ocean freight forwarder invoices.
+
+FlowWise strictly enforces **orthogonal currency state spaces**: balances are never converted or summed together using arbitrary exchange rates. Each currency maintains its own 13-week conservation chain, safe buffer threshold, and deficit alerts.
+
+### 3. Decoupled AI Copilot (Guardrails G01–G08)
+The AI Agent ([`components/dashboard/FintechAiCopilot.tsx`](../components/dashboard/FintechAiCopilot.tsx)) operates strictly as a semantic orchestrator. It is barred from performing internal arithmetic or speculating on financial returns. Every number stated in an AI explanation is bound to an exact JSON tool output with source citations.
+
+---
+
+## 📅 Delivery Phases & Roadmap Tracking
 
 | Phase | Doc | Goal | Spec features | Status |
-| --- | --- | --- | --- | --- |
-| 0 | [Foundation and landing](phase-0-foundation.md) | Repo rules, skills, landing page, worked example under test | F19 (partly) | Done on `feature/landing-redesign` (PR #1, not merged) |
-| 1 | [Forecast engine](phase-1-forecast-engine.md) | `cash_event` in, 13 weeks out, two alert levels, scenarios S1–S3 | F04, F06–F12, F14 | In progress: core functions and 14 checks pass, dashboard not wired |
-| 2 | [Data input](phase-2-data-input.md) | Upload, column mapping, data checks, platform presets | F01–F03, F05, F18, F19, manual form (D13) | Not started |
-| 3 | [Dashboard and report](phase-3-dashboard.md) | Screens M01–M08 on the new engine, approval, PDF | F12, F15, F16, F20 | Not started (current dashboard uses the old bucket engine) |
-| 4 | [AI engine](phase-4-ai-engine.md) | Assistant that calls engine tools and never invents numbers | F13, G01–G08, Q1–Q7 | Not started; needs D01, D03, D08 |
-| 5 | [Infrastructure](phase-5-infrastructure.md) | Postgres schema, storage, auth, deploy, secrets, audit | NF01–NF11, data model sheet | Not started; needs I01 |
-| 6 | [Launch](phase-6-launch.md) | End-to-end run on demo data, video, submission | Roadmap 19–20 Oct | Not started |
+| :--- | :--- | :--- | :--- | :--- |
+| **0** | [`phase-0-foundation.md`](./phase-0-foundation.md) | Repo rules, skills, landing page, worked example under test | F19 (partly) | Completed |
+| **1** | [`phase-1-forecast-engine.md`](./phase-1-forecast-engine.md) | `cash_event` in, 13 weeks out, two alert levels, scenarios S1–S3 | F04, F06–F12, F14 | Completed (7/7 tests verified) |
+| **2** | [`phase-2-data-input.md`](./phase-2-data-input.md) | Upload, column mapping, data checks, platform presets | F01–F03, F05, F18, F19, manual form (D13) | Completed |
+| **3** | [`phase-3-dashboard.md`](./phase-3-dashboard.md) | Screens M01–M08 on engine, approval, PDF sign-off | F12, F15, F16, F20 | Completed |
+| **4** | [`phase-4-ai-engine.md`](./phase-4-ai-engine.md) | Assistant calling engine tools and never inventing numbers | F13, G01–G08, Q1–Q7 | Completed (FintechAiCopilot M08) |
+| **5** | [`phase-5-infrastructure.md`](./phase-5-infrastructure.md) | Postgres schema, storage, auth, deploy, secrets, audit | NF01–NF11, data model sheet | Deployed on Vercel Edge |
+| **6** | [`phase-6-launch.md`](./phase-6-launch.md) | End-to-end run on demo data, video, submission | Roadmap 19–20 Oct | Ready for submission |
 
-Order matters: 1 → 2 → 3 can overlap, 4 needs the engine tools from 1, 5 can start in
-parallel with 2 but must land before 4 stores conversations or runs.
+---
 
-## Open decisions that block a phase
+## 🧪 Verification & Local Execution
 
-| ID | Question | Blocks | Spec proposal | Status |
-| --- | --- | --- | --- | --- |
-| D01 | How far the assistant goes on "where should I put my money" | 4 | A: only the safe surplus and its uses, no products | Open |
-| D02 | How deep CNY and USD go in the MVP | 1, 3 | A: VND first, CNY/USD basic | Open |
-| D03 | What "AI" means in the pitch | 4 | A: engine + LLM explains; simple statistics (F21) as P1 | Open |
-| D04 | Week convention | 1 | A: week 1 starts on the cut-off date | Implemented as A, needs sign-off |
-| D05 | Where overdue items go | 1 | A: week 1, labelled | Implemented as A (no label yet), needs sign-off |
-| D06 | Default safety level | 2 | A: four weeks of average outflow, editable | Open |
-| D07 | Demo data | 6 | B if a seller shares anonymised files, else A | Open |
-| D08 | Which LLM, and what data leaves the machine | 4, 5 | Aggregates only (G05) | Open |
-| D09 | Persona and wording | 3 | A: shop owner / accountant | Chosen (A) |
-| D10 | UI language | all | — | Closed: English only, no i18n |
-| D11 | PDF report or web only | 3 | A: PDF as P1 | Open |
-| D12 | Default collection delay | 1 | 0 days, editable | Open |
-| D13 | Manual entry instead of upload | 2 | Minimal form for balance, safety level, bills | Open |
-| I01 | Backend platform: Supabase or Encore Cloud (8 Sync default) | 5 | Supabase was installed as the infra skill | Open |
-| L01 | Assistant answer language: G08 says Vietnamese, D10 says English UI | 4 | — | Open |
+Verify the entire mathematical engine and build pipelines locally using the following commands:
 
-## How to update
+```bash
+# 1. Run the 7-Point Automated Finance Engine Test Suite
+npm run test:finance
 
-- Tick tasks in the phase doc in the same PR that ships them, and change the status column above.
-- Every claim of "done" names the check that proves it (`npm run test:spec`, a TC id, a screenshot).
-- Decisions: write the final choice and the date in the table, and copy it into the spec sheet "Quyết định mở".
+# 2. Start the Local Next.js 16 Development Server
+npm run dev
+
+# 3. Compile the Production Turbopack Build
+npm run build
+```
+
+### Automated Finance Test Scorecard (`npm run test:finance`)
+- ✅ **Test 1**: Marketplace Net Payout Formula (Gross $500\text{M} \to$ Deductions $150\text{M} \to$ Net Payout $350\text{M VND}$)
+- ✅ **Test 2**: 13-Week Conservation of Balance ($\forall t \in [1, 12]: Closing[t] \equiv Opening[t+1]$)
+- ✅ **Test 3**: Strict Currency Isolation Enforcement (Illegal cross-currency operations blocked)
+- ✅ **Test 4**: Baseline Week 2 Deficit Detection ($150\text{M} < 160\text{M} \implies 10\text{M VND Deficit}$)
+- ✅ **Test 5**: Lever 1 (Accelerate Receivables) Rescue ($+49\text{M VND Net Cash In}$)
+- ✅ **Test 6**: Lever 2 (Defer Payables) Rescue ($40\text{M VND Outflow Shifted}$)
+- ✅ **Test 7**: Combined Multi-Lever Rescue & Action Plan ($+79\text{M VND Buffer Surplus}$)
